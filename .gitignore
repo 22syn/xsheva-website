@@ -3,6 +3,14 @@ dist/
 .DS_Store
 .firebase/
 
+# Environment and secrets (never commit)
+.env
+.env.local
+.env.*.local
+xsheva/.env
+xsheva/.env.local
+xsheva/.env.*.local
+
 # Vite/Firebase build artifacts
 xsheva/node_modules/
 xsheva/dist/
