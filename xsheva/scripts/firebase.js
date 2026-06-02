@@ -3,7 +3,17 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
 // Firebase config from environment (never commit real values to git)
-// Set these in .env.local or your deployment environment; see .env.example
+// Set these in .env or .env.local; see .env.example for the required variables.
+const requiredEnvVars = [
+  "VITE_FIREBASE_API_KEY",
+  "VITE_FIREBASE_AUTH_DOMAIN",
+  "VITE_FIREBASE_PROJECT_ID",
+  "VITE_FIREBASE_STORAGE_BUCKET",
+  "VITE_FIREBASE_MESSAGING_SENDER_ID",
+  "VITE_FIREBASE_APP_ID",
+  "VITE_FIREBASE_MEASUREMENT_ID",
+];
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -14,9 +24,17 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-if (!firebaseConfig.apiKey) {
+const missing = requiredEnvVars.filter((key) => !import.meta.env[key]);
+if (missing.length > 0) {
+  console.error(
+    "[Firebase] Missing required environment variables:",
+    missing.join(", ")
+  );
+  console.error(
+    "[Firebase] Copy .env.example to .env or .env.local and set the values from your Firebase project console."
+  );
   throw new Error(
-    "Missing Firebase config. Set VITE_FIREBASE_* in .env.local (see .env.example)."
+    `Firebase init failed: missing ${missing.length} required env var(s). See console for details.`
   );
 }
 
