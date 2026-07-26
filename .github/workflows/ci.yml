@@ -14,3 +14,4 @@ jobs:
       run-lint: false # no lint script defined yet
       run-test: false # no test script defined yet
       run-build: true
+      run-secrets-scan: true
