@@ -42,6 +42,86 @@
     ::-webkit-scrollbar-thumb { background: #282e39; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #3b4354; }
     .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+    /* Client logo marquee */
+    .logo-marquee {
+      position: relative;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    }
+    .logo-marquee__inner {
+      display: flex;
+      width: max-content;
+      animation: logo-scroll 36s linear infinite;
+    }
+    .logo-marquee:hover .logo-marquee__inner,
+    .logo-marquee:focus-within .logo-marquee__inner { animation-play-state: paused; }
+    @keyframes logo-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-33.3333%); }
+    }
+    .logo-track {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      padding-right: 4rem;
+      margin: 0;
+      list-style: none;
+      flex-shrink: 0;
+    }
+    .logo-item { display: flex; align-items: center; justify-content: center; }
+    .logo-item img {
+      height: 2.25rem;
+      width: auto;
+      max-width: 170px;
+      object-fit: contain;
+      /* Flatten any brand colour to a single tone so the row reads as one system */
+      filter: brightness(0);
+      opacity: 0.55;
+      transition: opacity 0.3s ease, filter 0.3s ease;
+    }
+    .dark .logo-item img { filter: brightness(0) invert(1); opacity: 0.5; }
+    .logo-item:hover img { opacity: 1; }
+    /* Mark + wordmark lockup, for brands that only publish a symbol (no horizontal logo) */
+    .logo-item--lockup { gap: 0.75rem; }
+    .logo-item--lockup img { height: 2rem; }
+    /* Near-square marks need extra height to carry the same optical weight as wide ones */
+    .logo-item--lockup img.logo-mark--square { height: 2.5rem; }
+    .logo-item--lockup span {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: #0f172a;
+      opacity: 0.55;
+      transition: opacity 0.3s ease;
+    }
+    .dark .logo-item--lockup span { color: #fff; opacity: 0.5; }
+    .logo-item--lockup:hover span { opacity: 1; }
+    @media (max-width: 640px) {
+      .logo-track { gap: 2.5rem; padding-right: 2.5rem; }
+      .logo-item img { height: 1.75rem; max-width: 130px; }
+      .logo-item--lockup { gap: 0.5rem; }
+      .logo-item--lockup img { height: 1.6rem; }
+      .logo-item--lockup img.logo-mark--square { height: 2rem; }
+      .logo-item--lockup span { font-size: 0.8125rem; letter-spacing: 0.12em; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      /* No scrolling: show one static, centred, wrapping row instead */
+      .logo-marquee { -webkit-mask-image: none; mask-image: none; }
+      .logo-marquee__inner { width: 100%; animation: none; }
+      .logo-track {
+        flex-wrap: wrap;
+        flex-shrink: 1;
+        width: 100%;
+        justify-content: center;
+        row-gap: 2rem;
+        padding-right: 0;
+      }
+      .logo-track[aria-hidden="true"] { display: none; }
+    }
   </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-x-hidden">
@@ -122,6 +202,53 @@
               <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">3.5x</p>
             </div>
           </div>
+
+          <!-- Client Logos -->
+          <section id="clients" aria-labelledby="clients-heading" class="mb-16 border-y border-slate-200 dark:border-[#282e39] py-10">
+            <h2 id="clients-heading" class="text-center text-primary text-sm font-bold uppercase tracking-wider mb-8">
+              Trusted By
+            </h2>
+            <div class="logo-marquee">
+              <div class="logo-marquee__inner">
+                <ul class="logo-track">
+                  <li class="logo-item logo-item--lockup" aria-label="Consul House">
+                    <img src="/clients/consul-house-mark.svg" alt="" width="97" height="48" decoding="async">
+                    <span aria-hidden="true">Consul House</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/media-net.svg" alt="Media.net" width="121" height="41" decoding="async"></li>
+                  <li class="logo-item logo-item--lockup" aria-label="Liba">
+                    <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
+                    <span aria-hidden="true">Liba</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/somedia.svg" alt="SoMedia Digital" width="132" height="98" decoding="async"></li>
+                </ul>
+                <ul class="logo-track" aria-hidden="true">
+                  <li class="logo-item logo-item--lockup">
+                    <img src="/clients/consul-house-mark.svg" alt="" width="97" height="48" decoding="async">
+                    <span>Consul House</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/media-net.svg" alt="" width="121" height="41" decoding="async"></li>
+                  <li class="logo-item logo-item--lockup">
+                    <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
+                    <span>Liba</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
+                </ul>
+                <ul class="logo-track" aria-hidden="true">
+                  <li class="logo-item logo-item--lockup">
+                    <img src="/clients/consul-house-mark.svg" alt="" width="97" height="48" decoding="async">
+                    <span>Consul House</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/media-net.svg" alt="" width="121" height="41" decoding="async"></li>
+                  <li class="logo-item logo-item--lockup">
+                    <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
+                    <span>Liba</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
+                </ul>
+              </div>
+            </div>
+          </section>
 
           <!-- Strategic Pillars Section -->
           <div id="methodology" class="flex flex-col gap-10 py-4 @container scroll-mt-8">
