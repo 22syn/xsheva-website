@@ -13,6 +13,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <!-- Source 66.81's wordmark is typographic, not an image. Subset to just its glyphs. -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&text=SOURCE%2066%28TH%29%2081%28JP%29&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
   <link rel="alternate icon" href="/favicon.svg?v=3">
   <link rel="apple-touch-icon" href="/favicon.svg?v=3">
@@ -53,7 +55,7 @@
     .logo-marquee__inner {
       display: flex;
       width: max-content;
-      animation: logo-scroll 36s linear infinite;
+      animation: logo-scroll 43s linear infinite;
     }
     .logo-marquee:hover .logo-marquee__inner,
     .logo-marquee:focus-within .logo-marquee__inner { animation-play-state: paused; }
@@ -102,6 +104,32 @@
     }
     .dark .logo-item--lockup span { color: #fff; opacity: 0.5; }
     .logo-item--lockup:hover span { opacity: 1; }
+    /* Purely typographic wordmarks: set as live text, since no logo file exists to load */
+    .logo-item--wordmark {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #0f172a;
+      opacity: 0.55;
+      transition: opacity 0.3s ease;
+    }
+    .dark .logo-item--wordmark { color: #fff; opacity: 0.5; }
+    .logo-item--wordmark:hover { opacity: 1; }
+    .logo-item--wordmark span {
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+    }
+    .logo-item--wordmark small {
+      font-size: 0.625rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    .logo-item--wordmark i { font-style: normal; opacity: 0.6; }
     @media (max-width: 640px) {
       .logo-track { gap: 2.5rem; padding-right: 2.5rem; }
       .logo-item img { height: 1.75rem; max-width: 130px; }
@@ -110,6 +138,8 @@
       .logo-item--lockup img { height: 1.6rem; }
       .logo-item--lockup img.logo-mark--square { height: 2rem; }
       .logo-item--lockup span { font-size: 0.8125rem; letter-spacing: 0.12em; }
+      .logo-item--wordmark span { font-size: 0.875rem; }
+      .logo-item--wordmark small { font-size: 0.5rem; }
     }
     @media (prefers-reduced-motion: reduce) {
       /* No scrolling: show one static, centred, wrapping row instead */
@@ -182,26 +212,8 @@
 
       <div class="flex flex-1 justify-center py-5 px-4 lg:px-40">
         <div class="layout-content-container flex flex-col max-w-[960px] flex-1 w-full">
-          <!-- Statistics Section -->
-          <div class="flex flex-wrap gap-4 mb-16">
-            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] hover:border-primary/50 transition-colors">
-              <div class="flex items-center gap-2 text-primary mb-1">
-                <span class="material-symbols-outlined text-[20px]">groups</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Ops Team Led</p>
-              </div>
-              <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">15</p>
-            </div>
-            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] hover:border-primary/50 transition-colors">
-              <div class="flex items-center gap-2 text-primary mb-1">
-                <span class="material-symbols-outlined text-[20px]">public</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Platform MAU Background</p>
-              </div>
-              <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">1M+</p>
-            </div>
-          </div>
-
           <!-- Client Logos -->
-          <section id="trusted-by" aria-labelledby="trusted-by-heading" class="mb-16 border-y border-slate-200 dark:border-[#282e39] py-10">
+          <section id="trusted-by" aria-labelledby="trusted-by-heading" class="mt-6 mb-16 border-b border-slate-200 dark:border-[#282e39] pb-10">
             <h2 id="trusted-by-heading" class="text-center text-primary text-sm font-bold uppercase tracking-wider mb-8">
               Trusted By
             </h2>
@@ -219,6 +231,10 @@
                   </li>
                   <li class="logo-item"><img src="/clients/somedia.svg" alt="SoMedia Digital" width="132" height="98" decoding="async"></li>
                   <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="Ruppin Academic Center" width="134" height="45" decoding="async"></li>
+                  <li class="logo-item logo-item--wordmark" aria-label="Source 66.81">
+                    <span aria-hidden="true">SOURCE</span>
+                    <small aria-hidden="true">66<i>(TH)</i> 81<i>(JP)</i></small>
+                  </li>
                 </ul>
                 <ul class="logo-track" aria-hidden="true">
                   <li class="logo-item logo-item--lockup">
@@ -232,6 +248,10 @@
                   </li>
                   <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
                   <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
+                  <li class="logo-item logo-item--wordmark">
+                    <span>SOURCE</span>
+                    <small>66<i>(TH)</i> 81<i>(JP)</i></small>
+                  </li>
                 </ul>
                 <ul class="logo-track" aria-hidden="true">
                   <li class="logo-item logo-item--lockup">
@@ -245,6 +265,10 @@
                   </li>
                   <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
                   <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
+                  <li class="logo-item logo-item--wordmark">
+                    <span>SOURCE</span>
+                    <small>66<i>(TH)</i> 81<i>(JP)</i></small>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -328,25 +352,43 @@
               <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
                 <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Consul House</h4>
                 <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
-                  iplan CRM automation — webhook intake, deduplication, and end-to-end lead flow, with reporting built directly into the CRM.
+                  iplan CRM automation — webhook intake, deduplication, and end-to-end lead flow, with an AI agent running the reporting cycle on top.
                 </p>
               </div>
               <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
                 <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Media.net</h4>
                 <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
-                  Affiliate partner onboarding and compliance certification for a global ad-tech platform's health vertical.
+                  Partner onboarding and LegitScript certification for a global ad-tech platform's health vertical — with an AI agent screening candidates and monitoring live partners for compliance drift.
                 </p>
               </div>
               <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
                 <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Liba</h4>
                 <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
-                  iplan CRM automation — end-to-end lead flow and reporting, built and run start to finish.
+                  End-to-end iplan CRM automation, built and run start to finish — with an AI agent handling the reporting cycle.
                 </p>
               </div>
               <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
                 <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">SoMedia</h4>
                 <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
                   Social media operations and AI agents for boutique hospitality brands.
+                </p>
+              </div>
+              <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Ruppin Academic Center</h4>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
+                  A no-code tracking dashboard for AI teaching across the college — live off their existing intake form, filterable by department, semester and lecturer, embedded into their own site.
+                </p>
+              </div>
+              <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Source 66.81</h4>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
+                  A vintage luxury handbag archive and dropship storefront, built end to end — sourced inventory, automated stock sync, live FX pricing, and an admin panel the owner runs alone.
+                </p>
+              </div>
+              <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Private Family Office</h4>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
+                  A private market intelligence stack — equity scanners, insider-buying signals, and live brokerage portfolio sync, consolidated into one dashboard.
                 </p>
               </div>
             </div>
