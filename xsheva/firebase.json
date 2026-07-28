@@ -7,6 +7,29 @@
         "source": "**",
         "destination": "/index.html"
       }
+    ],
+    "headers": [
+      {
+        "comment": "Firebase defaults HTML to max-age=3600, so returning visitors keep a stale page for an hour after every deploy. The HTML is small and names the hashed bundles, so it must always be revalidated. Matching only /index.html misses the common case: the request path for the home page is \"/\".",
+        "source": "/",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
+        "source": "**/*.html",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
+        "comment": "Vite content-hashes these filenames, so a changed file is a new URL and this can never go stale.",
+        "source": "/assets/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        ]
+      },
+      {
+        "comment": "Images and logos keep stable filenames, so cache them hard but not immutably — replacing one should still reach visitors within a week.",
+        "source": "**/*.@(jpg|jpeg|png|svg|webp|avif)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+      }
     ]
   }
 }
