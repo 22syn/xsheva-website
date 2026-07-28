@@ -3,16 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta name="description" content="XSHEVA: Build Your Private Business Intelligence. Strategic AI architecture tailored to your DNA. Precision-targeted lead generation.">
-  <meta name="keywords" content="AI architecture, business intelligence, lead generation, growth architecture, B2B, US market">
-  <meta property="og:title" content="XSHEVA: Strategic AI Architecture">
-  <meta property="og:description" content="Stop operational leakage and scale your business through custom AI assets and strategic architecture tailored to your DNA.">
+  <meta name="description" content="XSHEVA: CRM, automation, and growth systems built around how your business actually runs. Lead automation, CRM integration, and compliance consulting for operators who need it working, not theorized.">
+  <meta name="keywords" content="CRM systems, business automation, lead automation, affiliate marketing, compliance consulting, growth systems, B2B, US market">
+  <meta property="og:title" content="XSHEVA: CRM, Automation & Growth Systems">
+  <meta property="og:description" content="Stop operational leakage. We build CRM integrations, lead automation, and growth systems tailored to your business — not generic SaaS bolt-ons.">
   <meta property="og:type" content="website">
-  <title>XSHEVA: Strategic AI Architecture | Build Your Private Business Intelligence</title>
+  <title>XSHEVA: CRM, Automation & Growth Systems | Build Your Private Business Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <!-- Source 66.81's wordmark is typographic, not an image. Subset to just its glyphs. -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&text=SOURCE%2066%28TH%29%2081%28JP%29&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
   <link rel="alternate icon" href="/favicon.svg?v=3">
   <link rel="apple-touch-icon" href="/favicon.svg?v=3">
@@ -42,6 +44,117 @@
     ::-webkit-scrollbar-thumb { background: #282e39; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #3b4354; }
     .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+    /* Client logo marquee */
+    .logo-marquee {
+      position: relative;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    }
+    .logo-marquee__inner {
+      display: flex;
+      width: max-content;
+      animation: logo-scroll 43s linear infinite;
+    }
+    .logo-marquee:hover .logo-marquee__inner,
+    .logo-marquee:focus-within .logo-marquee__inner { animation-play-state: paused; }
+    @keyframes logo-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-33.3333%); }
+    }
+    .logo-track {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      padding-right: 4rem;
+      margin: 0;
+      list-style: none;
+      flex-shrink: 0;
+    }
+    .logo-item { display: flex; align-items: center; justify-content: center; }
+    .logo-item img {
+      height: 2.25rem;
+      width: auto;
+      max-width: 170px;
+      object-fit: contain;
+      /* Flatten any brand colour to a single tone so the row reads as one system */
+      filter: brightness(0);
+      opacity: 0.55;
+      transition: opacity 0.3s ease, filter 0.3s ease;
+    }
+    .dark .logo-item img { filter: brightness(0) invert(1); opacity: 0.5; }
+    .logo-item:hover img { opacity: 1; }
+    /* Stacked lockups (mark over wordmark over tagline) read smaller at equal height */
+    .logo-item img.logo--stacked { height: 2.75rem; max-width: 200px; }
+    /* Mark + wordmark lockup, for brands that only publish a symbol (no horizontal logo) */
+    .logo-item--lockup { gap: 0.75rem; }
+    .logo-item--lockup img { height: 2rem; }
+    /* Near-square marks need extra height to carry the same optical weight as wide ones */
+    .logo-item--lockup img.logo-mark--square { height: 2.5rem; }
+    .logo-item--lockup span {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: #0f172a;
+      opacity: 0.55;
+      transition: opacity 0.3s ease;
+    }
+    .dark .logo-item--lockup span { color: #fff; opacity: 0.5; }
+    .logo-item--lockup:hover span { opacity: 1; }
+    /* Purely typographic wordmarks: set as live text, since no logo file exists to load */
+    .logo-item--wordmark {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #0f172a;
+      opacity: 0.55;
+      transition: opacity 0.3s ease;
+    }
+    .dark .logo-item--wordmark { color: #fff; opacity: 0.5; }
+    .logo-item--wordmark:hover { opacity: 1; }
+    .logo-item--wordmark span {
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+    }
+    .logo-item--wordmark small {
+      font-size: 0.625rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    .logo-item--wordmark i { font-style: normal; opacity: 0.6; }
+    @media (max-width: 640px) {
+      .logo-track { gap: 2.5rem; padding-right: 2.5rem; }
+      .logo-item img { height: 1.75rem; max-width: 130px; }
+      .logo-item img.logo--stacked { height: 2.1rem; max-width: 150px; }
+      .logo-item--lockup { gap: 0.5rem; }
+      .logo-item--lockup img { height: 1.6rem; }
+      .logo-item--lockup img.logo-mark--square { height: 2rem; }
+      .logo-item--lockup span { font-size: 0.8125rem; letter-spacing: 0.12em; }
+      .logo-item--wordmark span { font-size: 0.875rem; }
+      .logo-item--wordmark small { font-size: 0.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      /* No scrolling: show one static, centred, wrapping row instead */
+      .logo-marquee { -webkit-mask-image: none; mask-image: none; }
+      .logo-marquee__inner { width: 100%; animation: none; }
+      .logo-track {
+        flex-wrap: wrap;
+        flex-shrink: 1;
+        width: 100%;
+        justify-content: center;
+        row-gap: 2rem;
+        padding-right: 0;
+      }
+      .logo-track[aria-hidden="true"] { display: none; }
+    }
   </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-x-hidden">
@@ -62,6 +175,7 @@
         <div class="hidden lg:flex flex-1 justify-end gap-8 items-center">
           <nav class="flex items-center gap-8">
             <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#methodology">Services</a>
+            <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#clients">Clients</a>
             <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#contact-form">Contact</a>
           </nav>
           <a href="#contact-form" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded bg-primary text-white text-sm font-bold h-10 px-5 hover:bg-primary/90 transition-colors">
@@ -79,14 +193,14 @@
         <div class="relative z-10 flex flex-col gap-4 text-center max-w-[720px]">
           <div class="inline-flex items-center justify-center gap-2 self-center rounded-full bg-primary/10 border border-primary/20 px-3 py-1 mb-2">
             <span class="size-2 rounded-full bg-primary animate-pulse"></span>
-            <span class="text-primary text-xs font-bold uppercase tracking-wide">Strategic AI Architecture</span>
+            <span class="text-primary text-xs font-bold uppercase tracking-wide">CRM, Automation &amp; Growth Systems</span>
           </div>
 <h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.02em] sm:text-5xl md:text-6xl drop-shadow-sm">
                     Unlock Your Private <br class="hidden sm:block">
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Growth Engine</span>
                   </h1>
           <p class="text-slate-600 dark:text-slate-300 text-lg font-normal leading-relaxed max-w-[600px] mx-auto">
-            Stop operational leakage and scale your business through custom AI assets and strategic architecture tailored to your DNA.
+            Stop operational leakage. We build CRM integrations, lead automation, and growth systems tailored to how your business actually runs — not generic SaaS bolt-ons.
           </p>
         </div>
         <div class="relative z-10 flex flex-col sm:flex-row gap-4 mt-4 w-full max-w-[720px] justify-center">
@@ -98,30 +212,67 @@
 
       <div class="flex flex-1 justify-center py-5 px-4 lg:px-40">
         <div class="layout-content-container flex flex-col max-w-[960px] flex-1 w-full">
-          <!-- Statistics Section -->
-          <div class="flex flex-wrap gap-4 mb-16">
-            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] hover:border-primary/50 transition-colors">
-              <div class="flex items-center gap-2 text-primary mb-1">
-                <span class="material-symbols-outlined text-[20px]">monetization_on</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Revenue Recovered</p>
+          <!-- Client Logos -->
+          <section id="trusted-by" aria-labelledby="trusted-by-heading" class="mt-6 mb-16 border-b border-slate-200 dark:border-[#282e39] pb-10">
+            <h2 id="trusted-by-heading" class="text-center text-primary text-sm font-bold uppercase tracking-wider mb-8">
+              Trusted By
+            </h2>
+            <div class="logo-marquee">
+              <div class="logo-marquee__inner">
+                <ul class="logo-track">
+                  <li class="logo-item logo-item--lockup" aria-label="Consul House">
+                    <img src="/clients/consul-house-mark.svg" alt="" width="97" height="48" decoding="async">
+                    <span aria-hidden="true">Consul House</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/media-net.svg" alt="Media.net" width="121" height="41" decoding="async"></li>
+                  <li class="logo-item logo-item--lockup" aria-label="Liba">
+                    <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
+                    <span aria-hidden="true">Liba</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/somedia.svg" alt="SoMedia Digital" width="132" height="98" decoding="async"></li>
+                  <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="Ruppin Academic Center" width="134" height="45" decoding="async"></li>
+                  <li class="logo-item logo-item--wordmark" aria-label="Source 66.81">
+                    <span aria-hidden="true">SOURCE</span>
+                    <small aria-hidden="true">66<i>(TH)</i> 81<i>(JP)</i></small>
+                  </li>
+                </ul>
+                <ul class="logo-track" aria-hidden="true">
+                  <li class="logo-item logo-item--lockup">
+                    <img src="/clients/consul-house-mark.svg" alt="" width="97" height="48" decoding="async">
+                    <span>Consul House</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/media-net.svg" alt="" width="121" height="41" decoding="async"></li>
+                  <li class="logo-item logo-item--lockup">
+                    <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
+                    <span>Liba</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
+                  <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
+                  <li class="logo-item logo-item--wordmark">
+                    <span>SOURCE</span>
+                    <small>66<i>(TH)</i> 81<i>(JP)</i></small>
+                  </li>
+                </ul>
+                <ul class="logo-track" aria-hidden="true">
+                  <li class="logo-item logo-item--lockup">
+                    <img src="/clients/consul-house-mark.svg" alt="" width="97" height="48" decoding="async">
+                    <span>Consul House</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/media-net.svg" alt="" width="121" height="41" decoding="async"></li>
+                  <li class="logo-item logo-item--lockup">
+                    <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
+                    <span>Liba</span>
+                  </li>
+                  <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
+                  <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
+                  <li class="logo-item logo-item--wordmark">
+                    <span>SOURCE</span>
+                    <small>66<i>(TH)</i> 81<i>(JP)</i></small>
+                  </li>
+                </ul>
               </div>
-              <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">$2M+</p>
             </div>
-            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] hover:border-primary/50 transition-colors">
-              <div class="flex items-center gap-2 text-primary mb-1">
-                <span class="material-symbols-outlined text-[20px]">speed</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Efficiency Gain</p>
-              </div>
-              <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">40%</p>
-            </div>
-            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] hover:border-primary/50 transition-colors">
-              <div class="flex items-center gap-2 text-primary mb-1">
-                <span class="material-symbols-outlined text-[20px]">trending_up</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">ROI Average</p>
-              </div>
-              <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">3.5x</p>
-            </div>
-          </div>
+          </section>
 
           <!-- Strategic Pillars Section -->
           <div id="methodology" class="flex flex-col gap-10 py-4 @container scroll-mt-8">
@@ -129,10 +280,10 @@
               <div class="flex flex-col gap-3 max-w-[600px]">
                 <h2 class="text-primary text-sm font-bold uppercase tracking-wider">Our Methodology</h2>
                 <h3 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight md:text-4xl">
-                  Comprehensive AI Transformation
+                  Systems Built Around How You Actually Run
                 </h3>
                 <p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed">
-                  We bridge the gap between business strategy and artificial intelligence implementation through three core pillars.
+                  We bridge the gap between business strategy and working operational systems through three core pillars.
                 </p>
               </div>
               <a href="#contact-form" class="flex items-center gap-2 text-primary font-bold hover:text-primary/80 transition-colors whitespace-nowrap">
@@ -160,9 +311,9 @@
                   <span class="material-symbols-outlined text-[28px]">memory</span>
                 </div>
                 <div class="flex flex-col gap-2 mt-2">
-                  <h4 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Custom AI Architecture</h4>
+                  <h4 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Automation, CRM &amp; AI Agents</h4>
                   <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
-                    Develop proprietary AI models and workflows. We build systems tailored to your specific business DNA, not generic solutions.
+                    Build lead automation, CRM integrations, and AI-driven agents tailored to your specific business — not generic SaaS bolt-ons.
                   </p>
                 </div>
                 <div class="mt-auto pt-4">
@@ -186,15 +337,72 @@
             </div>
           </div>
 
+          <!-- Clients Section -->
+          <div id="clients" class="flex flex-col gap-10 py-4 mt-4 scroll-mt-8">
+            <div class="flex flex-col gap-3 max-w-[600px] border-b border-slate-200 dark:border-[#282e39] pb-6">
+              <h2 class="text-primary text-sm font-bold uppercase tracking-wider">Who We Work With</h2>
+              <h3 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight md:text-4xl">
+                Real Engagements, Real Systems
+              </h3>
+              <p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed">
+                A small, direct client roster. Here's what we're actually running for each of them.
+              </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Consul House</h4>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
+                  iplan CRM automation — webhook intake, deduplication, and end-to-end lead flow, with an AI agent running the reporting cycle on top.
+                </p>
+              </div>
+              <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Media.net</h4>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
+                  Partner onboarding and LegitScript certification for a global ad-tech platform's health vertical — with an AI agent screening candidates and monitoring live partners for compliance drift.
+                </p>
+              </div>
+              <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Liba</h4>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
+                  End-to-end iplan CRM automation, built and run start to finish — with an AI agent handling the reporting cycle.
+                </p>
+              </div>
+              <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">SoMedia</h4>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
+                  Social media operations and AI agents for boutique hospitality brands.
+                </p>
+              </div>
+              <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Ruppin Academic Center</h4>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
+                  A no-code tracking dashboard for AI teaching across the college — live off their existing intake form, filterable by department, semester and lecturer, embedded into their own site.
+                </p>
+              </div>
+              <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Source 66.81</h4>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
+                  A vintage luxury handbag archive and dropship storefront, built end to end — sourced inventory, automated stock sync, live FX pricing, and an admin panel the owner runs alone.
+                </p>
+              </div>
+              <div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <h4 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Private Family Office</h4>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
+                  A private market intelligence stack — equity scanners, insider-buying signals, and live brokerage portfolio sync, consolidated into one dashboard.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <!-- Call to Action Banner -->
           <div id="contact" class="mt-12 mb-20 scroll-mt-8">
             <div class="rounded-xl bg-slate-900 dark:bg-[#151923] border border-slate-200 dark:border-[#282e39] p-8 md:p-12 relative overflow-hidden">
               <div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
               <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div class="flex flex-col gap-4 max-w-lg">
-                  <h3 class="text-white text-2xl md:text-3xl font-bold">Ready to architecture your future?</h3>
+                  <h3 class="text-white text-2xl md:text-3xl font-bold">Ready to architect your future?</h3>
                   <p class="text-slate-300 text-base">
-                    Join the forward-thinking enterprises that are building their private intelligence today. Limited audit slots available for Q4.
+                    Join the businesses that are done duct-taping their operations together. Limited audit slots available.
                   </p>
                 </div>
                 <div class="flex flex-col gap-3 min-w-[200px]">
