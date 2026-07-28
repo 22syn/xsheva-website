@@ -83,6 +83,8 @@
     }
     .dark .logo-item img { filter: brightness(0) invert(1); opacity: 0.5; }
     .logo-item:hover img { opacity: 1; }
+    /* Stacked lockups (mark over wordmark over tagline) read smaller at equal height */
+    .logo-item img.logo--stacked { height: 2.75rem; max-width: 200px; }
     /* Mark + wordmark lockup, for brands that only publish a symbol (no horizontal logo) */
     .logo-item--lockup { gap: 0.75rem; }
     .logo-item--lockup img { height: 2rem; }
@@ -103,6 +105,7 @@
     @media (max-width: 640px) {
       .logo-track { gap: 2.5rem; padding-right: 2.5rem; }
       .logo-item img { height: 1.75rem; max-width: 130px; }
+      .logo-item img.logo--stacked { height: 2.1rem; max-width: 150px; }
       .logo-item--lockup { gap: 0.5rem; }
       .logo-item--lockup img { height: 1.6rem; }
       .logo-item--lockup img.logo-mark--square { height: 2rem; }
@@ -195,13 +198,6 @@
               </div>
               <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">1M+</p>
             </div>
-            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] hover:border-primary/50 transition-colors">
-              <div class="flex items-center gap-2 text-primary mb-1">
-                <span class="material-symbols-outlined text-[20px]">handshake</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Active Client Engagements</p>
-              </div>
-              <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">4</p>
-            </div>
           </div>
 
           <!-- Client Logos -->
@@ -222,6 +218,7 @@
                     <span aria-hidden="true">Liba</span>
                   </li>
                   <li class="logo-item"><img src="/clients/somedia.svg" alt="SoMedia Digital" width="132" height="98" decoding="async"></li>
+                  <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="Ruppin Academic Center" width="134" height="45" decoding="async"></li>
                 </ul>
                 <ul class="logo-track" aria-hidden="true">
                   <li class="logo-item logo-item--lockup">
@@ -234,6 +231,7 @@
                     <span>Liba</span>
                   </li>
                   <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
+                  <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
                 </ul>
                 <ul class="logo-track" aria-hidden="true">
                   <li class="logo-item logo-item--lockup">
@@ -246,6 +244,7 @@
                     <span>Liba</span>
                   </li>
                   <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
+                  <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
                 </ul>
               </div>
             </div>
