@@ -4,8 +4,7 @@
     {
       "name": "xsheva-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "cwd": "xsheva",
+      "runtimeArgs": ["run", "dev", "--prefix", "xsheva"],
       "port": 5173
     }
   ]
