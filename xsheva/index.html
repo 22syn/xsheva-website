@@ -13,6 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&text=SOURCE%2066%28TH%29%2081%28JP%29&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
   <link rel="alternate icon" href="/favicon.svg?v=3">
   <link rel="apple-touch-icon" href="/favicon.svg?v=3">
@@ -42,6 +43,124 @@
     ::-webkit-scrollbar-thumb { background: #282e39; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #3b4354; }
     .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    /* GSAP's `mask: "lines"` supplies the clipping wrapper. These two rules only
+       stop descenders (y, g) getting shaved off by that wrapper's edge. */
+    [data-arch-heading] .line,
+    [data-hero-title] .line {
+      padding-bottom: 0.12em;
+      margin-bottom: -0.12em;
+    }
+
+    /* Client logo marquee */
+    .logo-marquee {
+      position: relative;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    }
+    .logo-marquee__inner {
+      display: flex;
+      width: max-content;
+      animation: logo-scroll 43s linear infinite;
+    }
+    .logo-marquee:hover .logo-marquee__inner,
+    .logo-marquee:focus-within .logo-marquee__inner { animation-play-state: paused; }
+    @keyframes logo-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-33.3333%); }
+    }
+    .logo-track {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      padding-right: 4rem;
+      margin: 0;
+      list-style: none;
+      flex-shrink: 0;
+    }
+    .logo-item { display: flex; align-items: center; justify-content: center; }
+    .logo-item img {
+      height: 2.25rem;
+      width: auto;
+      max-width: 170px;
+      object-fit: contain;
+      /* Flatten any brand colour to a single tone so the row reads as one system */
+      filter: brightness(0);
+      opacity: 0.55;
+      transition: opacity 0.3s ease, filter 0.3s ease;
+    }
+    .dark .logo-item img { filter: brightness(0) invert(1); opacity: 0.5; }
+    .logo-item:hover img { opacity: 1; }
+    /* Stacked lockups (mark over wordmark over tagline) read smaller at equal height */
+    .logo-item img.logo--stacked { height: 2.75rem; max-width: 200px; }
+    /* Mark + wordmark lockup, for brands that only publish a symbol (no horizontal logo) */
+    .logo-item--lockup { gap: 0.75rem; }
+    .logo-item--lockup img { height: 2rem; }
+    /* Near-square marks need extra height to carry the same optical weight as wide ones */
+    .logo-item--lockup img.logo-mark--square { height: 2.5rem; }
+    .logo-item--lockup span {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: #0f172a;
+      opacity: 0.55;
+      transition: opacity 0.3s ease;
+    }
+    .dark .logo-item--lockup span { color: #fff; opacity: 0.5; }
+    .logo-item--lockup:hover span { opacity: 1; }
+    /* Purely typographic wordmarks: set as live text, since no logo file exists to load */
+    .logo-item--wordmark {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #0f172a;
+      opacity: 0.55;
+      transition: opacity 0.3s ease;
+    }
+    .dark .logo-item--wordmark { color: #fff; opacity: 0.5; }
+    .logo-item--wordmark:hover { opacity: 1; }
+    .logo-item--wordmark span {
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+    }
+    .logo-item--wordmark small {
+      font-size: 0.625rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    .logo-item--wordmark i { font-style: normal; opacity: 0.6; }
+    @media (max-width: 640px) {
+      .logo-track { gap: 2.5rem; padding-right: 2.5rem; }
+      .logo-item img { height: 1.75rem; max-width: 130px; }
+      .logo-item img.logo--stacked { height: 2.1rem; max-width: 150px; }
+      .logo-item--lockup { gap: 0.5rem; }
+      .logo-item--lockup img { height: 1.6rem; }
+      .logo-item--lockup img.logo-mark--square { height: 2rem; }
+      .logo-item--lockup span { font-size: 0.8125rem; letter-spacing: 0.12em; }
+      .logo-item--wordmark span { font-size: 0.875rem; }
+      .logo-item--wordmark small { font-size: 0.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      /* No scrolling: show one static, centred, wrapping row instead */
+      .logo-marquee { -webkit-mask-image: none; mask-image: none; }
+      .logo-marquee__inner { width: 100%; animation: none; }
+      .logo-track {
+        flex-wrap: wrap;
+        flex-shrink: 1;
+        width: 100%;
+        justify-content: center;
+        row-gap: 2rem;
+        padding-right: 0;
+      }
+      .logo-track[aria-hidden="true"] { display: none; }
+    }
   </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-x-hidden">
@@ -73,59 +192,191 @@
         </button>
       </header>
 
+      <!-- Page-wide scroll progress, pinned under the header -->
+      <div class="sticky top-[73px] z-40 h-px w-full bg-white/5">
+        <div data-page-progress class="h-full w-full origin-left bg-primary/70"></div>
+      </div>
+
       <!-- Hero Section (full viewport width) -->
-      <div class="relative flex min-h-[640px] sm:min-h-[70vh] w-full flex-col gap-8 items-center justify-center px-4 py-12 lg:px-10 overflow-hidden group" style="background-image: linear-gradient(135deg, rgba(16, 22, 34, 0.95) 0%, rgba(255, 107, 53, 0.2) 100%), url('/stitch/xsheva-p1/hero-background.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+      <div data-hero class="relative flex min-h-[640px] sm:min-h-[86vh] w-full flex-col gap-8 items-center justify-center px-4 py-12 lg:px-10 overflow-hidden bg-background-dark">
+        <!-- One warm glow low in the frame. The typography carries this section, not a picture. -->
+        <div data-hero-glow class="absolute inset-0 pointer-events-none will-change-transform" style="background: radial-gradient(65% 55% at 50% 105%, rgba(255,107,53,0.20) 0%, transparent 70%);"></div>
         <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" style="background-image: url('/stitch/xsheva-p1/noise.svg');"></div>
-        <div class="relative z-10 flex flex-col gap-4 text-center max-w-[720px]">
-          <div class="inline-flex items-center justify-center gap-2 self-center rounded-full bg-primary/10 border border-primary/20 px-3 py-1 mb-2">
+        <div class="relative z-10 flex flex-col gap-6 text-center max-w-[860px]">
+          <div data-hero-eyebrow class="inline-flex items-center justify-center gap-2 self-center rounded-full bg-primary/10 border border-primary/20 px-3 py-1">
             <span class="size-2 rounded-full bg-primary animate-pulse"></span>
-            <span class="text-primary text-xs font-bold uppercase tracking-wide">Strategic AI Architecture</span>
+            <span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">Strategic AI Architecture</span>
           </div>
-<h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.02em] sm:text-5xl md:text-6xl drop-shadow-sm">
-                    Unlock Your Private <br class="hidden sm:block">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Growth Engine</span>
-                  </h1>
-          <p class="text-slate-600 dark:text-slate-300 text-lg font-normal leading-relaxed max-w-[600px] mx-auto">
-            Stop operational leakage and scale your business through custom AI assets and strategic architecture tailored to your DNA.
+          <h1 data-hero-title class="text-white text-5xl font-black leading-[1.02] tracking-[-0.035em] sm:text-6xl md:text-7xl">
+            We find the revenue<br>
+            <span class="text-primary">you're losing.</span>
+          </h1>
+          <p data-hero-sub class="text-slate-300 text-lg sm:text-xl font-normal leading-relaxed max-w-[560px] mx-auto">
+            Then we build the AI architecture that keeps it.
           </p>
         </div>
-        <div class="relative z-10 flex flex-col sm:flex-row gap-4 mt-4 w-full max-w-[720px] justify-center">
+        <div data-hero-cta class="relative z-10 flex flex-col sm:flex-row gap-4 mt-4 w-full max-w-[720px] justify-center">
           <a href="#contact-form" class="flex min-w-[160px] cursor-pointer items-center justify-center rounded bg-primary text-white text-base font-bold h-12 px-6 hover:bg-primary/90 transition-all hover:scale-105 shadow-lg shadow-primary/25">
             <span class="truncate">Book a Strategic Audit</span>
           </a>
         </div>
       </div>
 
-      <div class="flex flex-1 justify-center py-5 px-4 lg:px-40">
-        <div class="layout-content-container flex flex-col max-w-[960px] flex-1 w-full">
-          <!-- Statistics Section -->
-          <div class="flex flex-wrap gap-4 mb-16">
-            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] hover:border-primary/50 transition-colors">
-              <div class="flex items-center gap-2 text-primary mb-1">
-                <span class="material-symbols-outlined text-[20px]">monetization_on</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Revenue Recovered</p>
-              </div>
-              <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">$2M+</p>
-            </div>
-            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] hover:border-primary/50 transition-colors">
-              <div class="flex items-center gap-2 text-primary mb-1">
-                <span class="material-symbols-outlined text-[20px]">speed</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Efficiency Gain</p>
-              </div>
-              <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">40%</p>
-            </div>
-            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] hover:border-primary/50 transition-colors">
-              <div class="flex items-center gap-2 text-primary mb-1">
-                <span class="material-symbols-outlined text-[20px]">trending_up</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">ROI Average</p>
-              </div>
-              <p class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">3.5x</p>
+      <!-- Trusted By -->
+      <section id="trusted-by" aria-labelledby="trusted-by-heading" class="w-full border-b border-slate-200 dark:border-[#282e39] bg-background-light dark:bg-background-dark py-12">
+        <div class="mx-auto max-w-[1280px] px-6 lg:px-16">
+          <h2 id="trusted-by-heading" data-clients-heading class="text-center text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-8">
+            Trusted By
+          </h2>
+          <div data-clients-band class="logo-marquee">
+            <div class="logo-marquee__inner">
+              <ul class="logo-track">
+                <li class="logo-item logo-item--lockup" aria-label="Consul House">
+                  <img src="/clients/consul-house-mark.svg" alt="" width="97" height="48" decoding="async">
+                  <span aria-hidden="true">Consul House</span>
+                </li>
+                <li class="logo-item"><img src="/clients/media-net.svg" alt="Media.net" width="121" height="41" decoding="async"></li>
+                <li class="logo-item logo-item--lockup" aria-label="Liba">
+                  <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
+                  <span aria-hidden="true">Liba</span>
+                </li>
+                <li class="logo-item"><img src="/clients/somedia.svg" alt="SoMedia Digital" width="132" height="98" decoding="async"></li>
+                <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="Ruppin Academic Center" width="134" height="45" decoding="async"></li>
+                <li class="logo-item logo-item--wordmark" aria-label="Source 66.81">
+                  <span aria-hidden="true">SOURCE</span>
+                  <small aria-hidden="true">66<i>(TH)</i> 81<i>(JP)</i></small>
+                </li>
+              </ul>
+              <ul class="logo-track" aria-hidden="true">
+                <li class="logo-item logo-item--lockup">
+                  <img src="/clients/consul-house-mark.svg" alt="" width="97" height="48" decoding="async">
+                  <span>Consul House</span>
+                </li>
+                <li class="logo-item"><img src="/clients/media-net.svg" alt="" width="121" height="41" decoding="async"></li>
+                <li class="logo-item logo-item--lockup">
+                  <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
+                  <span>Liba</span>
+                </li>
+                <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
+                <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
+                <li class="logo-item logo-item--wordmark">
+                  <span>SOURCE</span>
+                  <small>66<i>(TH)</i> 81<i>(JP)</i></small>
+                </li>
+              </ul>
+              <ul class="logo-track" aria-hidden="true">
+                <li class="logo-item logo-item--lockup">
+                  <img src="/clients/consul-house-mark.svg" alt="" width="97" height="48" decoding="async">
+                  <span>Consul House</span>
+                </li>
+                <li class="logo-item"><img src="/clients/media-net.svg" alt="" width="121" height="41" decoding="async"></li>
+                <li class="logo-item logo-item--lockup">
+                  <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
+                  <span>Liba</span>
+                </li>
+                <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
+                <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
+                <li class="logo-item logo-item--wordmark">
+                  <span>SOURCE</span>
+                  <small>66<i>(TH)</i> 81<i>(JP)</i></small>
+                </li>
+              </ul>
             </div>
           </div>
+        </div>
+      </section>
 
+      <!-- Growth Architecture — pinned, scroll-scrubbed -->
+      <section id="architecture" class="relative w-full">
+        <div data-arch-pin class="relative h-screen w-full overflow-hidden bg-background-dark">
+          <div data-arch-image class="absolute inset-0 will-change-transform">
+            <img src="/img/architecture-stair.jpg" alt="" aria-hidden="true" class="h-full w-full object-cover">
+          </div>
+          <!-- Dark where the copy sits, opening up to the right so the photograph reads. -->
+          <div class="absolute inset-0 bg-gradient-to-r from-[#101622] via-[#101622]/85 to-[#101622]/35"></div>
+          <div class="absolute inset-0 bg-gradient-to-tl from-[#FF6B35]/25 via-transparent to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#101622] via-transparent to-transparent"></div>
+          <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" style="background-image: url('/stitch/xsheva-p1/noise.svg');"></div>
+
+          <div class="relative z-10 mx-auto flex h-full max-w-[1280px] flex-col justify-center px-6 lg:px-16">
+            <div class="inline-flex items-center gap-2 self-start rounded-full border border-primary/30 bg-primary/10 px-3 py-1">
+              <span class="size-2 rounded-full bg-primary"></span>
+              <span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">Growth Architecture</span>
+            </div>
+
+            <h2 data-arch-heading class="mt-8 max-w-[900px] text-white text-4xl font-black leading-[1.05] tracking-[-0.03em] sm:text-6xl lg:text-7xl">
+              Mathematical precision.<br>Not marketing.
+            </h2>
+
+            <div class="mt-14 grid gap-8 md:grid-cols-3 md:gap-10">
+              <div data-step>
+                <div data-rule class="h-px w-full origin-left bg-primary"></div>
+                <span class="mt-5 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Phase 01</span>
+                <h3 class="mt-2 text-white text-xl font-bold">Diagnosis &amp; Audit</h3>
+                <p class="mt-2 max-w-[34ch] text-sm leading-relaxed text-slate-300">Map the operational landscape. Find where revenue leaks.</p>
+              </div>
+              <div data-step>
+                <div data-rule class="h-px w-full origin-left bg-primary"></div>
+                <span class="mt-5 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Phase 02</span>
+                <h3 class="mt-2 text-white text-xl font-bold">Custom AI Architecture</h3>
+                <p class="mt-2 max-w-[34ch] text-sm leading-relaxed text-slate-300">Built to your business DNA. Never a generic stack.</p>
+              </div>
+              <div data-step>
+                <div data-rule class="h-px w-full origin-left bg-primary"></div>
+                <span class="mt-5 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Phase 03</span>
+                <h3 class="mt-2 text-white text-xl font-bold">Growth &amp; Performance</h3>
+                <p class="mt-2 max-w-[34ch] text-sm leading-relaxed text-slate-300">Scale revenue, then close the loop continuously.</p>
+              </div>
+            </div>
+
+            <div class="mt-16 h-px w-full bg-white/10">
+              <div data-arch-progress class="h-full w-full origin-left bg-primary"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Numbers — pinned, counters driven by scroll position -->
+      <section id="proof" data-stats class="relative w-full">
+        <div data-stats-pin class="relative flex h-screen w-full items-center overflow-hidden bg-background-dark">
+          <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(55% 65% at 12% 50%, rgba(255,107,53,0.16) 0%, transparent 70%);"></div>
+          <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" style="background-image: url('/stitch/xsheva-p1/noise.svg');"></div>
+
+          <div class="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-16">
+            <span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">The Numbers</span>
+            <h2 data-stats-heading class="mt-6 max-w-[820px] text-white text-3xl font-black leading-[1.08] tracking-[-0.03em] sm:text-5xl">
+              What the architecture returns.
+            </h2>
+
+            <div class="mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
+              <div data-stat data-stat-to="2" data-stat-prefix="$" data-stat-suffix="M+" data-stat-decimals="0">
+                <div data-stat-rule class="h-px w-full origin-left bg-primary"></div>
+                <p class="mt-6 text-white text-5xl lg:text-6xl font-black tracking-[-0.04em]" data-stat-num>$0M+</p>
+                <p class="mt-3 text-slate-400 text-xs font-bold uppercase tracking-[0.18em]">Revenue Recovered</p>
+              </div>
+              <div data-stat data-stat-to="40" data-stat-prefix="" data-stat-suffix="%" data-stat-decimals="0">
+                <div data-stat-rule class="h-px w-full origin-left bg-primary"></div>
+                <p class="mt-6 text-white text-5xl lg:text-6xl font-black tracking-[-0.04em]" data-stat-num>0%</p>
+                <p class="mt-3 text-slate-400 text-xs font-bold uppercase tracking-[0.18em]">Efficiency Gain</p>
+              </div>
+              <div data-stat data-stat-to="3.5" data-stat-prefix="" data-stat-suffix="x" data-stat-decimals="1">
+                <div data-stat-rule class="h-px w-full origin-left bg-primary"></div>
+                <p class="mt-6 text-white text-5xl lg:text-6xl font-black tracking-[-0.04em]" data-stat-num>0.0x</p>
+                <p class="mt-3 text-slate-400 text-xs font-bold uppercase tracking-[0.18em]">ROI Average</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Plain block wrapper, not a flex row. ScrollTrigger extends the page by
+           inserting pin-spacers; inside a flex item that added height gets absorbed
+           by flex sizing, so pins in here were resolving to zero duration. -->
+      <div class="w-full py-5 px-4 lg:px-40">
+        <div class="layout-content-container mx-auto flex flex-col max-w-[960px] w-full">
           <!-- Strategic Pillars Section -->
-          <div id="methodology" class="flex flex-col gap-10 py-4 @container scroll-mt-8">
-            <div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-slate-200 dark:border-[#282e39] pb-6">
+          <div id="methodology" data-reveal class="flex flex-col gap-10 py-4 @container scroll-mt-8">
+            <div data-seq-item class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-slate-200 dark:border-[#282e39] pb-6">
               <div class="flex flex-col gap-3 max-w-[600px]">
                 <h2 class="text-primary text-sm font-bold uppercase tracking-wider">Our Methodology</h2>
                 <h3 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight md:text-4xl">
@@ -141,7 +392,7 @@
               </a>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-all duration-300">
+              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-all duration-300">
                 <div class="size-12 flex items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                   <span class="material-symbols-outlined text-[28px]">search</span>
                 </div>
@@ -155,7 +406,7 @@
                   <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest group-hover:text-primary transition-colors">Phase 01</span>
                 </div>
               </div>
-              <div class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-all duration-300">
+              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-all duration-300">
                 <div class="size-12 flex items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                   <span class="material-symbols-outlined text-[28px]">memory</span>
                 </div>
@@ -169,7 +420,7 @@
                   <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest group-hover:text-primary transition-colors">Phase 02</span>
                 </div>
               </div>
-              <div class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-all duration-300">
+              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-all duration-300">
                 <div class="size-12 flex items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                   <span class="material-symbols-outlined text-[28px]">monitoring</span>
                 </div>
@@ -187,17 +438,17 @@
           </div>
 
           <!-- Call to Action Banner -->
-          <div id="contact" class="mt-12 mb-20 scroll-mt-8">
+          <div id="contact" data-reveal class="mt-12 mb-20 scroll-mt-8">
             <div class="rounded-xl bg-slate-900 dark:bg-[#151923] border border-slate-200 dark:border-[#282e39] p-8 md:p-12 relative overflow-hidden">
               <div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
               <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                <div class="flex flex-col gap-4 max-w-lg">
+                <div data-seq-item class="flex flex-col gap-4 max-w-lg">
                   <h3 class="text-white text-2xl md:text-3xl font-bold">Ready to architecture your future?</h3>
                   <p class="text-slate-300 text-base">
                     Join the forward-thinking enterprises that are building their private intelligence today. Limited audit slots available for Q4.
                   </p>
                 </div>
-                <div class="flex flex-col gap-3 min-w-[200px]">
+                <div data-seq-item class="flex flex-col gap-3 min-w-[200px]">
                   <a href="#contact-form" class="flex w-full cursor-pointer items-center justify-center rounded bg-primary text-white text-base font-bold h-12 px-6 hover:bg-primary/90 transition-colors">
                     Start Assessment
                   </a>
@@ -208,23 +459,23 @@
           </div>
 
           <!-- Contact Form -->
-          <div id="contact-form" class="rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-8 md:p-12 mb-12 scroll-mt-8 flex flex-col items-center text-center">
-            <h3 class="text-slate-900 dark:text-white text-xl font-bold mb-4">Get in touch</h3>
+          <div id="contact-form" data-reveal class="rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-8 md:p-12 mb-12 scroll-mt-8 flex flex-col items-center text-center">
+            <h3 data-seq-item class="text-slate-900 dark:text-white text-xl font-bold mb-4">Get in touch</h3>
             <form action="https://formsubmit.co/64aa6b4280c5bbac22078d744ce37881" method="POST" class="flex flex-col gap-4 w-full max-w-md">
               <input type="hidden" name="_subject" value="New XSHEVA Contact - Strategic Assessment">
               <input type="hidden" name="_captcha" value="false">
               <input type="hidden" name="_template" value="box">
-              <input type="text" name="name" placeholder="Name" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
-              <input type="email" name="email" placeholder="Email" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
-              <textarea name="message" placeholder="Tell us about your growth goals" rows="4" class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm p-4 placeholder:text-slate-500 focus:border-primary focus:outline-none resize-none"></textarea>
-              <button type="submit" class="flex w-full cursor-pointer items-center justify-center rounded bg-primary text-white text-base font-bold h-12 px-6 hover:bg-primary/90 transition-colors">
+              <input data-seq-item type="text" name="name" placeholder="Name" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
+              <input data-seq-item type="email" name="email" placeholder="Email" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
+              <textarea data-seq-item name="message" placeholder="Tell us about your growth goals" rows="4" class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm p-4 placeholder:text-slate-500 focus:border-primary focus:outline-none resize-none"></textarea>
+              <button data-seq-item type="submit" class="flex w-full cursor-pointer items-center justify-center rounded bg-primary text-white text-base font-bold h-12 px-6 hover:bg-primary/90 transition-colors">
                 Submit
               </button>
             </form>
           </div>
 
           <!-- Footer -->
-          <footer class="border-t border-slate-200 dark:border-[#282e39] py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <footer data-reveal class="border-t border-slate-200 dark:border-[#282e39] py-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
               <span>© 2026 XSHEVA Inc.</span>
             </div>
@@ -245,6 +496,7 @@
       </div>
     </div>
   </div>
+  <script type="module" src="/scripts/motion.js"></script>
   <script type="module" src="/scripts/main.js"></script>
 </body>
 </html>
