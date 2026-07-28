@@ -16,16 +16,15 @@ if (!reduced) {
   lenis = new Lenis({ duration: 1.1, smoothWheel: true });
   lenis.on("scroll", ScrollTrigger.update);
 
+  // Lenis only reports scrolls it performed itself. Anchor jumps, keyboard and
+  // find-in-page move the document without telling it, which left ScrollTrigger
+  // on stale positions and the destination stuck in its pre-animation state.
+  // ScrollTrigger.update is cheap and safe to call redundantly.
+  window.addEventListener("scroll", () => ScrollTrigger.update(), { passive: true });
+
   const tick = (time) => lenis.raf(time * 1000);
   gsap.ticker.add(tick);
   gsap.ticker.lagSmoothing(0);
-}
-
-// Anchor links must route through Lenis — native scrollIntoView fights it and
-// leaves the page somewhere between the two.
-export function scrollToTarget(target) {
-  if (lenis) lenis.scrollTo(target, { offset: -80 });
-  else target.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 export function initHero() {
@@ -217,17 +216,35 @@ export function initReveals() {
       : el.hasAttribute("data-reveal-stagger")
         ? [...el.children]
         : [el];
-    gsap.set(targets, { opacity: 0, y: 28 });
-    gsap.to(targets, {
-      opacity: 1,
-      y: 0,
-      duration: 0.7,
-      ease: "power3.out",
-      stagger: 0.09,
-      // Anchored to the viewport bottom, not a percentage. A percentage-based
-      // start is unreachable for the last element on the page — the footer can
-      // never get its top above ~89%, so an 82% threshold left it hidden forever.
-      scrollTrigger: { trigger: el, start: "top bottom-=60" },
+
+    gsap.set(targets, { opacity: 0, y: 40 });
+
+    targets.forEach((target, i) => {
+      gsap.to(target, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        // Stagger only applies to items entering together, e.g. a row of cards.
+        delay: i * 0.08,
+        scrollTrigger: {
+          // Each item triggers on itself, not on the container. One trigger for
+          // the whole block fired on the container's top edge, which meant cards
+          // further down animated while still below the fold and were finished
+          // before the reader ever saw them.
+          trigger: target,
+          // Resolved as an absolute scroll position so it can be clamped. The
+          // preferred point is 88% of the viewport — late enough that the item
+          // is properly on screen before it moves. Items near the page end can
+          // never reach that, so the clamp keeps them reachable instead of
+          // leaving them stuck invisible, which is what stranded the footer.
+          start: () => {
+            const topAbs = target.getBoundingClientRect().top + window.scrollY;
+            const maxScroll = document.documentElement.scrollHeight - innerHeight;
+            return Math.max(0, Math.min(topAbs - innerHeight * 0.88, maxScroll - 120));
+          },
+        },
+      });
     });
   });
 }
@@ -311,18 +328,8 @@ function initPageProgress() {
   });
 }
 
-function initAnchors() {
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener("click", (e) => {
-      const href = anchor.getAttribute("href");
-      if (href === "#") return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      scrollToTarget(target);
-    });
-  });
-}
+// Anchors are deliberately NOT intercepted — the browser's own jump cannot
+// fail, and header overlap is handled by scroll-padding-top on the document.
 
 // This module is its own entry point rather than a main.js import, so that a
 // Firebase config failure cannot take the motion layer down with it.
@@ -338,9 +345,16 @@ function start() {
   initClients();
   initArchitectureSection();
   initStats();
+
+  // The pins above only add their spacing during a refresh. Until that happens
+  // the document is several thousand pixels shorter, so anything below them
+  // resolves its trigger against the wrong geometry — the methodology cards
+  // computed a start of ~0, fired instantly, and were already fully revealed
+  // before the reader ever reached them.
+  ScrollTrigger.refresh();
+
   initReveals();
   initPageProgress();
-  initAnchors();
 
   // Late-decoding images still shift the page after this point.
   ScrollTrigger.refresh();

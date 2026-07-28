@@ -39,6 +39,8 @@
     }
   </script>
   <style>
+    /* Anchors jump natively, so the sticky header must not cover the target. */
+    html { scroll-padding-top: 92px; }
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #101622; }
     ::-webkit-scrollbar-thumb { background: #282e39; border-radius: 4px; }
@@ -394,7 +396,7 @@
               </a>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-all duration-300">
+              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-[box-shadow,border-color] duration-300">
                 <div class="size-12 flex items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                   <span class="material-symbols-outlined text-[28px]">search</span>
                 </div>
@@ -408,7 +410,7 @@
                   <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest group-hover:text-primary transition-colors">Phase 01</span>
                 </div>
               </div>
-              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-all duration-300">
+              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-[box-shadow,border-color] duration-300">
                 <div class="size-12 flex items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                   <span class="material-symbols-outlined text-[28px]">memory</span>
                 </div>
@@ -422,7 +424,7 @@
                   <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest group-hover:text-primary transition-colors">Phase 02</span>
                 </div>
               </div>
-              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-all duration-300">
+              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-[box-shadow,border-color] duration-300">
                 <div class="size-12 flex items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                   <span class="material-symbols-outlined text-[28px]">monitoring</span>
                 </div>
