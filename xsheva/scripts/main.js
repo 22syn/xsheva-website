@@ -3,19 +3,8 @@ import { app } from "./firebase.js";
 // Firebase is initialized. Use `app` for Firebase services, `analytics` for tracking.
 console.log("Firebase initialized:", app.name);
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  });
-});
+// Smooth scroll for anchor links lives in motion.js — it has to go through
+// Lenis, and it must survive a Firebase config failure.
 
 // Form submission handler
 const contactForm = document.getElementById('contactForm');
