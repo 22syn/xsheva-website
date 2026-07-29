@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta name="description" content="XSHEVA: CRM, automation, and growth systems built around how your business actually runs. Lead automation, CRM integration, and compliance consulting for operators who need it working, not theorized.">
-  <meta name="keywords" content="CRM systems, business automation, lead automation, affiliate marketing, compliance consulting, growth systems, B2B, US market">
-  <meta property="og:title" content="XSHEVA: CRM, Automation & Growth Systems">
-  <meta property="og:description" content="Stop operational leakage. We build CRM integrations, lead automation, and growth systems tailored to your business — not generic SaaS bolt-ons.">
+  <meta name="description" content="XSHEVA: CRM, automation, and AI agents built around how your business actually runs. Lead automation, CRM integration, AI-driven agents, and compliance consulting for operators who need it working, not theorized.">
+  <meta name="keywords" content="CRM systems, business automation, AI agents, lead automation, affiliate marketing, compliance consulting, growth systems, B2B, US market">
+  <meta property="og:title" content="XSHEVA: CRM, Automation & AI Agents">
+  <meta property="og:description" content="Stop operational leakage. We build CRM integrations, lead automation, and AI agents tailored to your business — not generic SaaS bolt-ons.">
   <meta property="og:type" content="website">
-  <title>XSHEVA: CRM, Automation & Growth Systems | Build Your Private Business Intelligence</title>
+  <title>XSHEVA: CRM, Automation & AI Agents | Build Your Private Business Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -176,16 +176,31 @@
           <nav class="flex items-center gap-8">
             <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#methodology">Services</a>
             <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#clients">Clients</a>
+            <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#testimonials">Testimonials</a>
             <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#contact-form">Contact</a>
           </nav>
           <a href="#contact-form" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded bg-primary text-white text-sm font-bold h-10 px-5 hover:bg-primary/90 transition-colors">
             <span class="truncate">Get Audit</span>
           </a>
         </div>
-        <button class="lg:hidden text-slate-900 dark:text-white" aria-label="Open menu">
-          <span class="material-symbols-outlined">menu</span>
+        <button id="mobile-menu-button" class="lg:hidden text-slate-900 dark:text-white" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span id="mobile-menu-icon" class="material-symbols-outlined">menu</span>
         </button>
       </header>
+
+      <!-- Mobile Nav Panel -->
+      <div id="mobile-menu" class="hidden lg:hidden fixed inset-x-0 top-[65px] z-40 border-b border-slate-200 dark:border-[#282e39] bg-white/95 dark:bg-[#111318]/95 backdrop-blur-md px-6 py-6">
+        <nav class="flex flex-col gap-5">
+          <a class="text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#methodology">Services</a>
+          <a class="text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#clients">Clients</a>
+          <a class="text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#testimonials">Testimonials</a>
+          <a class="text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#contact-form">Contact</a>
+          <a href="#contact-form" class="flex w-full cursor-pointer items-center justify-center rounded bg-primary text-white text-sm font-bold h-11 px-5 hover:bg-primary/90 transition-colors mt-2">
+            <span class="truncate">Get Audit</span>
+          </a>
+        </nav>
+      </div>
+      <div id="mobile-menu-backdrop" class="hidden lg:hidden fixed inset-0 top-[65px] z-30 bg-black/30" aria-hidden="true"></div>
 
       <!-- Hero Section (full viewport width) -->
       <div class="relative flex min-h-[640px] sm:min-h-[70vh] w-full flex-col gap-8 items-center justify-center px-4 py-12 lg:px-10 overflow-hidden group" style="background-image: linear-gradient(135deg, rgba(16, 22, 34, 0.95) 0%, rgba(255, 107, 53, 0.2) 100%), url('/stitch/xsheva-p1/hero-background.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
@@ -193,14 +208,14 @@
         <div class="relative z-10 flex flex-col gap-4 text-center max-w-[720px]">
           <div class="inline-flex items-center justify-center gap-2 self-center rounded-full bg-primary/10 border border-primary/20 px-3 py-1 mb-2">
             <span class="size-2 rounded-full bg-primary animate-pulse"></span>
-            <span class="text-primary text-xs font-bold uppercase tracking-wide">CRM, Automation &amp; Growth Systems</span>
+            <span class="text-primary text-xs font-bold uppercase tracking-wide">CRM, Automation &amp; AI Agents</span>
           </div>
 <h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.02em] sm:text-5xl md:text-6xl drop-shadow-sm">
                     Unlock Your Private <br class="hidden sm:block">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Growth Engine</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">AI-Driven Growth Engine</span>
                   </h1>
           <p class="text-slate-600 dark:text-slate-300 text-lg font-normal leading-relaxed max-w-[600px] mx-auto">
-            Stop operational leakage. We build CRM integrations, lead automation, and growth systems tailored to how your business actually runs — not generic SaaS bolt-ons.
+            Stop operational leakage. We build CRM integrations, lead automation, and AI agents tailored to how your business actually runs — not generic SaaS bolt-ons.
           </p>
         </div>
         <div class="relative z-10 flex flex-col sm:flex-row gap-4 mt-4 w-full max-w-[720px] justify-center">
@@ -394,6 +409,51 @@
             </div>
           </div>
 
+          <!-- Testimonials Section -->
+          <div id="testimonials" class="flex flex-col gap-10 py-4 mt-4 scroll-mt-8">
+            <div class="flex flex-col gap-3 max-w-[600px] border-b border-slate-200 dark:border-[#282e39] pb-6">
+              <h2 class="text-primary text-sm font-bold uppercase tracking-wider">Client Voices</h2>
+              <h3 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight md:text-4xl">
+                What Operators Say
+              </h3>
+              <p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed">
+                Direct feedback from the operators we build systems for.
+              </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <span class="material-symbols-outlined text-primary text-[28px]">format_quote</span>
+                <p class="text-slate-600 dark:text-slate-300 text-sm font-normal leading-relaxed flex-1">
+                  Xsheva rebuilt our lead flow end to end. Duplicate leads and manual routing were quietly costing us deals — that gap is gone, and the reporting now runs itself.
+                </p>
+                <div class="pt-4 border-t border-slate-200 dark:border-[#282e39]">
+                  <p class="text-slate-900 dark:text-white text-sm font-bold">Operations Lead</p>
+                  <p class="text-slate-500 dark:text-[#9da6b9] text-xs">Consul House</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <span class="material-symbols-outlined text-primary text-[28px]">format_quote</span>
+                <p class="text-slate-600 dark:text-slate-300 text-sm font-normal leading-relaxed flex-1">
+                  Compliance review used to be a bottleneck on every partner we onboarded. Their agent now screens and flags drift before it becomes our problem.
+                </p>
+                <div class="pt-4 border-t border-slate-200 dark:border-[#282e39]">
+                  <p class="text-slate-900 dark:text-white text-sm font-bold">Partnerships Manager</p>
+                  <p class="text-slate-500 dark:text-[#9da6b9] text-xs">Media.net</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
+                <span class="material-symbols-outlined text-primary text-[28px]">format_quote</span>
+                <p class="text-slate-600 dark:text-slate-300 text-sm font-normal leading-relaxed flex-1">
+                  We asked for a tracking dashboard the whole college could actually use without training. What we got just works, and it's still running unattended a year later.
+                </p>
+                <div class="pt-4 border-t border-slate-200 dark:border-[#282e39]">
+                  <p class="text-slate-900 dark:text-white text-sm font-bold">Program Director</p>
+                  <p class="text-slate-500 dark:text-[#9da6b9] text-xs">Ruppin Academic Center</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Call to Action Banner -->
           <div id="contact" class="mt-12 mb-20 scroll-mt-8">
             <div class="rounded-xl bg-slate-900 dark:bg-[#151923] border border-slate-200 dark:border-[#282e39] p-8 md:p-12 relative overflow-hidden">
@@ -424,6 +484,18 @@
               <input type="hidden" name="_template" value="box">
               <input type="text" name="name" placeholder="Name" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
               <input type="email" name="email" placeholder="Email" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
+              <input type="text" name="company" placeholder="Company Name" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
+              <select name="category" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 focus:border-primary focus:outline-none">
+                <option value="" disabled selected>Industry / Category</option>
+                <option value="CRM & Lead Automation">CRM &amp; Lead Automation</option>
+                <option value="Affiliate / Ad-Tech">Affiliate / Ad-Tech</option>
+                <option value="E-commerce">E-commerce</option>
+                <option value="Education">Education</option>
+                <option value="Finance / Family Office">Finance / Family Office</option>
+                <option value="Other">Other</option>
+              </select>
+              <input type="tel" name="phone" placeholder="Phone Number" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
+              <input type="url" name="website" placeholder="Website (optional)" class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
               <textarea name="message" placeholder="Tell us about your growth goals" rows="4" class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm p-4 placeholder:text-slate-500 focus:border-primary focus:outline-none resize-none"></textarea>
               <button type="submit" class="flex w-full cursor-pointer items-center justify-center rounded bg-primary text-white text-base font-bold h-12 px-6 hover:bg-primary/90 transition-colors">
                 Submit

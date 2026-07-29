@@ -17,6 +17,48 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
+// Mobile menu toggle
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileMenuBackdrop = document.getElementById('mobile-menu-backdrop');
+
+function closeMobileMenu() {
+  mobileMenu.classList.add('hidden');
+  mobileMenuBackdrop.classList.add('hidden');
+  mobileMenuButton.setAttribute('aria-expanded', 'false');
+  mobileMenuIcon.textContent = 'menu';
+}
+
+function openMobileMenu() {
+  mobileMenu.classList.remove('hidden');
+  mobileMenuBackdrop.classList.remove('hidden');
+  mobileMenuButton.setAttribute('aria-expanded', 'true');
+  mobileMenuIcon.textContent = 'close';
+}
+
+if (mobileMenuButton && mobileMenu && mobileMenuBackdrop) {
+  mobileMenuButton.addEventListener('click', () => {
+    const isOpen = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+    isOpen ? closeMobileMenu() : openMobileMenu();
+  });
+
+  mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMobileMenu();
+  });
+
+  // Close if resized up to desktop while open
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024) closeMobileMenu();
+  });
+}
+
 // Form submission handler
 const contactForm = document.getElementById('contactForm');
 const formStatus = document.getElementById('formStatus');
