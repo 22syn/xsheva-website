@@ -16,10 +16,10 @@ if (!reduced) {
   lenis = new Lenis({ duration: 1.1, smoothWheel: true });
   lenis.on("scroll", ScrollTrigger.update);
 
-  // Lenis only reports scrolls it performed itself. Anchor jumps, keyboard and
-  // find-in-page move the document without telling it, which left ScrollTrigger
-  // on stale positions and the destination stuck in its pre-animation state.
-  // ScrollTrigger.update is cheap and safe to call redundantly.
+  // Lenis only reports scrolls it performed itself. Anchor jumps are now routed
+  // through it (see initAnchorNav), but keyboard scrolling and find-in-page
+  // still move the document without telling Lenis, which left ScrollTrigger on
+  // stale positions. ScrollTrigger.update is cheap and safe to call redundantly.
   window.addEventListener("scroll", () => ScrollTrigger.update(), { passive: true });
 
   const tick = (time) => lenis.raf(time * 1000);
@@ -93,7 +93,11 @@ export function initClients() {
 
   gsap.timeline({
     defaults: { ease: "power3.out" },
-    scrollTrigger: { trigger: section, start: "top bottom-=60" },
+    // fastScrollEnd: a one-shot (non-scrubbed) trigger can have its start AND end
+    // crossed within a single scroll update if the reader scrolls fast enough —
+    // ScrollTrigger then skips onEnter entirely and the section never reveals.
+    // This forces the skipped state through instead of dropping it.
+    scrollTrigger: { trigger: section, start: "top bottom-=60", fastScrollEnd: true },
   })
     .to(heading, { opacity: 1, y: 0, duration: 0.5 })
     .to(band, { opacity: 1, y: 0, duration: 0.7 }, 0.15);
@@ -153,7 +157,7 @@ export function initArchitectureSection() {
     duration: 1,
     ease: "power4.out",
     stagger: 0.12,
-    scrollTrigger: { trigger: root, start: "top 60%" },
+    scrollTrigger: { trigger: root, start: "top 60%", fastScrollEnd: true },
   });
 
   const STEP_START = 0.35; // where the first step begins on the timeline
@@ -243,6 +247,10 @@ export function initReveals() {
             const maxScroll = document.documentElement.scrollHeight - innerHeight;
             return Math.max(0, Math.min(topAbs - innerHeight * 0.88, maxScroll - 120));
           },
+          // Same fast-scroll-skip risk as every other one-shot trigger here —
+          // worse for this one, since dozens of short per-item triggers sit back
+          // to back and a single fling can cross several of them at once.
+          fastScrollEnd: true,
         },
       });
     });
@@ -308,7 +316,7 @@ export function initStats() {
       duration: 0.9,
       ease: "power4.out",
       stagger: 0.1,
-      scrollTrigger: { trigger: root, start: "top 60%" },
+      scrollTrigger: { trigger: root, start: "top 60%", fastScrollEnd: true },
     });
   }
 }
@@ -328,8 +336,60 @@ function initPageProgress() {
   });
 }
 
-// Anchors are deliberately NOT intercepted — the browser's own jump cannot
-// fail, and header overlap is handled by scroll-padding-top on the document.
+// Anchors ARE intercepted when Lenis is active. The browser's native jump
+// moves the real scrollTop without telling Lenis, which keeps ticking from
+// its last known position — the two clocks disagree, and every pin's
+// transform (computed off Lenis-driven ScrollTrigger progress) gets solved
+// against the wrong scroll value. That's what produced pinned sections
+// rendering thousands of pixels off-screen after clicking a nav link.
+// Routing the jump through lenis.scrollTo keeps a single source of truth.
+// scroll-padding-top still covers the no-JS / reduced-motion fallback path,
+// where Lenis never exists and the browser's native jump is authoritative.
+function initAnchorNav() {
+  if (!lenis) return;
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (e) => {
+      const id = anchor.getAttribute("href");
+      if (!id || id === "#") return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -92 });
+    });
+  });
+}
+
+// Lives here rather than in main.js so a Firebase config failure (main.js's
+// own entry point, see below) can never take primary navigation down with it.
+function initMobileMenu() {
+  const button = document.getElementById("mobile-menu-button");
+  const icon = document.getElementById("mobile-menu-icon");
+  const menu = document.getElementById("mobile-menu");
+  const backdrop = document.getElementById("mobile-menu-backdrop");
+  if (!button || !menu || !backdrop) return;
+
+  const close = () => {
+    menu.classList.add("hidden");
+    backdrop.classList.add("hidden");
+    button.setAttribute("aria-expanded", "false");
+    icon.textContent = "menu";
+  };
+  const open = () => {
+    menu.classList.remove("hidden");
+    backdrop.classList.remove("hidden");
+    button.setAttribute("aria-expanded", "true");
+    icon.textContent = "close";
+  };
+
+  button.addEventListener("click", () => {
+    const isOpen = button.getAttribute("aria-expanded") === "true";
+    isOpen ? close() : open();
+  });
+  backdrop.addEventListener("click", close);
+  menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", close));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  window.addEventListener("resize", () => { if (window.innerWidth >= 1024) close(); });
+}
 
 // This module is its own entry point rather than a main.js import, so that a
 // Firebase config failure cannot take the motion layer down with it.
@@ -341,10 +401,12 @@ function initPageProgress() {
 // size. Measuring after load is the difference between these triggers
 // existing and silently doing nothing.
 function start() {
+  initMobileMenu();
   initHero();
   initClients();
   initArchitectureSection();
   initStats();
+  initAnchorNav();
 
   // The pins above only add their spacing during a refresh. Until that happens
   // the document is several thousand pixels shorter, so anything below them
