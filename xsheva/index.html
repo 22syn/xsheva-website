@@ -6,7 +6,7 @@
   <meta name="description" content="XSHEVA: CRM, automation, and AI agents built around how your business actually runs. Lead automation, CRM integration, AI-driven agents, and compliance consulting for operators who need it working, not theorized.">
   <meta name="keywords" content="CRM systems, business automation, AI agents, lead automation, affiliate marketing, compliance consulting, growth systems, B2B, US market">
   <meta property="og:title" content="XSHEVA: CRM, Automation & AI Agents">
-  <meta property="og:description" content="Stop operational leakage. We build CRM integrations, lead automation, and AI agents tailored to your business — not generic SaaS bolt-ons.">
+  <meta property="og:description" content="CRM integrations, lead automation, and AI agents built around how your business actually runs. Not generic SaaS bolt-ons.">
   <meta property="og:type" content="website">
   <title>XSHEVA: CRM, Automation & AI Agents | Build Your Private Business Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,6 +27,9 @@
         extend: {
           colors: {
             "primary": "#FF6B35",
+            // Text/icon colour for anything sitting ON the orange. White on #FF6B35
+            // is 2.84:1 and fails WCAG AA; the near-black is 6.39:1.
+            "on-primary": "#101622",
             "background-light": "#f6f6f8",
             "background-dark": "#101622",
           },
@@ -196,8 +199,8 @@
             <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#work">Work</a>
             <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#contact-form">Contact</a>
           </nav>
-          <a href="#contact-form" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded bg-primary text-white text-sm font-bold h-10 px-5 hover:bg-primary/90 transition-colors">
-            <span class="truncate">Get Audit</span>
+          <a href="#contact-form" class="flex cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-sm font-bold h-10 px-5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark transition-colors">
+            Book an Audit
           </a>
         </div>
         <button id="mobile-menu-button" class="lg:hidden text-slate-900 dark:text-white" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
@@ -213,8 +216,8 @@
             <a class="text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#trusted-by">Clients</a>
             <a class="text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#work">Work</a>
             <a class="text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#contact-form">Contact</a>
-            <a href="#contact-form" class="flex w-full cursor-pointer items-center justify-center rounded bg-primary text-white text-sm font-bold h-11 px-5 hover:bg-primary/90 transition-colors mt-2">
-              <span class="truncate">Get Audit</span>
+            <a href="#contact-form" class="flex w-full cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-sm font-bold h-11 px-5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark transition-colors mt-2">
+              Book an Audit
             </a>
           </nav>
         </div>
@@ -227,35 +230,52 @@
       </div>
 
       <!-- Hero Section (full viewport width) -->
-      <div data-hero class="relative flex min-h-[640px] sm:min-h-[86vh] w-full flex-col gap-8 items-center justify-center px-4 py-12 lg:px-10 overflow-hidden bg-background-dark">
-        <!-- One warm glow low in the frame. The typography carries this section, not a picture. -->
-        <div data-hero-glow class="absolute inset-0 pointer-events-none will-change-transform" style="background: radial-gradient(65% 55% at 50% 105%, rgba(255,107,53,0.20) 0%, transparent 70%);"></div>
+      <!-- Left-aligned, not centred: at VARIANCE 7 a centred hero is the default to
+           avoid. The glow is pulled to the lower right so the composition leans,
+           and the copy column stops well short of the right edge.
+           Type scale is capped so the headline holds 2 lines and the CTA stays
+           above the fold at 1280x720 — it previously ran to 5 lines and pushed the
+           CTA to y=740 on a 720px viewport. -->
+      <!-- The plain block <section> wrapper is load-bearing. ScrollTrigger copies the
+           pinned element's `display` onto the .pin-spacer it wraps it in, so pinning
+           [data-hero] directly made the spacer a *row* flex container — the hero was
+           then a flex item whose w-full resolved against a shrink-to-fit parent and
+           collapsed to its 48px of padding, wrapping the headline one word per line.
+           Pinning inside a block section is what #architecture and #proof already do. -->
+      <section class="relative w-full">
+      <div data-hero class="relative flex min-h-[640px] sm:min-h-[100svh] w-full flex-col justify-center px-6 py-12 lg:px-16 overflow-hidden bg-background-dark">
+        <div data-hero-glow class="absolute inset-0 pointer-events-none will-change-transform" style="background: radial-gradient(55% 50% at 78% 92%, rgba(255,107,53,0.22) 0%, transparent 70%);"></div>
         <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" style="background-image: url('/stitch/xsheva-p1/noise.svg');"></div>
-        <div class="relative z-10 flex flex-col gap-6 text-center max-w-[860px]">
-          <div data-hero-eyebrow class="inline-flex items-center justify-center gap-2 self-center rounded-full bg-primary/10 border border-primary/20 px-3 py-1">
-            <span class="size-2 rounded-full bg-primary animate-pulse"></span>
-            <span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">CRM, Automation &amp; AI Agents</span>
+
+        <div class="relative z-10 mx-auto w-full max-w-[1280px]">
+          <div class="flex flex-col gap-6 max-w-[760px]">
+            <div data-hero-eyebrow class="inline-flex w-fit items-center rounded-full border border-primary/25 bg-primary/10 px-3 py-1">
+              <span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">CRM, Automation &amp; AI Agents</span>
+            </div>
+            <h1 data-hero-title class="text-white text-4xl font-black leading-[1.04] tracking-[-0.035em] sm:text-5xl lg:text-6xl">
+              We find the revenue<br>
+              <span class="text-primary">you’re losing.</span>
+            </h1>
+            <p data-hero-sub class="text-slate-300 text-lg font-normal leading-relaxed max-w-[600px]">
+              CRM integrations, lead automation, and AI agents built around how your business actually runs. Not generic SaaS bolt-ons.
+            </p>
           </div>
-          <h1 data-hero-title class="text-white text-5xl font-black leading-[1.02] tracking-[-0.035em] sm:text-6xl md:text-7xl">
-            We find the revenue<br>
-            <span class="text-primary">you’re losing.</span>
-          </h1>
-          <p data-hero-sub class="text-slate-300 text-lg font-normal leading-relaxed max-w-[620px] mx-auto">
-            Stop operational leakage. We build CRM integrations, lead automation, and AI agents tailored to how your business actually runs — not generic SaaS bolt-ons.
-          </p>
-        </div>
-        <div data-hero-cta class="relative z-10 flex flex-col sm:flex-row gap-4 mt-4 w-full max-w-[720px] justify-center">
-          <a href="#contact-form" class="flex min-w-[160px] cursor-pointer items-center justify-center rounded bg-primary text-white text-base font-bold h-12 px-6 hover:bg-primary/90 transition-all hover:scale-105 shadow-lg shadow-primary/25">
-            <span class="truncate">Book a Strategic Audit</span>
-          </a>
+          <div data-hero-cta class="mt-9 flex flex-col sm:flex-row gap-4 items-start">
+            <a href="#contact-form" class="flex cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-base font-bold h-12 px-7 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark transition-colors">
+              Book an Audit
+            </a>
+          </div>
         </div>
       </div>
+      </section>
 
       <!-- Trusted By -->
       <section id="trusted-by" aria-labelledby="trusted-by-heading" class="w-full border-b border-slate-200 dark:border-[#282e39] bg-background-light dark:bg-background-dark py-12">
         <div class="mx-auto max-w-[1280px] px-6 lg:px-16">
-          <h2 id="trusted-by-heading" data-clients-heading class="text-center text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-8">
-            Trusted By
+          <!-- Sentence case, normal tracking: the page's eyebrow budget is spent on
+               the hero, architecture and work sections. -->
+          <h2 id="trusted-by-heading" data-clients-heading class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-8">
+            Trusted by
           </h2>
           <div data-clients-band class="logo-marquee">
             <div class="logo-marquee__inner">
@@ -317,7 +337,7 @@
 
       <!-- Growth Architecture — pinned, scroll-scrubbed -->
       <section id="architecture" class="relative w-full">
-        <div data-arch-pin class="relative h-screen w-full overflow-hidden bg-background-dark">
+        <div data-arch-pin class="relative h-[100svh] w-full overflow-hidden bg-background-dark">
           <div data-arch-image class="absolute inset-0 will-change-transform">
             <img src="/img/architecture-stair.jpg" alt="" aria-hidden="true" class="h-full w-full object-cover">
           </div>
@@ -328,8 +348,7 @@
           <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" style="background-image: url('/stitch/xsheva-p1/noise.svg');"></div>
 
           <div class="relative z-10 mx-auto flex h-full max-w-[1280px] flex-col justify-center px-6 lg:px-16">
-            <div class="inline-flex items-center gap-2 self-start rounded-full border border-primary/30 bg-primary/10 px-3 py-1">
-              <span class="size-2 rounded-full bg-primary"></span>
+            <div class="inline-flex w-fit items-center self-start rounded-full border border-primary/25 bg-primary/10 px-3 py-1">
               <span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">Growth Architecture</span>
             </div>
 
@@ -337,26 +356,27 @@
               Mathematical precision.<br>Not marketing.
             </h2>
 
-            <div class="mt-14 grid gap-8 md:grid-cols-3 md:gap-10">
-              <div data-step>
+            <!-- An ascending stair, not a row of equal columns. The offsets carry the
+                 sequence, which is why the steps no longer need "Phase 01/02/03"
+                 labels on them. It also gives this section a layout family of its
+                 own — the page previously ran the same 3-up grid four times. -->
+            <ol class="mt-14 grid list-none gap-10 md:grid-cols-3 md:items-end md:gap-8">
+              <li data-step class="md:mb-0">
                 <div data-rule class="h-px w-full origin-left bg-primary"></div>
-                <span class="mt-5 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Phase 01</span>
-                <h3 class="mt-2 text-white text-xl font-bold">Diagnosis &amp; Audit</h3>
+                <h3 class="mt-5 text-white text-xl font-bold">Diagnosis &amp; Audit</h3>
                 <p class="mt-2 max-w-[34ch] text-sm leading-relaxed text-slate-300">Map the operational landscape. Find where revenue leaks.</p>
-              </div>
-              <div data-step>
+              </li>
+              <li data-step class="md:mb-14">
                 <div data-rule class="h-px w-full origin-left bg-primary"></div>
-                <span class="mt-5 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Phase 02</span>
-                <h3 class="mt-2 text-white text-xl font-bold">Custom AI Architecture</h3>
+                <h3 class="mt-5 text-white text-xl font-bold">Custom AI Architecture</h3>
                 <p class="mt-2 max-w-[34ch] text-sm leading-relaxed text-slate-300">Built to your business DNA. Never a generic stack.</p>
-              </div>
-              <div data-step>
+              </li>
+              <li data-step class="md:mb-28">
                 <div data-rule class="h-px w-full origin-left bg-primary"></div>
-                <span class="mt-5 block text-xs font-bold uppercase tracking-[0.2em] text-primary">Phase 03</span>
-                <h3 class="mt-2 text-white text-xl font-bold">Growth &amp; Performance</h3>
+                <h3 class="mt-5 text-white text-xl font-bold">Growth &amp; Performance</h3>
                 <p class="mt-2 max-w-[34ch] text-sm leading-relaxed text-slate-300">Scale revenue, then close the loop continuously.</p>
-              </div>
-            </div>
+              </li>
+            </ol>
 
             <div class="mt-16 h-px w-full bg-white/10">
               <div data-arch-progress class="h-full w-full origin-left bg-primary"></div>
@@ -367,31 +387,35 @@
 
       <!-- The Numbers — pinned, counters driven by scroll position -->
       <section id="proof" data-stats class="relative w-full">
-        <div data-stats-pin class="relative flex h-screen w-full items-center overflow-hidden bg-background-dark">
+        <div data-stats-pin class="relative flex h-[100svh] w-full items-center overflow-hidden bg-background-dark">
           <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(55% 65% at 12% 50%, rgba(255,107,53,0.16) 0%, transparent 70%);"></div>
           <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" style="background-image: url('/stitch/xsheva-p1/noise.svg');"></div>
 
           <div class="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-16">
-            <span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">The Numbers</span>
-            <h2 data-stats-heading class="mt-6 max-w-[820px] text-white text-3xl font-black leading-[1.08] tracking-[-0.03em] sm:text-5xl">
+            <h2 data-stats-heading class="max-w-[820px] text-white text-3xl font-black leading-[1.08] tracking-[-0.03em] sm:text-5xl">
               What the architecture returns.
             </h2>
 
-            <div class="mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
+            <!-- Asymmetric: the headline figure is set dominant and the supporting
+                 two stack beside it, so this reads differently from the stair above
+                 and the case-study rows below. -->
+            <div class="mt-14 grid gap-10 md:grid-cols-[1.35fr_1fr] md:gap-16">
               <div data-stat data-stat-to="2" data-stat-prefix="$" data-stat-suffix="M+" data-stat-decimals="0">
                 <div data-stat-rule class="h-px w-full origin-left bg-primary"></div>
-                <p class="mt-6 text-white text-5xl lg:text-6xl font-black tracking-[-0.04em]" data-stat-num>$0M+</p>
-                <p class="mt-3 text-slate-400 text-xs font-bold uppercase tracking-[0.18em]">Revenue Recovered</p>
+                <p class="mt-6 text-white text-6xl lg:text-8xl font-black tracking-[-0.045em]" data-stat-num>$0M+</p>
+                <p class="mt-4 text-slate-300 text-base">Revenue recovered</p>
               </div>
-              <div data-stat data-stat-to="40" data-stat-prefix="" data-stat-suffix="%" data-stat-decimals="0">
-                <div data-stat-rule class="h-px w-full origin-left bg-primary"></div>
-                <p class="mt-6 text-white text-5xl lg:text-6xl font-black tracking-[-0.04em]" data-stat-num>0%</p>
-                <p class="mt-3 text-slate-400 text-xs font-bold uppercase tracking-[0.18em]">Efficiency Gain</p>
-              </div>
-              <div data-stat data-stat-to="3.5" data-stat-prefix="" data-stat-suffix="x" data-stat-decimals="1">
-                <div data-stat-rule class="h-px w-full origin-left bg-primary"></div>
-                <p class="mt-6 text-white text-5xl lg:text-6xl font-black tracking-[-0.04em]" data-stat-num>0.0x</p>
-                <p class="mt-3 text-slate-400 text-xs font-bold uppercase tracking-[0.18em]">ROI Average</p>
+              <div class="flex flex-col gap-10 md:justify-end">
+                <div data-stat data-stat-to="40" data-stat-prefix="" data-stat-suffix="%" data-stat-decimals="0">
+                  <div data-stat-rule class="h-px w-full origin-left bg-primary/50"></div>
+                  <p class="mt-5 text-white text-4xl lg:text-5xl font-black tracking-[-0.04em]" data-stat-num>0%</p>
+                  <p class="mt-2 text-slate-400 text-sm">Efficiency gain</p>
+                </div>
+                <div data-stat data-stat-to="3.5" data-stat-prefix="" data-stat-suffix="x" data-stat-decimals="1">
+                  <div data-stat-rule class="h-px w-full origin-left bg-primary/50"></div>
+                  <p class="mt-5 text-white text-4xl lg:text-5xl font-black tracking-[-0.04em]" data-stat-num>0.0x</p>
+                  <p class="mt-2 text-slate-400 text-sm">Average ROI</p>
+                </div>
               </div>
             </div>
           </div>
@@ -404,64 +428,48 @@
       <div class="w-full py-5 px-4 lg:px-40">
         <div class="layout-content-container mx-auto flex flex-col max-w-[960px] w-full">
           <!-- Strategic Pillars Section -->
-          <div id="methodology" data-reveal class="flex flex-col gap-10 py-4 @container scroll-mt-8">
-            <div data-seq-item class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-slate-200 dark:border-[#282e39] pb-6">
-              <div class="flex flex-col gap-3 max-w-[600px]">
-                <h2 class="text-primary text-sm font-bold uppercase tracking-wider">Our Methodology</h2>
-                <h3 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight md:text-4xl">
-                  Systems Built Around How You Actually Run
-                </h3>
-                <p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed">
-                  We bridge the gap between business strategy and working operational systems through three core pillars.
+          <!-- This section used to restate the three phases from #architecture word
+               for word, as a second full section. It now carries what we actually
+               build, which is also where the page's service keywords live.
+               Hairline-divided, no card boxes: elevation isn't communicating
+               anything here, so the grid is grouped with rules instead. -->
+          <div id="methodology" data-reveal class="flex flex-col gap-10 py-4 scroll-mt-8">
+            <div data-seq-item class="flex flex-col gap-3 max-w-[640px]">
+              <h2 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight md:text-4xl">
+                Systems built around how you actually run
+              </h2>
+              <p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed">
+                Four things we build, and the operational gap each one closes.
+              </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 border-t border-slate-200 dark:border-[#282e39]">
+              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-[#282e39] sm:border-r py-8 sm:pr-10">
+                <span class="material-symbols-outlined text-primary text-[26px]" aria-hidden="true">hub</span>
+                <h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">CRM Integration</h3>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed max-w-[42ch]">
+                  Your CRM wired to the tools that feed it, so there is one record per customer and nobody retypes anything.
                 </p>
               </div>
-              <a href="#contact-form" class="flex items-center gap-2 text-primary font-bold hover:text-primary/80 transition-colors whitespace-nowrap">
-                Explore Services
-                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-              </a>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-[box-shadow,border-color] duration-300">
-                <div class="size-12 flex items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                  <span class="material-symbols-outlined text-[28px]">search</span>
-                </div>
-                <div class="flex flex-col gap-2 mt-2">
-                  <h4 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Diagnosis &amp; Audit</h4>
-                  <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
-                    Identify inefficiencies and data silos. We map your entire operational landscape to prepare your infrastructure for true intelligence.
-                  </p>
-                </div>
-                <div class="mt-auto pt-4">
-                  <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest group-hover:text-primary transition-colors">Phase 01</span>
-                </div>
+              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-[#282e39] py-8 sm:pl-10">
+                <span class="material-symbols-outlined text-primary text-[26px]" aria-hidden="true">bolt</span>
+                <h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Lead Automation</h3>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed max-w-[42ch]">
+                  Capture, routing and CRM sync running end to end, with conversions posted back so ad platforms optimize on real outcomes.
+                </p>
               </div>
-              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-[box-shadow,border-color] duration-300">
-                <div class="size-12 flex items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                  <span class="material-symbols-outlined text-[28px]">memory</span>
-                </div>
-                <div class="flex flex-col gap-2 mt-2">
-                  <h4 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Automation, CRM &amp; AI Agents</h4>
-                  <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
-                    Build lead automation, CRM integrations, and AI-driven agents tailored to your specific business — not generic SaaS bolt-ons.
-                  </p>
-                </div>
-                <div class="mt-auto pt-4">
-                  <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest group-hover:text-primary transition-colors">Phase 02</span>
-                </div>
+              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-[#282e39] sm:border-r py-8 sm:pr-10">
+                <span class="material-symbols-outlined text-primary text-[26px]" aria-hidden="true">smart_toy</span>
+                <h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">AI Agents</h3>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed max-w-[42ch]">
+                  Agents that handle the repetitive operational work: qualifying, summarizing, escalating. Built on your data, not a generic model.
+                </p>
               </div>
-              <div data-seq-item class="group flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-none hover:border-primary transition-[box-shadow,border-color] duration-300">
-                <div class="size-12 flex items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                  <span class="material-symbols-outlined text-[28px]">monitoring</span>
-                </div>
-                <div class="flex flex-col gap-2 mt-2">
-                  <h4 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Growth &amp; Performance</h4>
-                  <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed">
-                    Scale operations and revenue. We implement automated performance tracking and continuous optimization loops.
-                  </p>
-                </div>
-                <div class="mt-auto pt-4">
-                  <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest group-hover:text-primary transition-colors">Phase 03</span>
-                </div>
+              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-[#282e39] py-8 sm:pl-10">
+                <span class="material-symbols-outlined text-primary text-[26px]" aria-hidden="true">verified_user</span>
+                <h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Compliance &amp; Onboarding</h3>
+                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed max-w-[42ch]">
+                  Certification and partner onboarding run as one documented process, from screening through to approval.
+                </p>
               </div>
             </div>
           </div>
@@ -470,124 +478,131 @@
           <!-- Selected Work — case studies in Xsheva's own voice. No client quotes here
                unless they are real and approved in writing by the client. -->
           <div id="work" data-reveal class="flex flex-col gap-10 py-4 mt-4 scroll-mt-8">
-            <div data-seq-item class="flex flex-col gap-3 max-w-[600px] border-b border-slate-200 dark:border-[#282e39] pb-6">
-              <h2 class="text-primary text-sm font-bold uppercase tracking-wider">Selected Work</h2>
-              <h3 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight md:text-4xl">
-                Systems We've Shipped
-              </h3>
+            <div data-seq-item class="flex flex-col gap-3 max-w-[600px]">
+              <p class="text-primary text-xs font-bold uppercase tracking-[0.2em]">Selected Work</p>
+              <h2 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight md:text-4xl">
+                Systems we've shipped
+              </h2>
               <p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed">
-                Three builds — what they replaced, and what they return.
+                Three builds: what they replaced, and what they return.
               </p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div data-seq-item class="flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
-                <div class="md:min-h-[4.5rem]">
-                  <p class="text-primary text-[10px] font-bold uppercase tracking-[0.18em]">Lead Infrastructure</p>
-                  <h4 class="mt-2 text-slate-900 dark:text-white text-xl font-bold leading-tight">Consul House</h4>
-                </div>
-                <p class="text-slate-600 dark:text-slate-300 text-sm font-normal leading-relaxed md:min-h-[6.5rem]">
-                  Leads leaked between capture and CRM, and Meta was optimizing against clicks — nothing told it which leads actually closed.
-                </p>
-                <div class="grid grid-cols-2 gap-3">
-                  <div class="rounded-lg border border-primary/20 bg-primary/5 dark:bg-primary/10 p-3 min-h-[6rem]">
-                    <p class="text-primary text-2xl font-black leading-none tracking-[-0.03em]">0</p>
-                    <p class="mt-2 text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-[0.12em] leading-tight">Manual handoffs</p>
+            <!-- Stacked full-width rows, not a 3-up card grid. Each case study is a
+                 split row: the client and its outcome on the left, the build on the
+                 right. This also retires the min-h-[4.5rem]/[6.5rem]/[6rem] props
+                 that only existed to force three unequal cards onto a shared
+                 baseline, and the nested boxes-inside-a-box that came with them. -->
+            <div class="flex flex-col gap-6">
+              <article data-seq-item class="grid gap-8 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-8">
+                <div>
+                  <p class="text-primary text-sm font-medium">Lead Infrastructure</p>
+                  <h3 class="mt-1 text-slate-900 dark:text-white text-2xl font-bold leading-tight">Consul House</h3>
+                  <p class="mt-4 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                    Leads leaked between capture and CRM, and Meta was optimizing against clicks. Nothing told it which leads actually closed.
+                  </p>
+                  <div class="mt-7 flex gap-10">
+                    <div>
+                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">0</p>
+                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Manual handoffs</p>
+                    </div>
+                    <div>
+                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">3</p>
+                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Teams on one live feed</p>
+                    </div>
                   </div>
-                  <div class="rounded-lg border border-primary/20 bg-primary/5 dark:bg-primary/10 p-3 min-h-[6rem]">
-                    <p class="text-primary text-2xl font-black leading-none tracking-[-0.03em]">3</p>
-                    <p class="mt-2 text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-[0.12em] leading-tight">Teams on one live feed</p>
-                  </div>
                 </div>
-                <div class="flex-1 rounded-lg border border-slate-200 dark:border-[#282e39] bg-slate-50 dark:bg-[#161920] p-4">
-                  <p class="text-slate-400 dark:text-slate-500 text-[10px] font-bold uppercase tracking-[0.18em]">What we built</p>
-                  <ul class="mt-3 flex flex-col gap-2">
-                    <li class="flex gap-2 text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[16px] leading-[18px] shrink-0" aria-hidden="true">check</span>
-                      <span>Lead automation end to end — capture, routing and CRM sync with no manual step in between</span>
+                <div class="border-t border-slate-200 dark:border-[#282e39] pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
+                  <p class="text-slate-900 dark:text-white text-sm font-semibold">What we built</p>
+                  <ul class="mt-4 flex flex-col gap-3">
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                      <span>Lead automation end to end: capture, routing and CRM sync with no manual step in between</span>
                     </li>
-                    <li class="flex gap-2 text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[16px] leading-[18px] shrink-0" aria-hidden="true">check</span>
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
                       <span>Conversions posted back to Meta automatically, so the algorithm optimizes on real outcomes</span>
                     </li>
-                    <li class="flex gap-2 text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[16px] leading-[18px] shrink-0" aria-hidden="true">check</span>
-                      <span>Shared reporting for sales and customer success, closing the loop on lead quality and experience</span>
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                      <span>Shared reporting for sales and customer success, closing the loop on lead quality</span>
                     </li>
                   </ul>
                 </div>
-              </div>
-              <div data-seq-item class="flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
-                <div class="md:min-h-[4.5rem]">
-                  <p class="text-primary text-[10px] font-bold uppercase tracking-[0.18em]">Compliance &amp; Onboarding</p>
-                  <h4 class="mt-2 text-slate-900 dark:text-white text-xl font-bold leading-tight">Media.net</h4>
-                </div>
-                <p class="text-slate-600 dark:text-slate-300 text-sm font-normal leading-relaxed md:min-h-[6.5rem]">
-                  Going live in the weight-loss vertical required LegitScript certification, vetted partners and a compliance trail — none of which existed yet.
-                </p>
-                <div class="grid grid-cols-2 gap-3">
-                  <div class="rounded-lg border border-primary/20 bg-primary/5 dark:bg-primary/10 p-3 min-h-[6rem]">
-                    <p class="text-primary text-2xl font-black leading-none tracking-[-0.03em]">2</p>
-                    <p class="mt-2 text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-[0.12em] leading-tight">LegitScript certifications</p>
+              </article>
+
+              <article data-seq-item class="grid gap-8 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-8">
+                <div>
+                  <p class="text-primary text-sm font-medium">Compliance &amp; Onboarding</p>
+                  <h3 class="mt-1 text-slate-900 dark:text-white text-2xl font-bold leading-tight">Media.net</h3>
+                  <p class="mt-4 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                    Going live in the weight-loss vertical required LegitScript certification, vetted partners and a compliance trail. None of it existed yet.
+                  </p>
+                  <div class="mt-7 flex gap-10">
+                    <div>
+                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">2</p>
+                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">LegitScript certifications</p>
+                    </div>
+                    <div>
+                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">1st</p>
+                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Cycle approval, both times</p>
+                    </div>
                   </div>
-                  <div class="rounded-lg border border-primary/20 bg-primary/5 dark:bg-primary/10 p-3 min-h-[6rem]">
-                    <p class="text-primary text-2xl font-black leading-none tracking-[-0.03em]">1st</p>
-                    <p class="mt-2 text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-[0.12em] leading-tight">Cycle approval, both times</p>
-                  </div>
                 </div>
-                <div class="flex-1 rounded-lg border border-slate-200 dark:border-[#282e39] bg-slate-50 dark:bg-[#161920] p-4">
-                  <p class="text-slate-400 dark:text-slate-500 text-[10px] font-bold uppercase tracking-[0.18em]">What we built</p>
-                  <ul class="mt-3 flex flex-col gap-2">
-                    <li class="flex gap-2 text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[16px] leading-[18px] shrink-0" aria-hidden="true">check</span>
-                      <span>The LegitScript certification process, run end to end — twice, cleared first cycle both times</span>
+                <div class="border-t border-slate-200 dark:border-[#282e39] pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
+                  <p class="text-slate-900 dark:text-white text-sm font-semibold">What we built</p>
+                  <ul class="mt-4 flex flex-col gap-3">
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                      <span>The LegitScript certification process run end to end, twice, cleared first cycle both times</span>
                     </li>
-                    <li class="flex gap-2 text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[16px] leading-[18px] shrink-0" aria-hidden="true">check</span>
-                      <span>Partner onboarding — screening, documentation and approval as one flow</span>
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                      <span>Partner onboarding: screening, documentation and approval as one flow</span>
                     </li>
-                    <li class="flex gap-2 text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[16px] leading-[18px] shrink-0" aria-hidden="true">check</span>
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
                       <span>Compliance clearance to go live in the weight-loss vertical</span>
                     </li>
                   </ul>
                 </div>
-              </div>
-              <div data-seq-item class="flex flex-col gap-4 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6">
-                <div class="md:min-h-[4.5rem]">
-                  <p class="text-primary text-[10px] font-bold uppercase tracking-[0.18em]">No-Code Operations</p>
-                  <h4 class="mt-2 text-slate-900 dark:text-white text-xl font-bold leading-tight">Ruppin Academic Center</h4>
-                </div>
-                <p class="text-slate-600 dark:text-slate-300 text-sm font-normal leading-relaxed md:min-h-[6.5rem]">
-                  Tracking lived in spreadsheets, and every change to it needed a developer the college didn't have on staff.
-                </p>
-                <div class="grid grid-cols-2 gap-3">
-                  <div class="rounded-lg border border-primary/20 bg-primary/5 dark:bg-primary/10 p-3 min-h-[6rem]">
-                    <p class="text-primary text-2xl font-black leading-none tracking-[-0.03em]">0</p>
-                    <p class="mt-2 text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-[0.12em] leading-tight">Developer hours</p>
+              </article>
+
+              <article data-seq-item class="grid gap-8 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-8">
+                <div>
+                  <p class="text-primary text-sm font-medium">No-Code Operations</p>
+                  <h3 class="mt-1 text-slate-900 dark:text-white text-2xl font-bold leading-tight">Ruppin Academic Center</h3>
+                  <p class="mt-4 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                    Tracking lived in spreadsheets, and every change to it needed a developer the college didn't have on staff.
+                  </p>
+                  <div class="mt-7 flex gap-10">
+                    <div>
+                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">0</p>
+                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Developer hours</p>
+                    </div>
+                    <div>
+                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">1yr+</p>
+                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Running unattended</p>
+                    </div>
                   </div>
-                  <div class="rounded-lg border border-primary/20 bg-primary/5 dark:bg-primary/10 p-3 min-h-[6rem]">
-                    <p class="text-primary text-2xl font-black leading-none tracking-[-0.03em]">1yr+</p>
-                    <p class="mt-2 text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-[0.12em] leading-tight">Running unattended</p>
-                  </div>
                 </div>
-                <div class="flex-1 rounded-lg border border-slate-200 dark:border-[#282e39] bg-slate-50 dark:bg-[#161920] p-4">
-                  <p class="text-slate-400 dark:text-slate-500 text-[10px] font-bold uppercase tracking-[0.18em]">What we built</p>
-                  <ul class="mt-3 flex flex-col gap-2">
-                    <li class="flex gap-2 text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[16px] leading-[18px] shrink-0" aria-hidden="true">check</span>
+                <div class="border-t border-slate-200 dark:border-[#282e39] pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
+                  <p class="text-slate-900 dark:text-white text-sm font-semibold">What we built</p>
+                  <ul class="mt-4 flex flex-col gap-3">
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
                       <span>A no-code tracking dashboard the whole team can operate</span>
                     </li>
-                    <li class="flex gap-2 text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[16px] leading-[18px] shrink-0" aria-hidden="true">check</span>
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
                       <span>Fields, views and reports the staff change on the fly</span>
                     </li>
-                    <li class="flex gap-2 text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[16px] leading-[18px] shrink-0" aria-hidden="true">check</span>
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
                       <span>No developer in the loop to keep it running</span>
                     </li>
                   </ul>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
 
@@ -602,55 +617,100 @@
                     Join the businesses that are done duct-taping their operations together. Limited audit slots available.
                   </p>
                 </div>
+                <!-- Same label as the nav and hero. The page previously offered
+                     "Get Audit", "Book a Strategic Audit", "Explore Services" and
+                     "Start Assessment" for one destination. -->
                 <div data-seq-item class="flex flex-col gap-3 min-w-[200px]">
-                  <a href="#contact-form" class="flex w-full cursor-pointer items-center justify-center rounded bg-primary text-white text-base font-bold h-12 px-6 hover:bg-primary/90 transition-colors">
-                    Start Assessment
+                  <a href="#contact-form" class="flex w-full cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-base font-bold h-12 px-6 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#151923] transition-colors">
+                    Book an Audit
                   </a>
-                  <span class="text-slate-500 text-xs text-center">No commitment required.</span>
+                  <span class="text-slate-400 text-xs text-center">No commitment required.</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Contact Form -->
-          <div id="contact-form" data-reveal class="rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-8 md:p-12 mb-12 scroll-mt-8 flex flex-col items-center text-center">
-            <h3 data-seq-item class="text-slate-900 dark:text-white text-xl font-bold mb-4">Get in touch</h3>
-            <form action="https://formsubmit.co/64aa6b4280c5bbac22078d744ce37881" method="POST" class="flex flex-col gap-4 w-full max-w-md">
-              <input type="hidden" name="_subject" value="New XSHEVA Contact - Strategic Assessment">
-              <input type="hidden" name="_captcha" value="false">
-              <input type="hidden" name="_template" value="box">
-              <input data-seq-item type="text" name="name" placeholder="Name" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
-              <input data-seq-item type="email" name="email" placeholder="Email" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
-              <input data-seq-item type="text" name="company" placeholder="Company Name" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
-              <select data-seq-item name="category" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 focus:border-primary focus:outline-none">
-                <option value="" disabled selected>Industry / Category</option>
-                <option value="Real Estate">Real Estate</option>
-                <option value="Healthcare & Wellness">Healthcare &amp; Wellness</option>
-                <option value="Hospitality & Events">Hospitality &amp; Events</option>
-                <option value="Retail & E-commerce">Retail &amp; E-commerce</option>
-                <option value="Financial Services">Financial Services</option>
-                <option value="Legal Services">Legal Services</option>
-                <option value="Marketing & Advertising">Marketing &amp; Advertising</option>
-                <option value="Technology / SaaS">Technology / SaaS</option>
-                <option value="Manufacturing">Manufacturing</option>
-                <option value="Construction">Construction</option>
-                <option value="Automotive">Automotive</option>
-                <option value="Education">Education</option>
-                <option value="Food & Beverage">Food &amp; Beverage</option>
-                <option value="Media & Entertainment">Media &amp; Entertainment</option>
-                <option value="Non-Profit">Non-Profit</option>
-                <option value="Professional Services">Professional Services</option>
-                <option value="Transportation & Logistics">Transportation &amp; Logistics</option>
-                <option value="Insurance">Insurance</option>
-                <option value="Other">Other</option>
-              </select>
-              <input data-seq-item type="tel" name="phone" placeholder="Phone Number" required class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
-              <input data-seq-item type="url" name="website" placeholder="Website (optional)" class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-10 px-4 placeholder:text-slate-500 focus:border-primary focus:outline-none">
-              <textarea data-seq-item name="message" placeholder="Tell us about your growth goals" rows="4" class="rounded border border-slate-200 dark:border-[#282e39] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm p-4 placeholder:text-slate-500 focus:border-primary focus:outline-none resize-none"></textarea>
-              <button data-seq-item type="submit" class="flex w-full cursor-pointer items-center justify-center rounded bg-primary text-white text-base font-bold h-12 px-6 hover:bg-primary/90 transition-colors">
-                Submit
-              </button>
-            </form>
+          <!-- Every field now carries a real <label>: the form previously ran on
+               placeholders alone, which vanish on focus and are not announced as
+               names by screen readers. Inputs are 44px tall to clear the minimum
+               touch target, and focus is a visible ring rather than a border tint
+               behind focus:outline-none. -->
+          <div id="contact-form" data-reveal class="rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-8 md:p-12 mb-12 scroll-mt-8">
+            <div class="mx-auto w-full max-w-md">
+              <h2 data-seq-item class="text-slate-900 dark:text-white text-2xl font-bold">Book an audit</h2>
+              <p data-seq-item class="mt-2 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                Tell us how you run today. We'll come back with where the leaks are.
+              </p>
+              <form action="https://formsubmit.co/64aa6b4280c5bbac22078d744ce37881" method="POST" class="mt-8 flex flex-col gap-5">
+                <input type="hidden" name="_subject" value="New XSHEVA Contact - Strategic Assessment">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="box">
+
+                <div data-seq-item class="flex flex-col gap-2">
+                  <label for="cf-name" class="text-slate-700 dark:text-slate-200 text-sm font-medium">Name</label>
+                  <input id="cf-name" type="text" name="name" required autocomplete="name" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                </div>
+
+                <div data-seq-item class="flex flex-col gap-2">
+                  <label for="cf-email" class="text-slate-700 dark:text-slate-200 text-sm font-medium">Email</label>
+                  <input id="cf-email" type="email" name="email" required autocomplete="email" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                </div>
+
+                <div data-seq-item class="flex flex-col gap-2">
+                  <label for="cf-company" class="text-slate-700 dark:text-slate-200 text-sm font-medium">Company</label>
+                  <input id="cf-company" type="text" name="company" required autocomplete="organization" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                </div>
+
+                <div data-seq-item class="flex flex-col gap-2">
+                  <label for="cf-category" class="text-slate-700 dark:text-slate-200 text-sm font-medium">Industry</label>
+                  <select id="cf-category" name="category" required class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                    <option value="" disabled selected>Select an industry</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Healthcare &amp; Wellness">Healthcare &amp; Wellness</option>
+                    <option value="Hospitality &amp; Events">Hospitality &amp; Events</option>
+                    <option value="Retail &amp; E-commerce">Retail &amp; E-commerce</option>
+                    <option value="Financial Services">Financial Services</option>
+                    <option value="Legal Services">Legal Services</option>
+                    <option value="Marketing &amp; Advertising">Marketing &amp; Advertising</option>
+                    <option value="Technology / SaaS">Technology / SaaS</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="Construction">Construction</option>
+                    <option value="Automotive">Automotive</option>
+                    <option value="Education">Education</option>
+                    <option value="Food &amp; Beverage">Food &amp; Beverage</option>
+                    <option value="Media &amp; Entertainment">Media &amp; Entertainment</option>
+                    <option value="Non-Profit">Non-Profit</option>
+                    <option value="Professional Services">Professional Services</option>
+                    <option value="Transportation &amp; Logistics">Transportation &amp; Logistics</option>
+                    <option value="Insurance">Insurance</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div data-seq-item class="flex flex-col gap-2">
+                  <label for="cf-phone" class="text-slate-700 dark:text-slate-200 text-sm font-medium">Phone</label>
+                  <input id="cf-phone" type="tel" name="phone" required autocomplete="tel" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                </div>
+
+                <div data-seq-item class="flex flex-col gap-2">
+                  <label for="cf-website" class="text-slate-700 dark:text-slate-200 text-sm font-medium">
+                    Website <span class="text-slate-500 dark:text-slate-400 font-normal">(optional)</span>
+                  </label>
+                  <input id="cf-website" type="url" name="website" autocomplete="url" placeholder="https://" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                </div>
+
+                <div data-seq-item class="flex flex-col gap-2">
+                  <label for="cf-message" class="text-slate-700 dark:text-slate-200 text-sm font-medium">What are you trying to fix?</label>
+                  <textarea id="cf-message" name="message" rows="4" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm p-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60 resize-none"></textarea>
+                  <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">Where things break today is more useful than a wish list.</p>
+                </div>
+
+                <button data-seq-item type="submit" class="mt-1 flex w-full cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-base font-bold h-12 px-6 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#1c1f27] transition-colors">
+                  Send Request
+                </button>
+              </form>
+            </div>
           </div>
 
           <!-- Footer -->

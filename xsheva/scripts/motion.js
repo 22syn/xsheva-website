@@ -47,19 +47,32 @@ export function initHero() {
   // `mask: "lines"` is what makes the reveal work: it wraps each line in its own
   // clipping parent, so the line can travel while the edge stays put. Without it
   // the line clips itself and simply appears.
-  const split = new SplitText(title, {
-    type: "lines",
-    mask: "lines",
-    linesClass: "line",
-  });
-
   gsap.set([eyebrow, sub, cta], { opacity: 0, y: 16 });
 
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
   tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.5 }, 0)
-    .from(split.lines, { yPercent: 110, duration: 0.9, stagger: 0.1, ease: "power4.out" }, 0.12)
     .to(sub, { opacity: 1, y: 0, duration: 0.6 }, 0.55)
     .to(cta, { opacity: 1, y: 0, duration: 0.6 }, 0.68);
+
+  // autoSplit + onSplit rather than a one-shot split: SplitText bakes the line
+  // breaks it measures at split time into real elements and never revisits them,
+  // so a resize or a phone rotation left the headline wrapped for the old width
+  // (one word per line at the extreme). Returning the tween from onSplit lets
+  // GSAP revert it cleanly before each re-split.
+  SplitText.create(title, {
+    type: "lines",
+    mask: "lines",
+    linesClass: "line",
+    autoSplit: true,
+    onSplit: (self) =>
+      gsap.from(self.lines, {
+        yPercent: 110,
+        duration: 0.9,
+        stagger: 0.1,
+        ease: "power4.out",
+        delay: 0.12,
+      }),
+  });
 
   // The hero can't be revealed by scroll — it is already on screen at scroll 0.
   // So it gets a scrubbed *exit* instead: pinned while the copy lifts away and
@@ -147,17 +160,19 @@ export function initArchitectureSection() {
 
   // Heading reveal fires on entry rather than on scrub — a headline that
   // assembles at the reader's scroll speed reads as broken, not deliberate.
-  const split = new SplitText(heading, {
+  SplitText.create(heading, {
     type: "lines",
     mask: "lines",
     linesClass: "line",
-  });
-  gsap.from(split.lines, {
-    yPercent: 110,
-    duration: 1,
-    ease: "power4.out",
-    stagger: 0.12,
-    scrollTrigger: { trigger: root, start: "top 60%", fastScrollEnd: true },
+    autoSplit: true,
+    onSplit: (self) =>
+      gsap.from(self.lines, {
+        yPercent: 110,
+        duration: 1,
+        ease: "power4.out",
+        stagger: 0.12,
+        scrollTrigger: { trigger: root, start: "top 60%", fastScrollEnd: true },
+      }),
   });
 
   const STEP_START = 0.35; // where the first step begins on the timeline
@@ -310,13 +325,19 @@ export function initStats() {
   });
 
   if (heading) {
-    const split = new SplitText(heading, { type: "lines", mask: "lines", linesClass: "line" });
-    gsap.from(split.lines, {
-      yPercent: 110,
-      duration: 0.9,
-      ease: "power4.out",
-      stagger: 0.1,
-      scrollTrigger: { trigger: root, start: "top 60%", fastScrollEnd: true },
+    SplitText.create(heading, {
+      type: "lines",
+      mask: "lines",
+      linesClass: "line",
+      autoSplit: true,
+      onSplit: (self) =>
+        gsap.from(self.lines, {
+          yPercent: 110,
+          duration: 0.9,
+          ease: "power4.out",
+          stagger: 0.1,
+          scrollTrigger: { trigger: root, start: "top 60%", fastScrollEnd: true },
+        }),
     });
   }
 }
