@@ -193,11 +193,14 @@
           </a>
         </div>
         <div class="hidden lg:flex flex-1 justify-end gap-8 items-center">
+          <!-- min-h-10 matches the h-10 CTA beside them in the same row: comfortably
+               clears the 24px WCAG AA target-size minimum (they measured 20px)
+               without the mismatch min-h-11 would create against a 40px sibling. -->
           <nav class="flex items-center gap-8">
-            <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#methodology">Services</a>
-            <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#trusted-by">Clients</a>
-            <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#work">Work</a>
-            <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#contact-form">Contact</a>
+            <a class="flex min-h-10 items-center text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#methodology">Services</a>
+            <a class="flex min-h-10 items-center text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#trusted-by">Clients</a>
+            <a class="flex min-h-10 items-center text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#work">Work</a>
+            <a class="flex min-h-10 items-center text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#contact-form">Contact</a>
           </nav>
           <a href="#contact-form" class="flex cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-sm font-bold h-10 px-5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark transition-colors">
             Book an Audit
