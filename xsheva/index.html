@@ -712,6 +712,10 @@
                 <button data-seq-item type="submit" class="mt-1 flex w-full cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-base font-bold h-12 px-6 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#1c1f27] transition-colors">
                   Send Request
                 </button>
+
+                <!-- Filled by scripts/main.js after submit. role=status + aria-live so the
+                     result is announced; .form-status styling already exists in main.css. -->
+                <p id="cf-status" class="form-status" role="status" aria-live="polite"></p>
               </form>
             </div>
           </div>

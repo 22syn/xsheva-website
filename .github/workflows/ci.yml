@@ -11,7 +11,7 @@ jobs:
     uses: 22syn/ci-templates/.github/workflows/node-ci.yml@main
     with:
       working-directory: xsheva
-      run-lint: false # no lint script defined yet
+      run-lint: true
       run-test: false # no test script defined yet
       run-build: true
       run-secrets-scan: true
