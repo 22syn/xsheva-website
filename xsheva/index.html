@@ -355,15 +355,23 @@
               <span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">Growth Architecture</span>
             </div>
 
-            <h2 data-arch-heading class="mt-8 max-w-[900px] text-white text-4xl font-black leading-[1.05] tracking-[-0.03em] sm:text-6xl lg:text-7xl">
+            <h2 data-arch-heading class="mt-6 md:mt-8 max-w-[900px] text-white text-4xl font-black leading-[1.05] tracking-[-0.03em] sm:text-6xl lg:text-7xl">
               Mathematical precision.<br>Not marketing.
             </h2>
+            <!-- This section is pinned to h-[100svh] with overflow-hidden, and the
+                 mobile layout stacks all 3 steps full-height below md — already
+                 tight before this paragraph existed. text-base/leading-snug on
+                 mobile keeps it from pushing the last step past the clipped edge. -->
+            <p class="mt-4 md:mt-6 max-w-[560px] text-slate-300 text-base leading-snug md:text-lg md:leading-relaxed">
+              Most CRM and automation projects fail the same way: the business
+              bends to the tool. We build the tool around how you actually run.
+            </p>
 
             <!-- An ascending stair, not a row of equal columns. The offsets carry the
                  sequence, which is why the steps no longer need "Phase 01/02/03"
                  labels on them. It also gives this section a layout family of its
                  own — the page previously ran the same 3-up grid four times. -->
-            <ol class="mt-14 grid list-none gap-10 md:grid-cols-3 md:items-end md:gap-8">
+            <ol class="mt-8 md:mt-14 grid list-none gap-6 md:grid-cols-3 md:gap-8 md:items-end">
               <li data-step class="md:mb-0">
                 <div data-rule class="h-px w-full origin-left bg-primary"></div>
                 <h3 class="mt-5 text-white text-xl font-bold">Diagnosis &amp; Audit</h3>
@@ -487,7 +495,7 @@
                 Systems we've shipped
               </h2>
               <p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-relaxed">
-                Three builds: what they replaced, and what they return.
+                Four builds: what they replaced, and what they return.
               </p>
             </div>
             <!-- Stacked full-width rows, not a 3-up card grid. Each case study is a
@@ -602,6 +610,47 @@
                     <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
                       <span>No developer in the loop to keep it running</span>
+                    </li>
+                  </ul>
+                </div>
+              </article>
+
+              <!-- Anonymized per an NDA with the client. No client name, no logo, no
+                   specific tools/metrics — vagueness here is deliberate, not a gap.
+                   Confirmed with Kobi 2026-08-04: "family office" as the public label,
+                   outcome copy kept non-specific. -->
+              <article data-seq-item class="grid gap-8 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-8">
+                <div>
+                  <p class="text-primary text-sm font-medium">Private Markets</p>
+                  <h3 class="mt-1 text-slate-900 dark:text-white text-2xl font-bold leading-tight">Family Office</h3>
+                  <p class="mt-4 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                    A US family office needed to track market activity relevant to their holdings without routing anything through outside vendors.
+                  </p>
+                  <div class="mt-7 flex gap-10">
+                    <div>
+                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">NDA</p>
+                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Engagement scope</p>
+                    </div>
+                    <div>
+                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">Active</p>
+                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Status</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="border-t border-slate-200 dark:border-[#282e39] pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
+                  <p class="text-slate-900 dark:text-white text-sm font-semibold">What we built</p>
+                  <ul class="mt-4 flex flex-col gap-3">
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                      <span>Private, in-house monitoring, nothing layered on a third-party feed</span>
+                    </li>
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                      <span>Reporting built around how their desk actually works</span>
+                    </li>
+                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                      <span>No detail here that could identify the client or their positions</span>
                     </li>
                   </ul>
                 </div>
