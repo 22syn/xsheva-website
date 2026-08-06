@@ -745,6 +745,8 @@
     </div>
   </div>
   <script type="module" src="/scripts/motion.js"></script>
+  <!-- Loaded independently of main.js so a Firebase config failure cannot un-bind it. -->
+  <script type="module" src="/scripts/contact-form.js"></script>
   <script type="module" src="/scripts/main.js"></script>
 </body>
 </html>
