@@ -99,6 +99,9 @@
     .logo-item:hover img { opacity: 1; }
     /* Stacked lockups (mark over wordmark over tagline) read smaller at equal height */
     .logo-item img.logo--stacked { height: 2.75rem; max-width: 200px; }
+    /* All-caps wordmarks have no ascender/descender slack, so their cap height equals
+       the whole box and they read oversized next to mixed-case logos at the same height */
+    .logo-item img.logo--caps { height: 1.75rem; }
     /* Mark + wordmark lockup, for brands that only publish a symbol (no horizontal logo) */
     .logo-item--lockup { gap: 0.75rem; }
     .logo-item--lockup img { height: 2rem; }
@@ -146,6 +149,7 @@
       .logo-track { gap: 2.5rem; padding-right: 2.5rem; }
       .logo-item img { height: 1.75rem; max-width: 130px; }
       .logo-item img.logo--stacked { height: 2.1rem; max-width: 150px; }
+      .logo-item img.logo--caps { height: 1.4rem; }
       .logo-item--lockup { gap: 0.5rem; }
       .logo-item--lockup img { height: 1.6rem; }
       .logo-item--lockup img.logo-mark--square { height: 2rem; }
@@ -292,6 +296,7 @@
                   <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
                   <span aria-hidden="true">Liba</span>
                 </li>
+                <li class="logo-item"><img class="logo--caps" src="/clients/vigo.png" alt="Vigo Events" width="270" height="119" decoding="async"></li>
                 <li class="logo-item"><img src="/clients/somedia.svg" alt="SoMedia Digital" width="132" height="98" decoding="async"></li>
                 <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="Ruppin Academic Center" width="134" height="45" decoding="async"></li>
                 <li class="logo-item logo-item--wordmark" aria-label="Source 66.81">
@@ -309,6 +314,7 @@
                   <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
                   <span>Liba</span>
                 </li>
+                <li class="logo-item"><img class="logo--caps" src="/clients/vigo.png" alt="" width="270" height="119" decoding="async"></li>
                 <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
                 <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
                 <li class="logo-item logo-item--wordmark">
@@ -326,6 +332,7 @@
                   <img class="logo-mark--square" src="/clients/liba-mark.png" alt="" width="261" height="285" decoding="async">
                   <span>Liba</span>
                 </li>
+                <li class="logo-item"><img class="logo--caps" src="/clients/vigo.png" alt="" width="270" height="119" decoding="async"></li>
                 <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
                 <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
                 <li class="logo-item logo-item--wordmark">
