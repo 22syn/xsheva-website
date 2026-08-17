@@ -90,11 +90,11 @@ jobs:
             ].join('\n');
 
             await github.rest.issues.create({
-              owner: 'KobiHaz',
+              owner: '22syn',
               repo: 'cabinet',
               title: '[post-deploy] ' + project + ' -- ' + prTitle,
               body: body,
               labels: ['post-deploy', 'jules']
             });
 
-            console.log('Issue created in KobiHaz/cabinet for Jules.');
+            console.log('Issue created in 22syn/cabinet for Jules.');
