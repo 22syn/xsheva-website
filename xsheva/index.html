@@ -102,6 +102,9 @@
     /* All-caps wordmarks have no ascender/descender slack, so their cap height equals
        the whole box and they read oversized next to mixed-case logos at the same height */
     .logo-item img.logo--caps { height: 1.75rem; }
+    /* Horizontal mark + two-line wordmark lockups: capped at the shared width they render
+       so short that the secondary line turns to mush, so trade width for legibility */
+    .logo-item img.logo--wide { height: 2.6rem; max-width: 205px; }
     /* Mark + wordmark lockup, for brands that only publish a symbol (no horizontal logo) */
     .logo-item--lockup { gap: 0.75rem; }
     .logo-item--lockup img { height: 2rem; }
@@ -150,6 +153,7 @@
       .logo-item img { height: 1.75rem; max-width: 130px; }
       .logo-item img.logo--stacked { height: 2.1rem; max-width: 150px; }
       .logo-item img.logo--caps { height: 1.4rem; }
+      .logo-item img.logo--wide { height: 2rem; max-width: 160px; }
       .logo-item--lockup { gap: 0.5rem; }
       .logo-item--lockup img { height: 1.6rem; }
       .logo-item--lockup img.logo-mark--square { height: 2rem; }
@@ -297,6 +301,11 @@
                   <span aria-hidden="true">Liba</span>
                 </li>
                 <li class="logo-item"><img class="logo--caps" src="/clients/vigo.png" alt="Vigo Events" width="270" height="119" decoding="async"></li>
+                <li class="logo-item logo-item--lockup" aria-label="Mabbat Studio">
+                  <img class="logo-mark--square" src="/clients/mabbat-mark.png" alt="" width="400" height="399" decoding="async">
+                  <span aria-hidden="true">Mabbat Studio</span>
+                </li>
+                <li class="logo-item"><img class="logo--wide" src="/clients/mission-home-remodeling.png" alt="Mission Home Remodeling" width="600" height="130" decoding="async"></li>
                 <li class="logo-item"><img src="/clients/somedia.svg" alt="SoMedia Digital" width="132" height="98" decoding="async"></li>
                 <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="Ruppin Academic Center" width="134" height="45" decoding="async"></li>
                 <li class="logo-item logo-item--wordmark" aria-label="Source 66.81">
@@ -315,6 +324,11 @@
                   <span>Liba</span>
                 </li>
                 <li class="logo-item"><img class="logo--caps" src="/clients/vigo.png" alt="" width="270" height="119" decoding="async"></li>
+                <li class="logo-item logo-item--lockup">
+                  <img class="logo-mark--square" src="/clients/mabbat-mark.png" alt="" width="400" height="399" decoding="async">
+                  <span>Mabbat Studio</span>
+                </li>
+                <li class="logo-item"><img class="logo--wide" src="/clients/mission-home-remodeling.png" alt="" width="600" height="130" decoding="async"></li>
                 <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
                 <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
                 <li class="logo-item logo-item--wordmark">
@@ -333,6 +347,11 @@
                   <span>Liba</span>
                 </li>
                 <li class="logo-item"><img class="logo--caps" src="/clients/vigo.png" alt="" width="270" height="119" decoding="async"></li>
+                <li class="logo-item logo-item--lockup">
+                  <img class="logo-mark--square" src="/clients/mabbat-mark.png" alt="" width="400" height="399" decoding="async">
+                  <span>Mabbat Studio</span>
+                </li>
+                <li class="logo-item"><img class="logo--wide" src="/clients/mission-home-remodeling.png" alt="" width="600" height="130" decoding="async"></li>
                 <li class="logo-item"><img src="/clients/somedia.svg" alt="" width="132" height="98" decoding="async"></li>
                 <li class="logo-item"><img class="logo--stacked" src="/clients/ruppin.svg" alt="" width="134" height="45" decoding="async"></li>
                 <li class="logo-item logo-item--wordmark">
