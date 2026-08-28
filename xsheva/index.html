@@ -12,9 +12,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <!-- Source 66.81's wordmark is typographic, not an image. Subset to just its glyphs. -->
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&text=SOURCE%2066%28TH%29%2081%28JP%29&display=swap" rel="stylesheet">
+  <!-- XSHEVA-DESIGN-SPEC.md §3.2 — instrument-layer type system. Added alongside
+       the current fonts, not replacing them yet: Space Grotesk and Material
+       Symbols are still load-bearing across the page until Phase 3/4 migrate
+       each component off them (spec §6, §7.4). -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
   <link rel="alternate icon" href="/favicon.svg?v=3">
   <link rel="apple-touch-icon" href="/favicon.svg?v=3">
@@ -32,9 +36,38 @@
             "on-primary": "#101622",
             "background-light": "#f6f6f8",
             "background-dark": "#101622",
+            // XSHEVA-DESIGN-SPEC.md §3.1 — instrument color system, defined as CSS
+            // custom properties in styles/main.css so every token resolves to one
+            // source of truth. Old `primary`/`background-dark` above stay defined
+            // until Phase 3's signal audit (REQ-09) migrates their usages.
+            "x-ground": "var(--x-ground)",
+            "x-panel": "var(--x-panel)",
+            "x-panel-2": "var(--x-panel-2)",
+            "x-rule": "var(--x-rule)",
+            "x-rule-soft": "var(--x-rule-soft)",
+            "x-ink": "var(--x-ink)",
+            "x-ink-2": "var(--x-ink-2)",
+            "x-instrument": "var(--x-instrument)",
+            "x-signal": "var(--x-signal)",
+            "x-signal-weak": "var(--x-signal-weak)",
+            "x-signal-line": "var(--x-signal-line)",
+            // XSHEVA-DESIGN-SPEC.md REQ-01 — named tokens for colors the current
+            // (pre-redesign) components already use, so no raw hex remains in
+            // markup. Same values as before, just named — Phase 3's card chrome
+            // (T-3.1) and signal audit (T-3.5) are what change what these MEAN.
+            "surface-border": "#282e39",
+            "surface-border-hover": "#3b4354",
+            "surface-card": "#1c1f27",
+            "text-muted": "#9da6b9",
+            "surface-raised": "#151923",
+            "surface-nav": "#111318",
           },
           fontFamily: {
-            "display": ["Space Grotesk", "sans-serif"]
+            "display": ["Space Grotesk", "sans-serif"],
+            // XSHEVA-DESIGN-SPEC.md §3.2 — the instrument type roles.
+            "x-display": ["Archivo", "Helvetica Neue", "Arial", "sans-serif"],
+            "x-body": ["IBM Plex Sans", "Segoe UI", "Arial", "sans-serif"],
+            "x-mono": ["IBM Plex Mono", "ui-monospace", "Menlo", "monospace"],
           },
           borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
         },
@@ -42,13 +75,131 @@
     }
   </script>
   <style>
+    /* XSHEVA-DESIGN-SPEC.md §3 — instrument design tokens. Source of truth for
+       the x-* Tailwind colors registered above; components should use those
+       Tailwind classes (e.g. bg-x-panel), not these vars directly. Geometry
+       tokens (--x-radius, --x-grid-unit) don't have Tailwind color entries
+       since they aren't colors — they're consumed straight from arbitrary
+       values / the drafting-grid rule (spec REQ-13) once that ships. */
+    :root {
+      --x-ground: #0D121B;
+      --x-panel: #101622;
+      --x-panel-2: #141C2A;
+      --x-rule: #232E3F;
+      --x-rule-soft: #1A2331;
+      --x-rule-hover: #3b4354;
+      --x-grid: rgba(126, 144, 165, 0.07);
+      --x-ink: #E6EBF2;
+      --x-ink-2: #B2BECD;
+      --x-instrument: #7E90A5;
+      --x-signal: #FF5C2B;
+      --x-signal-weak: rgba(255, 92, 43, 0.11);
+      --x-signal-line: rgba(255, 92, 43, 0.32);
+      --x-radius: 0px;
+      --x-border: 1px;
+      --x-grid-unit: 26px;
+    }
     /* Anchors jump natively, so the sticky header must not cover the target. */
     html { scroll-padding-top: 92px; }
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #101622; }
-    ::-webkit-scrollbar-thumb { background: #282e39; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #3b4354; }
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    ::-webkit-scrollbar-track { background: var(--x-panel); }
+    ::-webkit-scrollbar-thumb { background: var(--x-rule); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--x-rule-hover); }
+    /* XSHEVA-DESIGN-SPEC.md REQ-20 — visible focus ring on every interactive
+       element. One global rule instead of per-element Tailwind ring utilities
+       so nothing gets missed as components change. */
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 2px solid var(--x-signal);
+      outline-offset: 3px;
+    }
+    /* XSHEVA-DESIGN-SPEC.md §7.5 — outlined button, replacing the solid orange
+       fill. An outlined control reads as an instrument; a filled one reads as
+       an ad. */
+    .x-btn {
+      display: inline-flex;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border: 1px solid var(--x-signal);
+      background: transparent;
+      color: var(--x-signal);
+      font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      border-radius: var(--x-radius);
+      transition: background-color 0.2s ease;
+    }
+    .x-btn:hover { background: var(--x-signal-weak); }
+    .x-btn--secondary { border-color: var(--x-rule); color: var(--x-ink-2); }
+    /* XSHEVA-DESIGN-SPEC.md REQ-12 — sharp corners, registration marks instead
+       of radius. !important because this is a non-negotiable global rule, not
+       a per-component style — nothing should be able to re-round a card. Only
+       sets radius/position; border color/width stay on the existing Tailwind
+       border utilities already on each element. */
+    .x-card { position: relative; border-radius: 0 !important; }
+    .x-card::before, .x-card::after {
+      content: "";
+      position: absolute;
+      width: 11px;
+      height: 11px;
+      pointer-events: none;
+    }
+    /* Color goes in each shorthand, not a shared border-color rule: the spec's
+       own CSS set border-color once and then re-declared border-top/border-left
+       as bare "1px solid" below it, which resets color to currentColor and
+       silently drops the intended --x-signal-line tint. */
+    .x-card::before { top: 7px; left: 7px; border-top: 1px solid var(--x-signal-line); border-left: 1px solid var(--x-signal-line); }
+    .x-card::after  { bottom: 7px; right: 7px; border-bottom: 1px solid var(--x-signal-line); border-right: 1px solid var(--x-signal-line); }
+    /* XSHEVA-DESIGN-SPEC.md REQ-13 — drafting grid, replaces the ambient orange
+       gradient glow (REQ-10) as the page's background texture. */
+    .x-grid-bg {
+      background-image:
+        linear-gradient(var(--x-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--x-grid) 1px, transparent 1px);
+      background-size: var(--x-grid-unit) var(--x-grid-unit);
+    }
+    /* XSHEVA-DESIGN-SPEC.md REQ-18 — Family Office card redacted-document
+       treatment. The bars are decorative (aria-hidden); the accessible name
+       is carried by a separate sr-only sentence. */
+    .x-redact-bar {
+      display: inline-block;
+      height: 0.7em;
+      vertical-align: middle;
+      background: var(--x-instrument);
+      opacity: 0.4;
+    }
+    .x-redacted-stamp {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      border: 1px solid var(--x-signal-line);
+      color: var(--x-signal);
+      font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      transform: rotate(-8deg);
+      pointer-events: none;
+    }
+    /* XSHEVA-DESIGN-SPEC.md §7.2 item 6 — "What we built" list marker. A check
+       glyph is consumer-UI vocabulary; a short instrument-colored rule reads
+       as a measurement tick instead. */
+    .x-check-list { list-style: none; }
+    .x-check-list li { position: relative; padding-left: 20px; }
+    .x-check-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.7em;
+      width: 7px;
+      height: 1px;
+      background: var(--x-instrument);
+    }
     /* GSAP's `mask: "lines"` supplies the clipping wrapper. These two rules only
        stop descenders (y, g) getting shaved off by that wrapper's edge. */
     [data-arch-heading] .line,
@@ -57,7 +208,10 @@
       margin-bottom: -0.12em;
     }
 
-    /* Client logo marquee */
+    /* Client logo marquee. Reverted from a static REQ-21 grid per Kobi
+       2026-08-28: "it's supposed to run like a bar, not like this" — the
+       moving strip is the client's explicit call, which the spec's own §0
+       rule says wins over the written recommendation. */
     .logo-marquee {
       position: relative;
       overflow: hidden;
@@ -177,7 +331,7 @@
     }
   </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-x-hidden">
+<body class="bg-background-light dark:bg-x-ground font-display text-slate-900 dark:text-slate-100 overflow-x-hidden">
   <div class="relative flex min-h-screen w-full flex-col">
     <!-- Block, not a flex column. ScrollTrigger spaces a pin by writing
          padding-bottom onto the .pin-spacer it wraps the pinned element in, and
@@ -189,7 +343,7 @@
          Same reason the content wrapper further down is a plain block. -->
     <div class="layout-container h-full grow">
       <!-- Header -->
-      <header class="sticky top-0 z-50 flex items-center justify-between border-b border-solid border-slate-200 dark:border-[#282e39] bg-white/90 dark:bg-[#111318]/90 backdrop-blur-md px-6 lg:px-10 py-4 transition-all duration-300">
+      <header class="sticky top-0 z-50 flex items-center justify-between border-b border-solid border-slate-200 dark:border-surface-border bg-white/90 dark:bg-surface-nav/90 backdrop-blur-md px-6 lg:px-10 py-4 transition-all duration-300">
         <div class="flex items-center gap-4">
           <a href="/" class="flex min-h-11 items-center gap-4">
             <div class="size-6 text-primary">
@@ -207,27 +361,28 @@
           <nav class="flex items-center gap-8">
             <a class="flex min-h-10 items-center text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#methodology">Services</a>
             <a class="flex min-h-10 items-center text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#trusted-by">Clients</a>
-            <a class="flex min-h-10 items-center text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#work">Work</a>
+            <a class="flex min-h-10 items-center text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#work">Case Studies</a>
             <a class="flex min-h-10 items-center text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#contact-form">Contact</a>
           </nav>
-          <a href="#contact-form" class="flex cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-sm font-bold h-10 px-5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark transition-colors">
+          <a href="#contact-form" class="x-btn">
             Book an Audit
           </a>
         </div>
         <button id="mobile-menu-button" class="lg:hidden flex size-11 items-center justify-center text-slate-900 dark:text-white" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-          <span id="mobile-menu-icon" class="material-symbols-outlined">menu</span>
+          <svg id="mobile-menu-icon-open" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          <svg id="mobile-menu-icon-close" class="hidden" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
         </button>
 
         <!-- Positioned as a child of the (already-positioned, sticky) header so it
              sits right below it regardless of the header's actual rendered height —
              no hardcoded pixel offset to fall out of sync with. -->
-        <div id="mobile-menu" class="hidden lg:hidden absolute top-full inset-x-0 border-b border-slate-200 dark:border-[#282e39] bg-white/95 dark:bg-[#111318]/95 backdrop-blur-md px-6 py-6">
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-full inset-x-0 border-b border-slate-200 dark:border-surface-border bg-white/95 dark:bg-surface-nav/95 backdrop-blur-md px-6 py-6">
           <nav class="flex flex-col gap-1">
             <a class="flex min-h-11 items-center text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#methodology">Services</a>
             <a class="flex min-h-11 items-center text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#trusted-by">Clients</a>
-            <a class="flex min-h-11 items-center text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#work">Work</a>
+            <a class="flex min-h-11 items-center text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#work">Case Studies</a>
             <a class="flex min-h-11 items-center text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary text-base font-medium transition-colors" href="#contact-form">Contact</a>
-            <a href="#contact-form" class="flex w-full cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-sm font-bold h-11 px-5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark transition-colors mt-2">
+            <a href="#contact-form" class="x-btn w-full mt-2">
               Book an Audit
             </a>
           </nav>
@@ -235,9 +390,10 @@
       </header>
       <div id="mobile-menu-backdrop" class="hidden lg:hidden fixed inset-0 z-40 bg-black/30" aria-hidden="true"></div>
 
+      <main>
       <!-- Page-wide scroll progress, pinned under the header -->
       <div class="sticky top-[73px] z-40 h-px w-full bg-white/5">
-        <div data-page-progress class="h-full w-full origin-left bg-primary/70"></div>
+        <div data-page-progress class="h-full w-full origin-left bg-x-instrument/70"></div>
       </div>
 
       <!-- Hero Section (full viewport width) -->
@@ -255,13 +411,17 @@
            Pinning inside a block section is what #architecture and #proof already do. -->
       <section class="relative w-full">
       <div data-hero class="relative flex min-h-[640px] sm:min-h-[100svh] w-full flex-col justify-center px-6 py-12 lg:px-16 overflow-hidden bg-background-dark">
-        <div data-hero-glow class="absolute inset-0 pointer-events-none will-change-transform" style="background: radial-gradient(55% 50% at 78% 92%, rgba(255,107,53,0.22) 0%, transparent 70%);"></div>
+        <div data-hero-glow class="absolute inset-0 pointer-events-none will-change-transform x-grid-bg"></div>
         <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" style="background-image: url('/stitch/xsheva-p1/noise.svg');"></div>
 
         <div class="relative z-10 mx-auto w-full max-w-[1280px]">
           <div class="flex flex-col gap-6 max-w-[760px]">
-            <div data-hero-eyebrow class="inline-flex w-fit items-center rounded-full border border-primary/25 bg-primary/10 px-3 py-1">
-              <span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">CRM, Automation &amp; AI Agents</span>
+            <div class="flex items-center gap-2">
+              <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-signal">SEC.01</span>
+              <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-instrument">/ HERO</span>
+            </div>
+            <div data-hero-eyebrow class="inline-flex w-fit items-center border border-x-rule px-3 py-1">
+              <span class="font-x-mono text-x-instrument text-xs font-bold uppercase tracking-[0.2em]">CRM, Automation &amp; AI Agents</span>
             </div>
             <h1 data-hero-title class="text-white text-4xl font-black leading-[1.04] tracking-[-0.035em] sm:text-5xl lg:text-6xl">
               We find the revenue<br>
@@ -272,7 +432,7 @@
             </p>
           </div>
           <div data-hero-cta class="mt-9 flex flex-col sm:flex-row gap-4 items-start">
-            <a href="#contact-form" class="flex cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-base font-bold h-12 px-7 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark transition-colors">
+            <a href="#contact-form" class="x-btn">
               Book an Audit
             </a>
           </div>
@@ -281,7 +441,7 @@
       </section>
 
       <!-- Trusted By -->
-      <section id="trusted-by" aria-labelledby="trusted-by-heading" class="w-full border-b border-slate-200 dark:border-[#282e39] bg-background-light dark:bg-background-dark py-12">
+      <section id="trusted-by" aria-labelledby="trusted-by-heading" class="w-full border-b border-slate-200 dark:border-surface-border bg-background-light dark:bg-background-dark py-12">
         <div class="mx-auto max-w-[1280px] px-6 lg:px-16">
           <!-- Sentence case, normal tracking: the page's eyebrow budget is spent on
                the hero, architecture and work sections. -->
@@ -371,14 +531,18 @@
             <img src="/img/architecture-stair.jpg" alt="" aria-hidden="true" class="h-full w-full object-cover">
           </div>
           <!-- Dark where the copy sits, opening up to the right so the photograph reads. -->
-          <div class="absolute inset-0 bg-gradient-to-r from-[#101622] via-[#101622]/85 to-[#101622]/35"></div>
-          <div class="absolute inset-0 bg-gradient-to-tl from-[#FF6B35]/25 via-transparent to-transparent"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-[#101622] via-transparent to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/85 to-background-dark/35"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+          <div class="absolute inset-0 pointer-events-none x-grid-bg"></div>
           <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" style="background-image: url('/stitch/xsheva-p1/noise.svg');"></div>
 
           <div class="relative z-10 mx-auto flex h-full max-w-[1280px] flex-col justify-center px-6 lg:px-16">
-            <div class="inline-flex w-fit items-center self-start rounded-full border border-primary/25 bg-primary/10 px-3 py-1">
-              <span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">Growth Architecture</span>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-signal">SEC.02</span>
+              <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-instrument">/ GROWTH-ARCHITECTURE</span>
+            </div>
+            <div class="inline-flex w-fit items-center self-start border border-x-rule px-3 py-1">
+              <span class="font-x-mono text-x-instrument text-xs font-bold uppercase tracking-[0.2em]">Growth Architecture</span>
             </div>
 
             <h2 data-arch-heading class="mt-6 md:mt-8 max-w-[900px] text-white text-4xl font-black leading-[1.05] tracking-[-0.03em] sm:text-6xl lg:text-7xl">
@@ -399,24 +563,24 @@
                  own — the page previously ran the same 3-up grid four times. -->
             <ol class="mt-8 md:mt-14 grid list-none gap-6 md:grid-cols-3 md:gap-8 md:items-end">
               <li data-step class="md:mb-0">
-                <div data-rule class="h-px w-full origin-left bg-primary"></div>
+                <div data-rule class="h-px w-full origin-left bg-x-instrument"></div>
                 <h3 class="mt-5 text-white text-xl font-bold">Diagnosis &amp; Audit</h3>
                 <p class="mt-2 max-w-[34ch] text-sm leading-relaxed text-slate-300">Map the operational landscape. Find where revenue leaks.</p>
               </li>
               <li data-step class="md:mb-14">
-                <div data-rule class="h-px w-full origin-left bg-primary"></div>
+                <div data-rule class="h-px w-full origin-left bg-x-instrument"></div>
                 <h3 class="mt-5 text-white text-xl font-bold">Custom AI Architecture</h3>
                 <p class="mt-2 max-w-[34ch] text-sm leading-relaxed text-slate-300">Built to your business DNA. Never a generic stack.</p>
               </li>
               <li data-step class="md:mb-28">
-                <div data-rule class="h-px w-full origin-left bg-primary"></div>
+                <div data-rule class="h-px w-full origin-left bg-x-instrument"></div>
                 <h3 class="mt-5 text-white text-xl font-bold">Growth &amp; Performance</h3>
                 <p class="mt-2 max-w-[34ch] text-sm leading-relaxed text-slate-300">Scale revenue, then close the loop continuously.</p>
               </li>
             </ol>
 
             <div class="mt-16 h-px w-full bg-white/10">
-              <div data-arch-progress class="h-full w-full origin-left bg-primary"></div>
+              <div data-arch-progress class="h-full w-full origin-left bg-x-instrument"></div>
             </div>
           </div>
         </div>
@@ -425,10 +589,14 @@
       <!-- The Numbers — pinned, counters driven by scroll position -->
       <section id="proof" data-stats class="relative w-full">
         <div data-stats-pin class="relative flex h-[100svh] w-full items-center overflow-hidden bg-background-dark">
-          <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(55% 65% at 12% 50%, rgba(255,107,53,0.16) 0%, transparent 70%);"></div>
+          <div class="absolute inset-0 pointer-events-none x-grid-bg"></div>
           <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" style="background-image: url('/stitch/xsheva-p1/noise.svg');"></div>
 
           <div class="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-16">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-signal">SEC.03</span>
+              <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-instrument">/ RETURNS</span>
+            </div>
             <h2 data-stats-heading class="max-w-[820px] text-white text-3xl font-black leading-[1.08] tracking-[-0.03em] sm:text-5xl">
               What the architecture returns.
             </h2>
@@ -436,21 +604,21 @@
             <!-- Asymmetric: the headline figure is set dominant and the supporting
                  two stack beside it, so this reads differently from the stair above
                  and the case-study rows below. -->
-            <div class="mt-14 grid gap-10 md:grid-cols-[1.35fr_1fr] md:gap-16">
+            <div class="mt-10 grid gap-8 md:grid-cols-[1.35fr_1fr] md:gap-12">
               <div data-stat data-stat-to="2" data-stat-prefix="$" data-stat-suffix="M+" data-stat-decimals="0">
-                <div data-stat-rule class="h-px w-full origin-left bg-primary"></div>
-                <p class="mt-6 text-white text-6xl lg:text-8xl font-black tracking-[-0.045em]" data-stat-num>$0M+</p>
+                <div data-stat-rule class="h-px w-full origin-left bg-x-instrument"></div>
+                <p class="mt-6 text-white text-6xl lg:text-8xl font-black tracking-[-0.045em]" data-stat-num>$2M+</p>
                 <p class="mt-4 text-slate-300 text-base">Revenue recovered</p>
               </div>
               <div class="flex flex-col gap-10 md:justify-end">
                 <div data-stat data-stat-to="40" data-stat-prefix="" data-stat-suffix="%" data-stat-decimals="0">
-                  <div data-stat-rule class="h-px w-full origin-left bg-primary/50"></div>
-                  <p class="mt-5 text-white text-4xl lg:text-5xl font-black tracking-[-0.04em]" data-stat-num>0%</p>
+                  <div data-stat-rule class="h-px w-full origin-left bg-x-instrument"></div>
+                  <p class="mt-5 text-white text-4xl lg:text-5xl font-black tracking-[-0.04em]" data-stat-num>40%</p>
                   <p class="mt-2 text-slate-400 text-sm">Efficiency gain</p>
                 </div>
                 <div data-stat data-stat-to="3.5" data-stat-prefix="" data-stat-suffix="x" data-stat-decimals="1">
-                  <div data-stat-rule class="h-px w-full origin-left bg-primary/50"></div>
-                  <p class="mt-5 text-white text-4xl lg:text-5xl font-black tracking-[-0.04em]" data-stat-num>0.0x</p>
+                  <div data-stat-rule class="h-px w-full origin-left bg-x-instrument"></div>
+                  <p class="mt-5 text-white text-4xl lg:text-5xl font-black tracking-[-0.04em]" data-stat-num>3.5x</p>
                   <p class="mt-2 text-slate-400 text-sm">Average ROI</p>
                 </div>
               </div>
@@ -472,6 +640,10 @@
                anything here, so the grid is grouped with rules instead. -->
           <div id="methodology" data-reveal class="flex flex-col gap-10 py-4 scroll-mt-8">
             <div data-seq-item class="flex flex-col gap-3 max-w-[640px]">
+              <div class="flex items-center gap-2">
+                <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-signal">SEC.04</span>
+                <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-instrument">/ SERVICES</span>
+              </div>
               <h2 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight md:text-4xl">
                 Systems built around how you actually run
               </h2>
@@ -479,32 +651,53 @@
                 Four things we build, and the operational gap each one closes.
               </p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 border-t border-slate-200 dark:border-[#282e39]">
-              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-[#282e39] sm:border-r py-8 sm:pr-10">
-                <span class="material-symbols-outlined text-primary text-[26px]" aria-hidden="true">build</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 border-t border-slate-200 dark:border-surface-border">
+              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-surface-border sm:border-r py-6 sm:pr-8">
+                <svg class="text-x-ink" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+                  <path d="M4 9V4h5M23 4h5v5M28 23v5h-5M9 28H4v-5"/>
+                  <path d="M10 11h12v10H10z"/>
+                  <path d="M10 15h12M16 15v6"/>
+                </svg>
                 <h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Custom Tools &amp; CRM</h3>
-                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed max-w-[42ch]">
+                <p class="text-slate-500 dark:text-text-muted text-sm font-normal leading-relaxed max-w-[42ch]">
                   Custom tools, dashboards and CRMs built to your team's exact workflow, not bent to fit someone else's product.
                 </p>
               </div>
-              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-[#282e39] py-8 sm:pl-10">
-                <span class="material-symbols-outlined text-primary text-[26px]" aria-hidden="true">bolt</span>
+              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-surface-border py-6 sm:pl-8">
+                <svg class="text-x-ink" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+                  <path d="M3 11h10"/>
+                  <path d="M13 8h6v6h-6z"/>
+                  <path d="M19 11h10"/>
+                  <path d="M25 7l4 4-4 4"/>
+                  <path d="M29 21H3"/>
+                  <path d="M7 17l-4 4 4 4"/>
+                </svg>
                 <h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Lead Automation</h3>
-                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed max-w-[42ch]">
+                <p class="text-slate-500 dark:text-text-muted text-sm font-normal leading-relaxed max-w-[42ch]">
                   Capture, routing and CRM sync running end to end, with conversions posted back so ad platforms optimize on real outcomes.
                 </p>
               </div>
-              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-[#282e39] sm:border-r py-8 sm:pr-10">
-                <span class="material-symbols-outlined text-primary text-[26px]" aria-hidden="true">smart_toy</span>
+              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-surface-border sm:border-r py-6 sm:pr-8">
+                <svg class="text-x-ink" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+                  <path d="M3 16h7"/>
+                  <path d="M10 10h8v12h-8z"/>
+                  <path d="M18 13h5M18 16h9M18 19h5"/>
+                  <path d="M23 11.5v3M27 14.5v3M23 17.5v3"/>
+                </svg>
                 <h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">AI Agents</h3>
-                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed max-w-[42ch]">
+                <p class="text-slate-500 dark:text-text-muted text-sm font-normal leading-relaxed max-w-[42ch]">
                   Agents that handle the repetitive operational work: qualifying, summarizing, escalating. Built on your data, not a generic model.
                 </p>
               </div>
-              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-[#282e39] py-8 sm:pl-10">
-                <span class="material-symbols-outlined text-primary text-[26px]" aria-hidden="true">verified_user</span>
+              <div data-seq-item class="group flex flex-col gap-3 border-b border-slate-200 dark:border-surface-border py-6 sm:pl-8">
+                <svg class="text-x-ink" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+                  <path d="M7 4h13l5 5v19H7z"/>
+                  <path d="M20 4v5h5"/>
+                  <circle cx="16" cy="19" r="4.5"/>
+                  <path d="M16 12.5v2.5M16 23v2.5M9.5 19h2.5M20 19h2.5"/>
+                </svg>
                 <h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight">Compliance &amp; Onboarding</h3>
-                <p class="text-slate-500 dark:text-[#9da6b9] text-sm font-normal leading-relaxed max-w-[42ch]">
+                <p class="text-slate-500 dark:text-text-muted text-sm font-normal leading-relaxed max-w-[42ch]">
                   Certification and partner onboarding run as one documented process, from screening through to approval.
                 </p>
               </div>
@@ -516,7 +709,10 @@
                unless they are real and approved in writing by the client. -->
           <div id="work" data-reveal class="flex flex-col gap-10 py-4 mt-4 scroll-mt-8">
             <div data-seq-item class="flex flex-col gap-3 max-w-[600px]">
-              <p class="text-primary text-xs font-bold uppercase tracking-[0.2em]">Selected Work</p>
+              <div class="flex items-center gap-2">
+                <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-signal">SEC.05</span>
+                <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-instrument">/ SELECTED-WORK</span>
+              </div>
               <h2 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight md:text-4xl">
                 Systems we've shipped
               </h2>
@@ -530,115 +726,132 @@
                  that only existed to force three unequal cards onto a shared
                  baseline, and the nested boxes-inside-a-box that came with them. -->
             <div class="flex flex-col gap-6">
-              <article data-seq-item class="grid gap-8 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-8">
+              <article data-seq-item class="grid gap-6 x-card border border-slate-200 dark:border-surface-border bg-white dark:bg-surface-card p-5 md:grid-cols-[1fr_1.1fr] md:gap-8 md:p-6">
+                <div class="md:col-span-2 flex flex-wrap items-center gap-x-4 gap-y-1 pb-4 mb-1 border-b border-x-rule font-x-mono text-[11px] uppercase tracking-[0.1em]">
+                  <span><span class="text-x-instrument">REF</span> <span class="text-x-ink">CH-24</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">SECTOR</span> <span class="text-x-ink">EVENT-VENUE</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">SYS</span> <span class="text-x-ink">LEAD-INFRA</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">STATUS</span> <span class="text-x-signal">LIVE</span></span>
+                </div>
                 <div>
-                  <p class="text-primary text-sm font-medium">Lead Infrastructure</p>
+                  <p class="font-x-mono text-x-instrument text-xs uppercase tracking-[0.1em]">Lead Infrastructure</p>
                   <h3 class="mt-1 text-slate-900 dark:text-white text-2xl font-bold leading-tight">Consul House, Liba &amp; Vigo Events</h3>
                   <p class="mt-4 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
                     Leads leaked between capture and CRM, and Meta was optimizing against clicks. Nothing told it which leads actually closed.
                   </p>
-                  <div class="mt-7 flex gap-10">
+                  <div class="mt-6 flex gap-8">
                     <div>
-                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">0</p>
+                      <p class="text-x-ink text-4xl font-black leading-none tracking-[-0.03em]">0</p>
                       <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Manual handoffs</p>
                     </div>
                     <div>
-                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">3</p>
+                      <p class="text-x-ink text-4xl font-black leading-none tracking-[-0.03em]">3</p>
                       <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Clients on one system</p>
                     </div>
                   </div>
                 </div>
-                <div class="border-t border-slate-200 dark:border-[#282e39] pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
+                <div class="border-t border-slate-200 dark:border-surface-border pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
                   <p class="text-slate-900 dark:text-white text-sm font-semibold">What we built</p>
-                  <ul class="mt-4 flex flex-col gap-3">
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                  <ul class="mt-4 flex flex-col gap-3 x-check-list">
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>A custom MCP server connecting lead capture, CRM and reporting — built once, deployed across all three clients</span>
                     </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>Conversions posted back to Meta automatically, so the algorithm optimizes on real outcomes</span>
                     </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>Shared reporting for sales and customer success, closing the loop on lead quality</span>
                     </li>
                   </ul>
                 </div>
               </article>
 
-              <article data-seq-item class="grid gap-8 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-8">
+              <article data-seq-item class="grid gap-6 x-card border border-slate-200 dark:border-surface-border bg-white dark:bg-surface-card p-5 md:grid-cols-[1fr_1.1fr] md:gap-8 md:p-6">
+                <div class="md:col-span-2 flex flex-wrap items-center gap-x-4 gap-y-1 pb-4 mb-1 border-b border-x-rule font-x-mono text-[11px] uppercase tracking-[0.1em]">
+                  <span><span class="text-x-instrument">REF</span> <span class="text-x-ink">MN-24</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">SECTOR</span> <span class="text-x-ink">AFFILIATE-MARKETING</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">SYS</span> <span class="text-x-ink">COMPLIANCE</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">STATUS</span> <span class="text-x-signal">LIVE</span></span>
+                </div>
                 <div>
-                  <p class="text-primary text-sm font-medium">Compliance &amp; Onboarding</p>
+                  <p class="font-x-mono text-x-instrument text-xs uppercase tracking-[0.1em]">Compliance &amp; Onboarding</p>
                   <h3 class="mt-1 text-slate-900 dark:text-white text-2xl font-bold leading-tight">Media.net</h3>
                   <p class="mt-4 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
                     Going live in the weight-loss vertical required LegitScript certification, vetted partners and a compliance trail. None of it existed yet.
                   </p>
-                  <div class="mt-7 flex gap-10">
+                  <div class="mt-6 flex gap-8">
                     <div>
-                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">2</p>
+                      <p class="text-x-ink text-4xl font-black leading-none tracking-[-0.03em]">2</p>
                       <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">LegitScript certifications</p>
                     </div>
-                    <div>
-                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">1st</p>
-                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Cycle approval, both times</p>
+                    <div class="flex flex-col items-start gap-2">
+                      <span class="inline-block border border-slate-300 dark:border-surface-border px-2.5 py-1 text-slate-600 dark:text-slate-300 text-xs font-semibold uppercase tracking-wide" data-status-chip>1st cycle — both</span>
+                      <p class="text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[16ch]">Cycle approval</p>
                     </div>
                   </div>
                 </div>
-                <div class="border-t border-slate-200 dark:border-[#282e39] pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
+                <div class="border-t border-slate-200 dark:border-surface-border pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
                   <p class="text-slate-900 dark:text-white text-sm font-semibold">What we built</p>
-                  <ul class="mt-4 flex flex-col gap-3">
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                  <ul class="mt-4 flex flex-col gap-3 x-check-list">
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>The LegitScript certification process run end to end, twice, cleared first cycle both times</span>
                     </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>Partner onboarding: screening, documentation and approval as one flow</span>
                     </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>Compliance clearance to go live in the weight-loss vertical</span>
                     </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>Ongoing consultancy on the affiliate website: partner onboarding and go-to-market strategy</span>
                     </li>
                   </ul>
                 </div>
               </article>
 
-              <article data-seq-item class="grid gap-8 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-8">
+              <article data-seq-item class="grid gap-6 x-card border border-slate-200 dark:border-surface-border bg-white dark:bg-surface-card p-5 md:grid-cols-[1fr_1.1fr] md:gap-8 md:p-6">
+                <div class="md:col-span-2 flex flex-wrap items-center gap-x-4 gap-y-1 pb-4 mb-1 border-b border-x-rule font-x-mono text-[11px] uppercase tracking-[0.1em]">
+                  <span><span class="text-x-instrument">REF</span> <span class="text-x-ink">RUP-24</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">SECTOR</span> <span class="text-x-ink">EDUCATION</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">SYS</span> <span class="text-x-ink">NO-CODE</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">STATUS</span> <span class="text-x-signal">LIVE</span></span>
+                </div>
                 <div>
-                  <p class="text-primary text-sm font-medium">No-Code Operations</p>
+                  <p class="font-x-mono text-x-instrument text-xs uppercase tracking-[0.1em]">No-Code Operations</p>
                   <h3 class="mt-1 text-slate-900 dark:text-white text-2xl font-bold leading-tight">Ruppin Academic Center</h3>
                   <p class="mt-4 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
                     Tracking lived in spreadsheets, and every change to it needed a developer the college didn't have on staff.
                   </p>
-                  <div class="mt-7 flex gap-10">
+                  <div class="mt-6 flex gap-8">
                     <div>
-                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">0</p>
+                      <p class="text-x-ink text-4xl font-black leading-none tracking-[-0.03em]">0</p>
                       <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Developer hours</p>
                     </div>
                     <div>
-                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">1yr+</p>
+                      <p class="text-x-ink text-4xl font-black leading-none tracking-[-0.03em]">1yr+</p>
                       <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Running unattended</p>
                     </div>
                   </div>
                 </div>
-                <div class="border-t border-slate-200 dark:border-[#282e39] pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
+                <div class="border-t border-slate-200 dark:border-surface-border pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
                   <p class="text-slate-900 dark:text-white text-sm font-semibold">What we built</p>
-                  <ul class="mt-4 flex flex-col gap-3">
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                  <ul class="mt-4 flex flex-col gap-3 x-check-list">
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>A no-code tracking dashboard the whole team can operate</span>
                     </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>Fields, views and reports the staff change on the fly</span>
                     </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>No developer in the loop to keep it running</span>
                     </li>
                   </ul>
@@ -648,75 +861,88 @@
               <!-- Anonymized per an NDA with the client. No client name, no logo, no
                    specific tools/metrics — vagueness here is deliberate, not a gap.
                    Confirmed with Kobi 2026-08-04: "family office" as the public label,
-                   outcome copy kept non-specific. -->
-              <article data-seq-item class="grid gap-8 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-8">
+                   outcome copy kept non-specific. REQ-18's redacted-document treatment
+                   is applied to the problem statement below (decorative bars) and a
+                   corner stamp — NOT to the "Family Office" label itself, which stays
+                   plain text per that same 2026-08-04 confirmation: it's the deliberate
+                   public label, not a real name standing in for one. -->
+              <article data-seq-item class="grid gap-6 x-card border border-slate-200 dark:border-surface-border bg-white dark:bg-surface-card p-5 md:grid-cols-[1fr_1.1fr] md:gap-8 md:p-6">
+                <span class="x-redacted-stamp" aria-hidden="true">Redacted &mdash; NDA</span>
+                <div class="md:col-span-2 flex flex-wrap items-center gap-x-4 gap-y-1 pb-4 mb-1 border-b border-x-rule font-x-mono text-[11px] uppercase tracking-[0.1em]">
+                  <span><span class="text-x-instrument">SECTOR</span> <span class="text-x-ink">PRIVATE-MARKETS</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">SYS</span> <span class="text-x-ink">MONITORING</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">STATUS</span> <span class="text-x-signal">ACTIVE</span></span>
+                </div>
                 <div>
-                  <p class="text-primary text-sm font-medium">Private Markets</p>
+                  <p class="font-x-mono text-x-instrument text-xs uppercase tracking-[0.1em]">Private Markets</p>
                   <h3 class="mt-1 text-slate-900 dark:text-white text-2xl font-bold leading-tight">Family Office</h3>
                   <p class="mt-4 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                    A US family office needed to track market activity relevant to their holdings without routing anything through outside vendors.
+                    <span aria-hidden="true">A US family office needed to track <span class="x-redact-bar" style="width: 6ch;"></span> activity relevant to <span class="x-redact-bar" style="width: 5ch;"></span> holdings, without routing anything through outside vendors.</span>
+                    <span class="sr-only">A US family office needed to track market activity relevant to their holdings, without routing anything through outside vendors. Client details withheld under NDA.</span>
                   </p>
-                  <div class="mt-7 flex gap-10">
-                    <div>
-                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">NDA</p>
-                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Engagement scope</p>
+                  <div class="mt-6 flex gap-8">
+                    <div class="flex flex-col items-start gap-2">
+                      <span class="inline-block border border-slate-300 dark:border-surface-border px-2.5 py-1 text-slate-600 dark:text-slate-300 text-xs font-semibold uppercase tracking-wide" data-status-chip>NDA</span>
+                      <p class="text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[16ch]">Engagement scope</p>
                     </div>
-                    <div>
-                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">Active</p>
-                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Status</p>
+                    <div class="flex flex-col items-start gap-2">
+                      <span class="inline-block border border-x-signal px-2.5 py-1 text-x-signal text-xs font-semibold uppercase tracking-wide" data-status-chip data-status-chip-tone="signal">Active</span>
+                      <p class="text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[16ch]">Status</p>
                     </div>
                   </div>
                 </div>
-                <div class="border-t border-slate-200 dark:border-[#282e39] pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
+                <div class="border-t border-slate-200 dark:border-surface-border pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
                   <p class="text-slate-900 dark:text-white text-sm font-semibold">What we built</p>
-                  <ul class="mt-4 flex flex-col gap-3">
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                  <ul class="mt-4 flex flex-col gap-3 x-check-list">
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>Private, in-house monitoring, nothing layered on a third-party feed</span>
                     </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>Reporting built around how their desk actually works</span>
-                    </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
-                      <span>No detail here that could identify the client or their positions</span>
                     </li>
                   </ul>
                 </div>
               </article>
 
-              <article data-seq-item class="grid gap-8 rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:p-8">
+              <article data-seq-item class="grid gap-6 x-card border border-slate-200 dark:border-surface-border bg-white dark:bg-surface-card p-5 md:grid-cols-[1fr_1.1fr] md:gap-8 md:p-6">
+                <div class="md:col-span-2 flex flex-wrap items-center gap-x-4 gap-y-1 pb-4 mb-1 border-b border-x-rule font-x-mono text-[11px] uppercase tracking-[0.1em]">
+                  <span><span class="text-x-instrument">REF</span> <span class="text-x-ink">SM-26</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">SECTOR</span> <span class="text-x-ink">SOCIAL-MEDIA</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">SYS</span> <span class="text-x-ink">AI-AGENT</span></span>
+                  <span class="text-x-rule" aria-hidden="true">&middot;</span>
+                  <span><span class="text-x-instrument">STATUS</span> <span class="text-x-signal">LIVE</span></span>
+                </div>
                 <div>
-                  <p class="text-primary text-sm font-medium">AI Agents</p>
+                  <p class="font-x-mono text-x-instrument text-xs uppercase tracking-[0.1em]">AI Agents</p>
                   <h3 class="mt-1 text-slate-900 dark:text-white text-2xl font-bold leading-tight">SoMedia</h3>
                   <p class="mt-4 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
                     Daily social content took a person's full attention — captions, hashtags, keeping a posting cadence — with nothing left over for strategy.
                   </p>
-                  <div class="mt-7 flex gap-10">
-                    <div>
-                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">Daily</p>
-                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Content cadence</p>
+                  <div class="mt-6 flex gap-8">
+                    <div class="flex flex-col items-start gap-2">
+                      <span class="inline-block border border-slate-300 dark:border-surface-border px-2.5 py-1 text-slate-600 dark:text-slate-300 text-xs font-semibold uppercase tracking-wide" data-status-chip>Daily</span>
+                      <p class="text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[16ch]">Content cadence</p>
                     </div>
-                    <div>
-                      <p class="text-primary text-4xl font-black leading-none tracking-[-0.03em]">Hours</p>
-                      <p class="mt-2 text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[14ch]">Reclaimed per week</p>
+                    <div class="flex flex-col items-start gap-2">
+                      <span class="inline-block border border-slate-300 dark:border-surface-border px-2.5 py-1 text-slate-600 dark:text-slate-300 text-xs font-semibold uppercase tracking-wide" data-status-chip>Hours</span>
+                      <p class="text-slate-500 dark:text-slate-400 text-xs leading-snug max-w-[16ch]">Reclaimed per week</p>
                     </div>
                   </div>
                 </div>
-                <div class="border-t border-slate-200 dark:border-[#282e39] pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
+                <div class="border-t border-slate-200 dark:border-surface-border pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0">
                   <p class="text-slate-900 dark:text-white text-sm font-semibold">What we built</p>
-                  <ul class="mt-4 flex flex-col gap-3">
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                  <ul class="mt-4 flex flex-col gap-3 x-check-list">
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>An AI agent that drafts on-brand captions and hashtags per post, on demand</span>
                     </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>Posting cadence held without a person opening the tool every day</span>
                     </li>
-                    <li class="flex gap-2.5 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      <span class="material-symbols-outlined text-primary text-[18px] leading-[22px] shrink-0" aria-hidden="true">check</span>
+                    <li class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       <span>Time that went to routine content work redirected to strategy</span>
                     </li>
                   </ul>
@@ -727,20 +953,24 @@
 
           <!-- Call to Action Banner -->
           <div id="contact" data-reveal class="mt-12 mb-20 scroll-mt-8">
-            <div class="rounded-xl bg-slate-900 dark:bg-[#151923] border border-slate-200 dark:border-[#282e39] p-8 md:p-12 relative overflow-hidden">
-              <div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+            <div class="x-card bg-slate-900 dark:bg-surface-raised border border-slate-200 dark:border-surface-border p-8 md:p-12 relative overflow-hidden">
+              <div class="absolute inset-0 pointer-events-none x-grid-bg"></div>
               <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div data-seq-item class="flex flex-col gap-4 max-w-lg">
-                  <h3 class="text-white text-2xl md:text-3xl font-bold">Ready to architect your future?</h3>
+                  <div class="flex items-center gap-2">
+                    <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-signal">SEC.06</span>
+                    <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-instrument">/ ENGAGEMENT</span>
+                  </div>
+                  <h3 class="text-white text-2xl md:text-3xl font-bold">Where things break today is more useful than a wish list.</h3>
                   <p class="text-slate-300 text-base">
-                    Join the businesses that are done duct-taping their operations together. Limited audit slots available.
+                    Join the businesses that are done duct-taping their operations together.
                   </p>
                 </div>
                 <!-- Same label as the nav and hero. The page previously offered
                      "Get Audit", "Book a Strategic Audit", "Explore Services" and
                      "Start Assessment" for one destination. -->
                 <div data-seq-item class="flex flex-col gap-3 min-w-[200px]">
-                  <a href="#contact-form" class="flex w-full cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-base font-bold h-12 px-6 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#151923] transition-colors">
+                  <a href="#contact-form" class="x-btn w-full">
                     Book an Audit
                   </a>
                   <span class="text-slate-400 text-xs text-center">No commitment required.</span>
@@ -755,11 +985,15 @@
                names by screen readers. Inputs are 44px tall to clear the minimum
                touch target, and focus is a visible ring rather than a border tint
                behind focus:outline-none. -->
-          <div id="contact-form" data-reveal class="rounded-xl border border-slate-200 dark:border-[#282e39] bg-white dark:bg-[#1c1f27] p-8 md:p-12 mb-12 scroll-mt-8">
+          <div id="contact-form" data-reveal class="x-card border border-slate-200 dark:border-surface-border bg-white dark:bg-surface-card p-8 md:p-12 mb-12 scroll-mt-8">
             <div class="mx-auto w-full max-w-md">
+              <div class="flex items-center gap-2">
+                <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-signal">SEC.07</span>
+                <span class="font-x-mono text-[11px] uppercase tracking-[0.12em] text-x-instrument">/ AUDIT-REQUEST</span>
+              </div>
               <h2 data-seq-item class="text-slate-900 dark:text-white text-2xl font-bold">Book an audit</h2>
               <p data-seq-item class="mt-2 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                Tell us how you run today. We'll come back with where the leaks are.
+                Tell us where it breaks. Not what you want built.
               </p>
               <form action="https://formsubmit.co/64aa6b4280c5bbac22078d744ce37881" method="POST" class="mt-8 flex flex-col gap-5">
                 <input type="hidden" name="_subject" value="New XSHEVA Contact - Strategic Assessment">
@@ -768,22 +1002,22 @@
 
                 <div data-seq-item class="flex flex-col gap-2">
                   <label for="cf-name" class="text-slate-700 dark:text-slate-200 text-sm font-medium">Name</label>
-                  <input id="cf-name" type="text" name="name" required autocomplete="name" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                  <input id="cf-name" type="text" name="name" required autocomplete="name" class="border border-slate-300 dark:border-surface-border-hover bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-x-signal focus:outline-none focus:ring-2 focus:ring-x-signal/60">
                 </div>
 
                 <div data-seq-item class="flex flex-col gap-2">
                   <label for="cf-email" class="text-slate-700 dark:text-slate-200 text-sm font-medium">Email</label>
-                  <input id="cf-email" type="email" name="email" required autocomplete="email" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                  <input id="cf-email" type="email" name="email" required autocomplete="email" class="border border-slate-300 dark:border-surface-border-hover bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-x-signal focus:outline-none focus:ring-2 focus:ring-x-signal/60">
                 </div>
 
                 <div data-seq-item class="flex flex-col gap-2">
                   <label for="cf-company" class="text-slate-700 dark:text-slate-200 text-sm font-medium">Company</label>
-                  <input id="cf-company" type="text" name="company" required autocomplete="organization" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                  <input id="cf-company" type="text" name="company" required autocomplete="organization" class="border border-slate-300 dark:border-surface-border-hover bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-x-signal focus:outline-none focus:ring-2 focus:ring-x-signal/60">
                 </div>
 
                 <div data-seq-item class="flex flex-col gap-2">
                   <label for="cf-category" class="text-slate-700 dark:text-slate-200 text-sm font-medium">Industry</label>
-                  <select id="cf-category" name="category" required class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                  <select id="cf-category" name="category" required class="border border-slate-300 dark:border-surface-border-hover bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 focus:border-x-signal focus:outline-none focus:ring-2 focus:ring-x-signal/60">
                     <option value="" disabled selected>Select an industry</option>
                     <option value="Real Estate">Real Estate</option>
                     <option value="Healthcare &amp; Wellness">Healthcare &amp; Wellness</option>
@@ -809,23 +1043,23 @@
 
                 <div data-seq-item class="flex flex-col gap-2">
                   <label for="cf-phone" class="text-slate-700 dark:text-slate-200 text-sm font-medium">Phone</label>
-                  <input id="cf-phone" type="tel" name="phone" required autocomplete="tel" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                  <input id="cf-phone" type="tel" name="phone" required autocomplete="tel" class="border border-slate-300 dark:border-surface-border-hover bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-x-signal focus:outline-none focus:ring-2 focus:ring-x-signal/60">
                 </div>
 
                 <div data-seq-item class="flex flex-col gap-2">
                   <label for="cf-website" class="text-slate-700 dark:text-slate-200 text-sm font-medium">
                     Website <span class="text-slate-500 dark:text-slate-400 font-normal">(optional)</span>
                   </label>
-                  <input id="cf-website" type="url" name="website" autocomplete="url" placeholder="https://" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60">
+                  <input id="cf-website" type="url" name="website" autocomplete="url" placeholder="https://" class="border border-slate-300 dark:border-surface-border-hover bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm h-11 px-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-x-signal focus:outline-none focus:ring-2 focus:ring-x-signal/60">
                 </div>
 
                 <div data-seq-item class="flex flex-col gap-2">
                   <label for="cf-message" class="text-slate-700 dark:text-slate-200 text-sm font-medium">What are you trying to fix?</label>
-                  <textarea id="cf-message" name="message" rows="4" class="rounded border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm p-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/60 resize-none"></textarea>
+                  <textarea id="cf-message" name="message" rows="4" class="border border-slate-300 dark:border-surface-border-hover bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm p-4 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-x-signal focus:outline-none focus:ring-2 focus:ring-x-signal/60 resize-none"></textarea>
                   <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">Where things break today is more useful than a wish list.</p>
                 </div>
 
-                <button data-seq-item type="submit" class="mt-1 flex w-full cursor-pointer items-center justify-center whitespace-nowrap rounded bg-primary text-on-primary text-base font-bold h-12 px-6 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#1c1f27] transition-colors">
+                <button data-seq-item type="submit" class="mt-1 x-btn w-full">
                   Send Request
                 </button>
 
@@ -835,15 +1069,23 @@
               </form>
             </div>
           </div>
+      </main>
 
           <!-- Footer -->
-          <footer data-reveal class="border-t border-slate-200 dark:border-[#282e39] py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+          <footer data-reveal class="border-t border-slate-200 dark:border-surface-border py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-500 dark:text-slate-400 text-sm">
               <span>© 2026 XSHEVA Inc.</span>
+              <a class="hover:text-primary dark:hover:text-primary transition-colors" href="mailto:kobi@xsheva.com">kobi@xsheva.com</a>
+              <a class="hover:text-primary dark:hover:text-primary transition-colors" href="tel:+972549789001">+972 54-978-9001</a>
             </div>
             <!-- size-11 gives the link a 44px tap box; the svg keeps its original
                  20px visual size, centred inside via flex. -->
             <div class="flex gap-2">
+              <a class="flex size-11 items-center justify-center text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="https://wa.me/972549789001" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.48 1.32 5.01L2 22l5.25-1.38c1.47.8 3.13 1.23 4.79 1.23h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.05 2h-.01zm5.83 14.14c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.17-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.27-.29.58-.36.78-.36.19 0 .39.002.56.01.18.008.42-.07.66.5.24.58.83 2.01.9 2.16.07.15.12.33.02.53-.1.2-.15.32-.3.5-.15.18-.31.4-.44.53-.15.15-.3.32-.13.62.17.3.76 1.25 1.63 2.02 1.12 1 2.06 1.31 2.36 1.46.3.15.48.13.66-.08.18-.2.75-.87.96-1.17.2-.3.4-.25.68-.15.28.1 1.75.83 2.05.98.3.15.5.22.58.35.08.13.08.75-.16 1.43z"></path>
+                </svg>
+              </a>
               <a class="flex size-11 items-center justify-center text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="#" aria-label="LinkedIn">
                 <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                   <path clip-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" fill-rule="evenodd"></path>
