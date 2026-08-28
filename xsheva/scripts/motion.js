@@ -299,29 +299,13 @@ export function initStats() {
 
   stats.forEach((stat, i) => {
     const at = 0.2 + i * STEP;
-    const out = stat.querySelector("[data-stat-num]");
-    const to = parseFloat(stat.dataset.statTo);
-    const decimals = parseInt(stat.dataset.statDecimals, 10) || 0;
-    const prefix = stat.dataset.statPrefix || "";
-    const suffix = stat.dataset.statSuffix || "";
-    const counter = { v: 0 };
 
+    // The real value is already in the server-rendered text (data-stat-num) —
+    // this only fades/translates it in. Never overwrite textContent here: a
+    // JS-only value is invisible to crawlers, AI answer engines, and anyone
+    // who scrolls past the pin before the tween completes.
     tl.to(stat, { opacity: 1, y: 0, duration: DUR, ease: "power2.out" }, at);
     tl.to(stat.querySelector("[data-stat-rule]"), { scaleX: 1, duration: DUR, ease: "power2.out" }, at);
-    // Counting the number rather than fading it in is what makes the figure feel
-    // earned. onUpdate writes text, so it never touches layout-triggering props.
-    tl.to(
-      counter,
-      {
-        v: to,
-        duration: DUR,
-        ease: "power2.out",
-        onUpdate: () => {
-          out.textContent = prefix + counter.v.toFixed(decimals) + suffix;
-        },
-      },
-      at,
-    );
   });
 
   if (heading) {
@@ -375,7 +359,11 @@ function initAnchorNav() {
       const target = document.querySelector(id);
       if (!target) return;
       e.preventDefault();
-      lenis.scrollTo(target, { offset: -92 });
+      // A fast programmatic scroll can leave a scrubbed pin's eased transform
+      // (scrub: 0.8 on the hero's exit) mid-interpolation when Lenis's own
+      // scrollTo animation finishes — ScrollTrigger.refresh() forces it to
+      // resolve against the real, final scroll position instead of coasting.
+      lenis.scrollTo(target, { offset: -92, onComplete: () => ScrollTrigger.refresh() });
     });
   });
 }
@@ -384,7 +372,8 @@ function initAnchorNav() {
 // own entry point, see below) can never take primary navigation down with it.
 function initMobileMenu() {
   const button = document.getElementById("mobile-menu-button");
-  const icon = document.getElementById("mobile-menu-icon");
+  const iconOpen = document.getElementById("mobile-menu-icon-open");
+  const iconClose = document.getElementById("mobile-menu-icon-close");
   const menu = document.getElementById("mobile-menu");
   const backdrop = document.getElementById("mobile-menu-backdrop");
   if (!button || !menu || !backdrop) return;
@@ -393,13 +382,15 @@ function initMobileMenu() {
     menu.classList.add("hidden");
     backdrop.classList.add("hidden");
     button.setAttribute("aria-expanded", "false");
-    icon.textContent = "menu";
+    iconOpen.classList.remove("hidden");
+    iconClose.classList.add("hidden");
   };
   const open = () => {
     menu.classList.remove("hidden");
     backdrop.classList.remove("hidden");
     button.setAttribute("aria-expanded", "true");
-    icon.textContent = "close";
+    iconOpen.classList.add("hidden");
+    iconClose.classList.remove("hidden");
   };
 
   button.addEventListener("click", () => {

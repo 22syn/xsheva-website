@@ -12,6 +12,6 @@ jobs:
     with:
       working-directory: xsheva
       run-lint: true
-      run-test: false # no test script defined yet
+      run-test: true # zero-values smoke test — REQ-08, node-ci runs test before build so `npm run test` builds first itself
       run-build: true
       run-secrets-scan: true
