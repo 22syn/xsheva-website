@@ -16,6 +16,11 @@ xsheva/node_modules/
 xsheva/dist/
 xsheva/.firebase/
 
+# Playwright
+xsheva/test-results/
+xsheva/playwright-report/
+xsheva/blob-report/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
