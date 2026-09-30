@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XSHEVA Brand Kit</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Hebrew:wght@400;600;700&display=swap">
+<style>
+  :root { --paper: #F3F4F6; --card: #FFFFFF; --line: #E2E5EA; --text: #0D121B; --muted: #5B6778; --navy: #101622; --orange: #FF6B35; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--text); font: 15px/1.6 "IBM Plex Sans Hebrew", system-ui, sans-serif; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 16px 80px; }
+  h1 { font-size: 30px; margin: 0 0 6px; }
+  h2 { font-size: 21px; margin: 40px 0 12px; }
+  .mono, code { font-family: "IBM Plex Mono", monospace; font-size: 12px; direction: ltr; unicode-bidi: isolate; }
+  .lead { color: var(--muted); margin: 0; max-width: 760px; }
+  .rule { background: var(--text); color: #fff; padding: 16px 20px; margin-top: 18px; }
+  .rule p { margin: 4px 0; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .asset { background: var(--card); border: 1px solid var(--line); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .asset.wide { grid-column: 1 / -1; }
+  .asset img { display: block; max-width: 100%; height: auto; border: 1px solid var(--line); }
+  .asset .chk { background-image: conic-gradient(#e6e8ec 25%, #fff 0 50%, #e6e8ec 0 75%, #fff 0); background-size: 16px 16px; padding: 12px; }
+  .asset .dark { background: #1b1f27; padding: 12px; }
+  .meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; }
+  .where { color: var(--muted); font-size: 13px; margin: 0; }
+  .icons { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+  .icons figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .icons figcaption { font: 11px "IBM Plex Mono", monospace; color: var(--muted); }
+  .pix { image-rendering: pixelated; }
+  table { border-collapse: collapse; width: 100%; background: var(--card); }
+  td, th { border: 1px solid var(--line); padding: 8px 10px; text-align: start; vertical-align: top; }
+  .sw { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-inline-end: 6px; border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="mono" style="color:var(--muted)">XSHEVA / BRAND KIT / A1 STEPPED X / 2026-09-30</p>
+  <h1>ערכת מותג: X מדרגות</h1>
+  <p class="lead">כל הקבצים בתיקייה <code>docs/brand/</code>. כל תמונה יוצאה במידות המדויקות של הפלטפורמה ונבדקה בעין.</p>
+
+  <div class="rule">
+    <p><strong>כלל הצבע:</strong> כשהסמל עומד לבד (favicon, תמונת פרופיל, אייקון) הוא X כתום מלא על נייבי. ליד המילה SHEVA הוא דו-גוני: המדרגה העולה בכתום, והשאר בצבע המילה.</p>
+    <p><strong>למה:</strong> בגודל של תמונת פרופיל, X כתום מלא נקרא מיד. הפיצול לשני צבעים נקרא טוב רק כשהמילה לידו.</p>
+  </div>
+
+  <h2>LinkedIn</h2>
+  <div class="grid">
+    <div class="asset">
+      <img src="linkedin/linkedin-logo-400.png" alt="Logo 400">
+      <div class="meta"><strong>לוגו החברה / תמונת פרופיל</strong><span class="mono">400×400</span></div>
+      <p class="where">Company page ← Edit page ← Logo. אותו קובץ משמש גם כתמונת הפרופיל ב-Gmail.</p>
+    </div>
+    <div class="asset">
+      <img src="linkedin/linkedin-logo-400-two-tone.png" alt="Logo 400 two-tone">
+      <div class="meta"><strong>חלופה דו-גונית</strong><span class="mono">400×400</span></div>
+      <p class="where">לא מומלץ כתמונת פרופיל: בגודל קטן נקרא כחלקים נפרדים. שמרתי למקרה שתעדיף אותה.</p>
+    </div>
+    <div class="asset wide">
+      <img src="linkedin/linkedin-company-cover.png" alt="Company cover">
+      <div class="meta"><strong>כיסוי לעמוד החברה</strong><span class="mono">1128×191</span></div>
+      <p class="where">Company page ← Edit page ← Cover image. הצד השמאלי ריק בכוונה, כי הלוגו של LinkedIn יושב שם.</p>
+    </div>
+    <div class="asset wide">
+      <img src="linkedin/linkedin-personal-banner.png" alt="Personal banner">
+      <div class="meta"><strong>באנר לפרופיל האישי</strong><span class="mono">1584×396</span></div>
+      <p class="where">הפרופיל שלך ← עיפרון על הבאנר. התוכן בצד ימין, כי תמונת הפרופיל שלך מכסה את הצד השמאלי-תחתון.</p>
+    </div>
+    <div class="asset wide">
+      <img src="web/og-image.png" alt="OG image">
+      <div class="meta"><strong>תמונת שיתוף (כשמשתפים את xsheva.com)</strong><span class="mono">1200×630</span></div>
+      <p class="where">עולה לאתר כ-<code>og:image</code>. אחרי העלאה: LinkedIn Post Inspector כדי לרענן את התצוגה המקדימה.</p>
+    </div>
+  </div>
+
+  <h2>מייל</h2>
+  <div class="grid">
+    <div class="asset">
+      <div class="dark"><img src="email/email-signature@2x.png" alt="Signature" width="180" height="48"></div>
+      <div class="meta"><strong>לוגו לחתימה (מומלץ)</strong><span class="mono">360×96 @2x</span></div>
+      <p class="where">רקע נייבי משלו, ולכן עובד גם במצב כהה של Gmail. מוצג ב-180×48.</p>
+    </div>
+    <div class="asset">
+      <div class="chk"><img src="email/email-signature-light@2x.png" alt="Signature light" width="180" height="48" style="border:0"></div>
+      <div class="meta"><strong>לוגו לחתימה, שקוף</strong><span class="mono">360×96 @2x</span></div>
+      <p class="where">רק לרקע בהיר. במצב כהה המילה הנייבית נעלמת.</p>
+    </div>
+    <div class="asset">
+      <p style="margin:0"><strong>חתימה מוכנה:</strong> <code>email/email-signature.html</code></p>
+      <p class="where">פותחים בדפדפן, בוחרים הכול, מעתיקים ל-Gmail ← Settings ← Signature. התמונה נטענת מ-xsheva.com, ולכן עובדת רק אחרי שהאתר יעלה עם הקבצים החדשים. לא הוספתי תפקיד, כי לא מצאתי אחד מתועד.</p>
+    </div>
+    <div class="asset wide">
+      <img src="email/email-header.png" alt="Email header">
+      <div class="meta"><strong>כותרת לניוזלטר / קמפיין</strong><span class="mono">1200×400 · shown at 600×200</span></div>
+    </div>
+  </div>
+
+  <h2>אתר</h2>
+  <div class="asset">
+    <div class="icons">
+      <figure><img class="pix" src="web/favicon.svg" width="16" height="16" alt=""><figcaption>16</figcaption></figure>
+      <figure><img class="pix" src="web/favicon.svg" width="32" height="32" alt=""><figcaption>32</figcaption></figure>
+      <figure><img class="pix" src="web/favicon.svg" width="96" height="96" alt=""><figcaption>favicon.svg ×6</figcaption></figure>
+      <figure><img src="web/apple-touch-icon.png" width="90" height="90" alt=""><figcaption>apple-touch 180</figcaption></figure>
+      <figure><img src="web/icon-192.png" width="96" height="96" alt=""><figcaption>192</figcaption></figure>
+      <figure><img src="web/icon-512.png" width="128" height="128" alt=""><figcaption>512 maskable</figcaption></figure>
+    </div>
+    <p class="where">ה-favicon בנוי על רשת של 16 יחידות, כך שכל קצה נופל על פיקסל שלם ב-16, 32 ו-48px. גם <code>favicon.ico</code> מכיל את שלושת הגדלים.</p>
+  </div>
+
+  <h2>כללי שימוש</h2>
+  <table>
+    <tr><th>נושא</th><th>כלל</th></tr>
+    <tr><td>מרווח נקי</td><td>לפחות תא אחד מסביב (חמישית מרוחב הסמל).</td></tr>
+    <tr><td>גודל מינימלי</td><td>16px למסך. מתחת לזה לא משתמשים.</td></tr>
+    <tr><td>צבעים</td><td><span class="sw" style="background:#FF6B35"></span><code>#FF6B35</code> כתום &nbsp; <span class="sw" style="background:#101622"></span><code>#101622</code> נייבי &nbsp; <span class="sw" style="background:#fff"></span><code>#FFFFFF</code> לבן</td></tr>
+    <tr><td>פונט המילה</td><td>Archivo ExtraBold (800), ריווח +0.02em. רישיון SIL OFL, מותר ללוגו.</td></tr>
+    <tr><td>אסור</td><td>לסובב, להטות, להוסיף צל או גרדיאנט, לצבוע את המדרגה בצבע אחר, להשתמש בגרסה הדו-גונית לבד כתמונת פרופיל.</td></tr>
+  </table>
+
+  <h2>קבצי מקור (SVG)</h2>
+  <p class="where"><code>masters/</code>: <code>xsheva-mark.svg</code> (דו-גוני לרקע בהיר), <code>-reversed</code> (דו-גוני לרקע כהה), <code>-orange</code>, <code>-black</code>, <code>-white</code>, <code>-tile</code> (על ריבוע נייבי).</p>
+</div>
+</body>
+</html>
