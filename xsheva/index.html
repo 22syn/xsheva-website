@@ -8,6 +8,12 @@
   <meta property="og:title" content="XSHEVA: CRM, Automation & AI Agents">
   <meta property="og:description" content="CRM integrations, lead automation, and AI agents built around how your business actually runs. Not generic SaaS bolt-ons.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xsheva.com/">
+  <meta property="og:image" content="https://xsheva.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="XSHEVA: We find the revenue you're losing.">
+  <meta name="twitter:card" content="summary_large_image">
   <title>XSHEVA: CRM, Automation & AI Agents | Build Your Private Business Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,9 +25,12 @@
        Symbols are still load-bearing across the page until Phase 3/4 migrate
        each component off them (spec §6, §7.4). -->
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
-  <link rel="alternate icon" href="/favicon.svg?v=3">
-  <link rel="apple-touch-icon" href="/favicon.svg?v=3">
+  <!-- ?v= busts firebase.json's 7-day image cache; bump it whenever an icon changes.
+       iOS ignores SVG touch icons, hence the PNG. -->
+  <link rel="icon" href="/favicon.ico?v=4" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
+  <link rel="manifest" href="/site.webmanifest">
   <meta name="theme-color" content="#101622">
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script id="tailwind-config">
@@ -208,6 +217,27 @@
       margin-bottom: -0.12em;
     }
 
+    /* Header lockup. The mark is sized to Archivo 800's cap height (0.687em, measured
+       with canvas measureText on "H") and baseline-aligned, so it reads as the X of the
+       word rather than an icon beside it. */
+    .x-lockup {
+      --x-lockup-cap: 0.687em;
+      display: inline-flex;
+      align-items: baseline;
+      font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+      font-weight: 800;
+      font-size: 1.375rem;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .x-lockup__mark {
+      width: var(--x-lockup-cap);
+      height: var(--x-lockup-cap);
+      margin-right: 0.075em;
+      flex: none;
+    }
+
     /* Client logo marquee. Reverted from a static REQ-21 grid per Kobi
        2026-08-28: "it's supposed to run like a bar, not like this" — the
        moving strip is the client's explicit call, which the spec's own §0
@@ -345,13 +375,14 @@
       <!-- Header -->
       <header class="sticky top-0 z-50 flex items-center justify-between border-b border-solid border-slate-200 dark:border-surface-border bg-white/90 dark:bg-surface-nav/90 backdrop-blur-md px-6 lg:px-10 py-4 transition-all duration-300">
         <div class="flex items-center gap-4">
-          <a href="/" class="flex min-h-11 items-center gap-4">
-            <div class="size-6 text-primary">
-              <svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 32L10 22L24 22L24 12L38 12" stroke="currentColor" stroke-width="8" stroke-linejoin="miter" stroke-linecap="square"></path>
-              </svg>
-            </div>
-            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">XSHEVA</h2>
+          <!-- Stepped-X mark stands in for the X of XSHEVA (docs/brand). The visual
+               lockup is aria-hidden; the link carries the name. -->
+          <a href="/" class="flex min-h-11 items-center" aria-label="XSHEVA home">
+            <span class="x-lockup text-slate-900 dark:text-white" aria-hidden="true">
+              <svg class="x-lockup__mark" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path class="fill-current" d="M0 0L40 0L40 40L80 40L80 80L120 80L120 40L160 40L160 0L200 0L200 80L160 80L160 120L200 120L200 200L160 200L160 160L120 160L120 120L80 120L80 160L40 160L40 200L0 200L0 120L40 120L40 80L0 80Z"></path>
+                <path class="fill-primary" d="M40 160L40 200L0 200L0 120L40 120L40 80L120 80L120 40L160 40L160 0L200 0L200 80L160 80L160 120L80 120L80 160Z"></path>
+              </svg>SHEVA</span>
           </a>
         </div>
         <div class="hidden lg:flex flex-1 justify-end gap-8 items-center">
