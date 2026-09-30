@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XSHEVA Logo Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Hebrew:wght@400;600;700&display=swap">
+<style>
+  :root {
+    --paper: #F3F4F6; --card: #FFFFFF; --line: #E2E5EA; --text: #0D121B; --muted: #5B6778;
+    --navy: #101622; --ground: #0D121B; --ink: #E6EBF2; --instr: #7E90A5; --orange: #FF6B35;
+    --good: #0F7B4A; --bad: #B42318;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--text); font: 15px/1.6 "IBM Plex Sans Hebrew", system-ui, sans-serif; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 16px 80px; }
+  h1 { font-size: 30px; margin: 0 0 6px; }
+  h2 { font-size: 22px; margin: 0 0 4px; }
+  h3 { font-size: 18px; margin: 0; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .06em; font-size: 12px; color: var(--muted); direction: ltr; unicode-bidi: isolate; }
+  .lead { color: var(--muted); max-width: 760px; margin: 0; }
+  section { margin-top: 48px; }
+  .method { background: var(--card); border: 1px solid var(--line); padding: 12px 16px; margin: 12px 0 20px; }
+  .toggle { display: inline-flex; border: 1px solid var(--text); margin-top: 16px; }
+  .toggle button { font: inherit; border: 0; background: transparent; padding: 8px 14px; cursor: pointer; min-height: 40px; }
+  .toggle button[aria-pressed="true"] { background: var(--text); color: #fff; }
+  details { background: var(--card); border: 1px solid var(--line); padding: 12px 16px; margin-bottom: 12px; }
+  summary { cursor: pointer; font-weight: 600; }
+  ul { margin: 8px 0; padding-inline-start: 20px; }
+  table { border-collapse: collapse; width: 100%; background: var(--card); }
+  td, th { border: 1px solid var(--line); padding: 6px 10px; text-align: start; vertical-align: top; }
+  .pick { color: var(--good); font-weight: 700; }
+  .drop { color: var(--muted); }
+
+  .card { background: var(--card); border: 1px solid var(--line); padding: 20px; margin-bottom: 20px; }
+  .card.rec { border: 2px solid var(--text); }
+  .card-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 14px; }
+  .badge { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border: 1px solid var(--text); }
+  .badge.rec { background: var(--text); color: #fff; }
+  .row { display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; }
+  .tile { display: flex; align-items: center; justify-content: center; border: 1px solid var(--line); position: relative; }
+  .tile.hero { width: 220px; height: 220px; background: #fff; color: #000; }
+  .tile.lockup { flex: 1 1 300px; min-height: 220px; background: #fff; color: #000; gap: 18px; }
+  .lockup .word { font: 800 44px/1 "Archivo", "Helvetica Neue", Arial, sans-serif; letter-spacing: .02em; direction: ltr; }
+  body.color .tile.hero, body.color .tile.lockup { background: var(--navy); color: var(--ink); border-color: var(--navy); --accent: var(--orange); --frame: var(--instr); }
+  .navbar { flex: 1 1 100%; display: flex; align-items: center; gap: 12px; direction: ltr; background: var(--ground); color: #fff; padding: 14px 20px; border: 1px solid var(--rule, #232E3F); }
+  .navbar .word { font: 700 20px/1 "Archivo", Arial, sans-serif; letter-spacing: -.015em; }
+  .navbar .nav { margin-inline-start: auto; display: flex; gap: 20px; font: 500 13px/1 "IBM Plex Sans Hebrew", sans-serif; color: #B2BECD; }
+  .subx { vertical-align: -0.1em; margin-inline-end: -0.06em; margin-inline-start: -0.1em; }
+  .mark-word .word { font: 700 20px/1 "Archivo", Arial, sans-serif; }
+  .navbar .mark-word { color: #fff; --accent: var(--orange); }
+  .card.variant { margin-top: -8px; border-style: dashed; }
+  body.color .navbar { --accent: var(--orange); --frame: var(--instr); }
+  body.color .navbar .mark { color: var(--ink); }
+  .navbar .mark { color: var(--orange); }
+
+  .tests { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
+  .test { border: 1px solid var(--line); background: #fff; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .test .area { display: flex; align-items: flex-end; justify-content: center; gap: 12px; min-height: 96px; color: #000; }
+  .test.dark .area { background: var(--navy); color: #fff; }
+  .test .cap { font-size: 12px; color: var(--muted); }
+  canvas.px { width: 96px; height: 96px; image-rendering: pixelated; border: 1px solid var(--line); }
+  .blur svg { filter: blur(2.5px); }
+  .mirror svg { transform: scaleX(-1); }
+  .rot svg { transform: rotate(180deg); }
+
+  .audit { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip { font-family: "IBM Plex Mono", monospace; font-size: 12px; padding: 4px 8px; border: 1px solid var(--line); background: #fff; direction: ltr; unicode-bidi: isolate; }
+  .chip.ok { border-color: var(--good); color: var(--good); }
+  .chip.no { border-color: var(--bad); color: var(--bad); }
+  .copy { margin-top: 14px; }
+  .copy p { margin: 4px 0; }
+  .risk { color: var(--bad); }
+
+  .shelf { display: flex; flex-wrap: wrap; gap: 26px; align-items: center; justify-content: center; background: var(--navy); color: #fff; padding: 22px; }
+  .shelf figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .shelf figcaption { font: 11px "IBM Plex Mono", monospace; color: var(--instr); direction: ltr; }
+  .shelf .ours figcaption { color: var(--orange); }
+
+  .grid-b { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+  .grid-b .card { margin: 0; transition: transform .25s ease, box-shadow .25s ease; }
+  .grid-b .card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(13,18,27,.08); }
+  .grid-b .tile.hero { width: 100%; height: 200px; }
+  .grid-b .tile.hero svg { transition: transform .3s ease; }
+  .grid-b .card:hover .tile.hero svg { transform: scale(1.06); }
+
+  .now { display: flex; flex-wrap: wrap; gap: 20px; }
+  .now .tile { width: 180px; height: 180px; background: var(--navy); color: var(--orange); }
+  .now .tile::before, .now .tile::after { content: ""; position: absolute; background: rgba(255,255,255,.35); }
+  .now .tile::before { left: 50%; top: 8px; bottom: 8px; width: 1px; }
+  .now .tile::after { top: 50%; left: 8px; right: 8px; height: 1px; }
+  .next { background: var(--text); color: #fff; padding: 22px; }
+  .next p { margin: 6px 0; }
+  @media (max-width: 520px) { .tile.hero { width: 100%; } .lockup .word { font-size: 30px; } .navbar .nav { display: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="mono">XSHEVA / LOGO OPTIONS / 2026-09-30</p>
+    <h1>XSHEVA: אפשרויות לוגו</h1>
+    <p class="lead">שני מסלולים, כל אחד לפי המתודולוגיה של הסקיל שלו. בחר כיוון, או ציין מה אהבת בכל אחד.</p>
+    <div class="toggle" role="group" aria-label="מצב צבע">
+      <button type="button" data-mode="mono" aria-pressed="true">שחור-לבן (כך מציגים לפי הסקיל)</button>
+      <button type="button" data-mode="color" aria-pressed="false">צבע: כתום על נייבי</button>
+    </div>
+  </header>
+
+  <section id="now">
+    <h2>נקודת מוצא: הסימן הנוכחי</h2>
+    <p class="lead">הסימן ישב 2 יחידות גבוה מדי בתוך המסגרת. התיקון כבר בקוד (<span class="mono">favicon.svg</span> והכותרת באתר). הקווים הבהירים מסמנים את מרכז המסגרת.</p>
+    <div class="now" style="margin-top:14px">
+      <div><div class="tile" data-slot="svg" data-id="current-before" data-size="120"></div><p class="cap">לפני <span class="mono" data-audit="current-before"></span></p></div>
+      <div><div class="tile" data-slot="svg" data-id="current-after" data-size="120"></div><p class="cap">אחרי <span class="mono" data-audit="current-after"></span></p></div>
+    </div>
+  </section>
+
+  <section id="track-a">
+    <p class="mono">TRACK A / kaankiziltug/logo-design-skill</p>
+    <h2>מסלול A: logo-design</h2>
+    <div class="method">
+      <strong>המתודולוגיה:</strong> תקציר, מחקר קטגוריה, 10 רעיונות במשפט אחד, בנייה של 3 החזקים והשונים ביותר, בדיקות (16px, צבע אחד, היפוך, מראה, סיבוב, טשטוש, מדף מול הקטגוריה), ועצירה לבחירה לפני בניית הערכה המלאה.
+    </div>
+
+    <details>
+      <summary>התקציר (שלב 1)</summary>
+      <ul>
+        <li><strong>תמצית:</strong> XSHEVA בונה מערכות AI, CRM ואוטומציות לעסקים בארה״ב. "דיוק מתמטי, לא שיווק".</li>
+        <li><strong>תארים:</strong> מדויק, מהונדס, ישיר, בטוח בעצמו, מסקרן. <strong>להימנע מ:</strong> SaaS גנרי, הייפ, רכות.</li>
+        <li><strong>לשמור (נכסים קיימים):</strong> מדרגה כתומה, זוויות 90°, בלי רדיוס, סימני רישום בפינות, רשת שרטוט.</li>
+        <li><strong>חייב לעבוד ב:</strong> favicon ב-16px, אווטאר, כותרת האתר, רקע כהה.</li>
+        <li><strong>הנחות שלי (תקן אותי):</strong> המתחרים הם סוכנויות AI ואוטומציה, כי לא קיבלתי רשימה. לשם אין משמעות מתועדת שהלוגו צריך לבטא.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>מחקר קטגוריה (שלב 2)</summary>
+      <ul>
+        <li><strong>קלישאות אסורות:</strong> מוח, רשת נוירונים, ניצוץ AI, משושה, מעגל חשמלי, חץ עולה, גרדיאנט סגול.</li>
+        <li><strong>בספריית הסקיל (1,432 לוגואים) יש 17 סימני X.</strong> dbt כבר תופס X כתום אלכסוני, ו-X/Twitter תופס X אלכסוני עבה. מסקנה: להתרחק מ-X אלכסוני.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>10 הרעיונות (שלב 3), ומה נבחר</summary>
+      <table>
+        <tr><th>#</th><th>רעיון במשפט אחד</th><th>החלטה</th></tr>
+        <tr><td>1</td><td>X שבנוי רק מזוויות 90°, והמדרגה הנוכחית היא אחת הזרועות שלו</td><td class="pick">A1</td></tr>
+        <tr><td>2</td><td>x נטוי של משוואה משתי קשתות: The Growth Variable</td><td class="pick">A2</td></tr>
+        <tr><td>3</td><td>המדרגה הנוכחית בתוך סימני הרישום של האתר</td><td class="pick">A3 (רענון)</td></tr>
+        <tr><td>4</td><td>X עם בלוק מעריך קטן (x²)</td><td class="drop">נפסל: נקרא כתג התראה על כפתור סגירה</td></tr>
+        <tr><td>5</td><td>כוונת (crosshair) עם X</td><td class="drop">נפסל: קלישאת "targeting" בשיווק</td></tr>
+        <tr><td>6</td><td>X שנדלק במטריצת LED</td><td class="drop">הועבר למסלול B (B2)</td></tr>
+        <tr><td>7</td><td>תגובת מדרגה על צירי גרף</td><td class="drop">נפסל: גרף צמיחה הוא קלישאה</td></tr>
+        <tr><td>8</td><td>ארבע פינות רישום, והרווח ביניהן יוצר X</td><td class="drop">נפסל: הרווחים נסגרים ב-16px</td></tr>
+        <tr><td>9</td><td>מונוגרמה XS</td><td class="drop">נפסל: אותיות מגופן מוכן בלי רעיון</td></tr>
+        <tr><td>10</td><td>סימן כפל × עם שבר מדרגה</td><td class="drop">נפסל: קרוב מדי ל-X האלכסוני של dbt ו-X/Twitter</td></tr>
+      </table>
+    </details>
+
+    <div id="cards-a"></div>
+
+    <h3 style="margin:28px 0 10px">מבחן מדף: 3 הקונספטים בין קלישאות הקטגוריה (32px)</h3>
+    <div class="shelf" id="shelf"></div>
+
+    <div class="method" style="margin-top:20px">
+      <strong>ההמלצה:</strong> הכיוון של A1. זה הקונספט היחיד שפותר את שתי הבעיות מהסקירה (גנרי ולא קשור לשם) ועדיין שומר את המדרגה הכתומה. במצב צבע המדרגה הכתומה של היום נראית בתוך ה-X. בין שני החיתוכים אני נוטה ל-A1b: הוא נקרא כ-X מהר יותר ופחות כבד. A3 הוא הגיבוי אם לא רוצים לשנות.
+    </div>
+  </section>
+
+  <section id="track-b">
+    <p class="mono">TRACK B / op7418/logo-generator-skill</p>
+    <h2>מסלול B: logo-generator</h2>
+    <div class="method">
+      <strong>המתודולוגיה:</strong> איסוף מידע, ואז 6 וריאנטים, אחד מכל משפחת דפוסים (גיאומטרי, מטריצת נקודות, קווים, נקודות וגיאומטריה, קווים וגיאומטריה, רשת צמתים), בדף תצוגה אינטראקטיבי. אחרי זה מצמצמים ל-2–3 ומחדדים.<br>
+      <strong>כללי הסקיל:</strong> קו בעובי 2.5–4 מתוך 100, לפחות 40% שטח ריק, מוקד אחד. ההשלכה: רוב הווריאנטים דקים מדי ל-16px.<br>
+      <strong>דילגתי על שלב 4</strong> (תמונות רקע ל-showcase): הוא דורש Gemini API, בניגוד להעדפה שלך לא להשתמש ב-API חיצוני.
+    </div>
+    <div class="grid-b" id="cards-b"></div>
+  </section>
+
+  <section>
+    <div class="next">
+      <p><strong>הצעד הבא:</strong> כתוב לי אות (A1–A3 או B1–B6), או שילוב, למשל "A1 עם הרשת של B2".</p>
+      <p>לפי הסקיל הראשון, רק אחרי בחירה בונים את הערכה המלאה: פלטה, צבע אחד והיפוך, גרסת סמל+שם אופקית ומוערמת, גרסה ל-16px, סט favicon ואייקוני אפליקציה, לוח מוקאפים ומדריך שימוש של עמוד אחד.</p>
+      <p class="mono" style="color:#B2BECD">The skills' own scripts were not executed (third-party repo). Every test on this page runs in the page itself: real 16/32/64px rendering, a 16px pixel grid, and a canvas audit of centring and ink coverage. The XSHEVA word is live Archivo text for now; the kit phase outlines it.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+const DATA = {"concepts": [{"id": "current-before", "track": "now", "vb": 48, "body": "<path d=\"M10 32L10 22L24 22L24 12L38 12\" fill=\"none\" style=\"stroke:var(--accent,currentColor)\" stroke-width=\"8\" stroke-linejoin=\"miter\" stroke-linecap=\"square\"/>", "min16": 2.67, "bodyFile": "<path d=\"M10 32L10 22L24 22L24 12L38 12\" fill=\"none\" style=\"stroke:currentColor\" stroke-width=\"8\" stroke-linejoin=\"miter\" stroke-linecap=\"square\"/>"}, {"id": "current-after", "track": "now", "vb": 48, "body": "<path d=\"M10 34L10 24L24 24L24 14L38 14\" fill=\"none\" style=\"stroke:var(--accent,currentColor)\" stroke-width=\"8\" stroke-linejoin=\"miter\" stroke-linecap=\"square\"/>", "min16": 2.67, "bodyFile": "<path d=\"M10 34L10 24L24 24L24 14L38 14\" fill=\"none\" style=\"stroke:currentColor\" stroke-width=\"8\" stroke-linejoin=\"miter\" stroke-linecap=\"square\"/>"}, {"id": "a1-stepped-x", "track": "A", "vb": 256, "rec": true, "min16": 2.5, "body": "<path fill=\"currentColor\" d=\"M28 28H68V68H108V108H148V68H188V28H228V108H188V148H228V228H188V188H148V148H108V188H68V228H28V148H68V108H28Z\"/><path style=\"fill:var(--accent,currentColor)\" d=\"M28 228V148H68V108H148V68H188V28H228V108H188V148H108V188H68V228Z\"/>", "name": "X מדרגות", "type": "Letterform", "idea": "X שבנוי רק ממדרגות של 90°. המדרגה הכתומה של היום היא הזרוע העולה שלו.", "why": ["מחבר את הסימן לשם (X) בלי לוותר על המדרגה.", "רק זוויות ישרות ובלי רדיוס, כמו שפת האתר (REQ-12). רחוק מה-X האלכסוני של dbt ושל X/Twitter.", "הכי חזק ב-16px מכל האפשרויות: עובי 2.5px."], "risk": "X פיקסלי עלול להיקרא כאייקון סגירה בממשק רטרו. במרכז נוצרת צורת H קטנה.", "sub": true, "bodyFile": "<path fill=\"currentColor\" d=\"M28 28H68V68H108V108H148V68H188V28H228V108H188V148H228V228H188V188H148V148H108V188H68V228H28V148H68V108H28Z\"/><path style=\"fill:currentColor\" d=\"M28 228V148H68V108H148V68H188V28H228V108H188V148H108V188H68V228Z\"/>"}, {"id": "a1b-stepped-x-fine", "track": "A", "variant": true, "vb": 256, "min16": 1.75, "sub": true, "body": "<path fill=\"currentColor\" d=\"M30 30L58 30L58 58L86 58L86 86L114 86L114 114L142 114L142 86L170 86L170 58L198 58L198 30L226 30L226 86L198 86L198 114L170 114L170 142L198 142L198 170L226 170L226 226L198 226L198 198L170 198L170 170L142 170L142 142L114 142L114 170L86 170L86 198L58 198L58 226L30 226L30 170L58 170L58 142L86 142L86 114L58 114L58 86L30 86Z\"/><path style=\"fill:var(--accent,currentColor)\" d=\"M58 198L58 226L30 226L30 170L58 170L58 142L86 142L86 114L142 114L142 86L170 86L170 58L198 58L198 30L226 30L226 86L198 86L198 114L170 114L170 142L114 142L114 170L86 170L86 198Z\"/>", "name": "X מדרגות, גרסה עדינה (7×7)", "type": "A1 iteration", "idea": "אותו רעיון על רשת צפופה יותר: אלכסון חלק יותר, פחות כבד, פחות H במרכז.", "risk": "המדרגות קטנות יותר ונראות כמו 'קצוות משוננים' של X, פחות כמו מדרגה. ב-16px הקו דק יותר (1.75px).", "bodyFile": "<path fill=\"currentColor\" d=\"M30 30L58 30L58 58L86 58L86 86L114 86L114 114L142 114L142 86L170 86L170 58L198 58L198 30L226 30L226 86L198 86L198 114L170 114L170 142L198 142L198 170L226 170L226 226L198 226L198 198L170 198L170 170L142 170L142 142L114 142L114 170L86 170L86 198L58 198L58 226L30 226L30 170L58 170L58 142L86 142L86 114L58 114L58 86L30 86Z\"/><path style=\"fill:currentColor\" d=\"M58 198L58 226L30 226L30 170L58 170L58 142L86 142L86 114L142 114L142 86L170 86L170 58L198 58L198 30L226 30L226 86L198 86L198 114L170 114L170 142L114 142L114 170L86 170L86 198Z\"/>"}, {"id": "a2-variable", "track": "A", "vb": 256, "min16": 2.0, "body": "<path d=\"M205.3 54A100 76 0 0 0 205.3 202M50.7 54A100 76 0 0 1 50.7 202\" fill=\"none\" style=\"stroke:var(--accent,currentColor)\" stroke-width=\"32\" stroke-linecap=\"butt\"/>", "name": "המשתנה", "type": "Abstract letterform", "idea": "x נטוי של משוואה: הסלוגן The Growth Variable הופך לסימן.", "why": ["שונה מכל סימן X בספרייה: קשתות במקום אלכסונים.", "מסקרן, חידה קלה שמתאימה ל-Intriguing."], "risk": "שובר את שפת ה-90° של האתר. בספרייה אין X מקשתות, אבל זה לא מחליף בדיקת סימן מסחרי.", "bodyFile": "<path d=\"M205.3 54A100 76 0 0 0 205.3 202M50.7 54A100 76 0 0 1 50.7 202\" fill=\"none\" style=\"stroke:currentColor\" stroke-width=\"32\" stroke-linecap=\"butt\"/>"}, {"id": "a3-measured-step", "track": "A", "vb": 256, "min16": 2.0, "min16_note": "פינות: 0.75", "body": "<path d=\"M24 72V24H72M232 184V232H184\" fill=\"none\" style=\"stroke:var(--frame,currentColor)\" stroke-width=\"12\" stroke-linecap=\"square\"/><path d=\"M72 168V128H128V88H184\" fill=\"none\" style=\"stroke:var(--accent,currentColor)\" stroke-width=\"32\" stroke-linecap=\"square\" stroke-linejoin=\"miter\"/>", "name": "המדרגה המדודה", "type": "Refresh", "idea": "המדרגה של היום בתוך סימני הרישום של האתר, כך שהלוגו והממשק הם שרטוט אחד.", "why": ["שומר את כל ההיכרות עם הסימן הקיים.", "הפינות והמדרגה נחתכות באלכסון ויוצרות X נסתר."], "risk": "הקשר לשם עדיין חלש. הפינות נעלמות מתחת ל-32px, אז ה-favicon נשאר המדרגה לבדה.", "bodyFile": "<path d=\"M24 72V24H72M232 184V232H184\" fill=\"none\" style=\"stroke:currentColor\" stroke-width=\"12\" stroke-linecap=\"square\"/><path d=\"M72 168V128H128V88H184\" fill=\"none\" style=\"stroke:currentColor\" stroke-width=\"32\" stroke-linecap=\"square\" stroke-linejoin=\"miter\"/>"}, {"id": "b1-compound", "track": "B", "vb": 100, "min16": 1.92, "min16_note": "רווחים: 0.64", "body": "<g fill=\"currentColor\"><rect x=\"14\" y=\"74\" width=\"12\" height=\"12\"/><rect x=\"30\" y=\"50\" width=\"20\" height=\"20\"/><rect x=\"54\" y=\"14\" width=\"32\" height=\"32\" style=\"fill:var(--accent,currentColor)\"/></g>", "name": "כפל מצטבר", "type": "Pure geometric", "idea": "שלושה ריבועים, כל אחד פי 1.6 מהקודם: Multiply Everything.", "risk": "קרוב לאייקוני 'צמיחה' גנריים. ב-16px הרווחים נסגרים והריבועים מתחברים.", "bodyFile": "<g fill=\"currentColor\"><rect x=\"14\" y=\"74\" width=\"12\" height=\"12\"/><rect x=\"30\" y=\"50\" width=\"20\" height=\"20\"/><rect x=\"54\" y=\"14\" width=\"32\" height=\"32\" style=\"fill:currentColor\"/></g>"}, {"id": "b2-decoded-x", "track": "B", "vb": 100, "min16": 1.76, "body": "<g fill=\"currentColor\"><rect x=\"14.5\" y=\"14.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"35\" cy=\"20\" r=\"1.6\"/><circle cx=\"50\" cy=\"20\" r=\"1.6\"/><circle cx=\"65\" cy=\"20\" r=\"1.6\"/><rect x=\"74.5\" y=\"14.5\" width=\"11\" height=\"11\" rx=\"2\" style=\"fill:var(--accent,currentColor)\"/><circle cx=\"20\" cy=\"35\" r=\"1.6\"/><rect x=\"29.5\" y=\"29.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"50\" cy=\"35\" r=\"1.6\"/><rect x=\"59.5\" y=\"29.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"80\" cy=\"35\" r=\"1.6\"/><circle cx=\"20\" cy=\"50\" r=\"1.6\"/><circle cx=\"35\" cy=\"50\" r=\"1.6\"/><rect x=\"44.5\" y=\"44.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"65\" cy=\"50\" r=\"1.6\"/><circle cx=\"80\" cy=\"50\" r=\"1.6\"/><circle cx=\"20\" cy=\"65\" r=\"1.6\"/><rect x=\"29.5\" y=\"59.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"50\" cy=\"65\" r=\"1.6\"/><rect x=\"59.5\" y=\"59.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"80\" cy=\"65\" r=\"1.6\"/><rect x=\"14.5\" y=\"74.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"35\" cy=\"80\" r=\"1.6\"/><circle cx=\"50\" cy=\"80\" r=\"1.6\"/><circle cx=\"65\" cy=\"80\" r=\"1.6\"/><rect x=\"74.5\" y=\"74.5\" width=\"11\" height=\"11\" rx=\"2\"/></g>", "name": "X מפוענח", "type": "Dot matrix", "idea": "ה-X עולה מתוך רשת נתונים. התא העליון מסומן כנקודת הסיגנל.", "risk": "קרוב ל-A1. ב-16px נקודות הרשת הופכות לאפור ומטשטשות את ה-X.", "bodyFile": "<g fill=\"currentColor\"><rect x=\"14.5\" y=\"14.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"35\" cy=\"20\" r=\"1.6\"/><circle cx=\"50\" cy=\"20\" r=\"1.6\"/><circle cx=\"65\" cy=\"20\" r=\"1.6\"/><rect x=\"74.5\" y=\"14.5\" width=\"11\" height=\"11\" rx=\"2\" style=\"fill:currentColor\"/><circle cx=\"20\" cy=\"35\" r=\"1.6\"/><rect x=\"29.5\" y=\"29.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"50\" cy=\"35\" r=\"1.6\"/><rect x=\"59.5\" y=\"29.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"80\" cy=\"35\" r=\"1.6\"/><circle cx=\"20\" cy=\"50\" r=\"1.6\"/><circle cx=\"35\" cy=\"50\" r=\"1.6\"/><rect x=\"44.5\" y=\"44.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"65\" cy=\"50\" r=\"1.6\"/><circle cx=\"80\" cy=\"50\" r=\"1.6\"/><circle cx=\"20\" cy=\"65\" r=\"1.6\"/><rect x=\"29.5\" y=\"59.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"50\" cy=\"65\" r=\"1.6\"/><rect x=\"59.5\" y=\"59.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"80\" cy=\"65\" r=\"1.6\"/><rect x=\"14.5\" y=\"74.5\" width=\"11\" height=\"11\" rx=\"2\"/><circle cx=\"35\" cy=\"80\" r=\"1.6\"/><circle cx=\"50\" cy=\"80\" r=\"1.6\"/><circle cx=\"65\" cy=\"80\" r=\"1.6\"/><rect x=\"74.5\" y=\"74.5\" width=\"11\" height=\"11\" rx=\"2\"/></g>"}, {"id": "b3-signal-break", "track": "B", "vb": 100, "min16": 0.64, "body": "<path fill=\"none\" stroke=\"currentColor\" stroke-width=\"4\" d=\"M27 23H73M20 32H28M36 32H64M72 32H80M20 41H37M45 41H55M63 41H80M20 50H46M54 50H80M20 59H37M45 59H55M63 59H80M20 68H28M36 68H64M72 68H80M27 77H73\"/>", "name": "שבר אות", "type": "Line system", "idea": "שבעה קווי סיגנל, וה-X מופיע רק ברווחים: ביקוש מפוענח.", "risk": "ב-16px הקווים מתמזגים לריבוע אפור, וה-X נשאר רק כצל בהיר. צריך גרסה קטנה נפרדת.", "bodyFile": "<path fill=\"none\" stroke=\"currentColor\" stroke-width=\"4\" d=\"M27 23H73M20 32H28M36 32H64M72 32H80M20 41H37M45 41H55M63 41H80M20 50H46M54 50H80M20 59H37M45 59H55M63 59H80M20 68H28M36 68H64M72 68H80M27 77H73\"/>"}, {"id": "b4-compounding-dots", "track": "B", "vb": 100, "min16": 0.64, "body": "<g fill=\"currentColor\"><circle cx=\"21\" cy=\"79\" r=\"2\"/><circle cx=\"31\" cy=\"69\" r=\"2.8\"/><circle cx=\"42\" cy=\"58\" r=\"3.6\"/><rect x=\"55\" y=\"19\" width=\"26\" height=\"26\" style=\"fill:var(--accent,currentColor)\"/></g>", "name": "נקודות מצטברות", "type": "Dots + geometry", "idea": "נקודות מידע שגדלות עד שהן הופכות לתוצאה מוצקה אחת.", "risk": "נקרא כגרף פיזור או גרף צמיחה, כלומר קלישאה. הנקודה הקטנה נעלמת ב-16px.", "bodyFile": "<g fill=\"currentColor\"><circle cx=\"21\" cy=\"79\" r=\"2\"/><circle cx=\"31\" cy=\"69\" r=\"2.8\"/><circle cx=\"42\" cy=\"58\" r=\"3.6\"/><rect x=\"55\" y=\"19\" width=\"26\" height=\"26\" style=\"fill:currentColor\"/></g>"}, {"id": "b5-framed-step", "track": "B", "vb": 100, "min16": 2.24, "min16_note": "פינות: 0.64", "body": "<path d=\"M18 34V18H34M82 66V82H66\" fill=\"none\" style=\"stroke:var(--frame,currentColor)\" stroke-width=\"4\" stroke-linecap=\"square\"/><path d=\"M28 72H72V28H58V42H44V56H28Z\" style=\"fill:var(--accent,currentColor)\"/>", "name": "מדרגה במסגרת", "type": "Lines + geometry", "idea": "המדרגה המלאה (הסימן המקורי) בתוך סימני רישום.", "risk": "מקביל ל-A3. הפינות דקות מדי לגדלים קטנים.", "bodyFile": "<path d=\"M18 34V18H34M82 66V82H66\" fill=\"none\" style=\"stroke:currentColor\" stroke-width=\"4\" stroke-linecap=\"square\"/><path d=\"M28 72H72V28H58V42H44V56H28Z\" style=\"fill:currentColor\"/>"}, {"id": "b6-agent-path", "track": "B", "vb": 100, "min16": 0.48, "body": "<path d=\"M26 69V50H50V26H67\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/><circle cx=\"26\" cy=\"74\" r=\"5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"50\" r=\"4.5\" fill=\"currentColor\"/><circle cx=\"74\" cy=\"26\" r=\"7\" style=\"fill:var(--accent,currentColor)\"/>", "name": "מסלול סוכן", "type": "Node network", "idea": "סוכנים שמעבירים עבודה צעד אחר צעד עד לתוצאה.", "risk": "רשת צמתים היא קלישאת AI. הקווים דקים מדי ל-16px.", "bodyFile": "<path d=\"M26 69V50H50V26H67\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/><circle cx=\"26\" cy=\"74\" r=\"5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"50\" r=\"4.5\" fill=\"currentColor\"/><circle cx=\"74\" cy=\"26\" r=\"7\" style=\"fill:currentColor\"/>"}], "cliches": [{"id": "sparkle", "vb": 100, "body": "<path fill=\"currentColor\" d=\"M50 8C54 40 60 46 92 50C60 54 54 60 50 92C46 60 40 54 8 50C40 46 46 40 50 8Z\"/>"}, {"id": "nodes", "vb": 100, "body": "<g stroke=\"currentColor\" stroke-width=\"6\" fill=\"currentColor\"><path d=\"M22 70L50 26L78 70Z\" fill=\"none\"/><circle cx=\"50\" cy=\"26\" r=\"11\"/><circle cx=\"22\" cy=\"70\" r=\"11\"/><circle cx=\"78\" cy=\"70\" r=\"11\"/></g>"}, {"id": "hexagon", "vb": 100, "body": "<polygon points=\"50,10 85,30 85,70 50,90 15,70 15,30\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"10\"/><circle cx=\"50\" cy=\"50\" r=\"12\" fill=\"currentColor\"/>"}, {"id": "arrow", "vb": 100, "body": "<g fill=\"currentColor\"><rect x=\"14\" y=\"64\" width=\"16\" height=\"24\"/><rect x=\"38\" y=\"48\" width=\"16\" height=\"40\"/><rect x=\"62\" y=\"30\" width=\"16\" height=\"58\"/></g><path d=\"M14 44L44 18L60 30L86 10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"7\"/>"}]};
+const byId = Object.fromEntries(DATA.concepts.map(c => [c.id, c]));
+const MIN_PX = 1.5;
+
+function svg(c, size, attrs = "") {
+  return `<svg viewBox="0 0 ${c.vb} ${c.vb}" width="${size}" height="${size}" ${attrs} aria-hidden="true">${c.body}</svg>`;
+}
+
+function loadImage(c, color) {
+  const src = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${c.vb} ${c.vb}" width="256" height="256" color="${color}">${c.bodyFile}</svg>`;
+  const img = new Image();
+  img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(src);
+  return img.decode().then(() => img);
+}
+
+async function drawPixelTest(c, canvas, fg, bg) {
+  const img = await loadImage(c, fg);
+  const small = document.createElement("canvas");
+  small.width = small.height = 16;
+  const sctx = small.getContext("2d");
+  sctx.fillStyle = bg;
+  sctx.fillRect(0, 0, 16, 16);
+  sctx.drawImage(img, 0, 0, 16, 16);
+  canvas.width = canvas.height = 96;
+  const ctx = canvas.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(small, 0, 0, 96, 96);
+}
+
+// Rasterise at 256px and measure the ink: bounding-box centre offset and coverage.
+async function audit(c) {
+  const img = await loadImage(c, "#000");
+  const cv = document.createElement("canvas");
+  cv.width = cv.height = 256;
+  const ctx = cv.getContext("2d");
+  ctx.drawImage(img, 0, 0, 256, 256);
+  const d = ctx.getImageData(0, 0, 256, 256).data;
+  let ink = 0, x0 = 256, y0 = 256, x1 = -1, y1 = -1;
+  for (let i = 0; i < 256 * 256; i++) {
+    const a = d[i * 4 + 3] / 255;
+    ink += a;
+    if (a > 0.5) {
+      const x = i % 256, y = (i / 256) | 0;
+      if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+    }
+  }
+  const pct = v => (v / 256 * 100).toFixed(1);
+  return {
+    dx: pct((x0 + x1 + 1) / 2 - 128), dy: pct((y0 + y1 + 1) / 2 - 128),
+    ink: (ink / (256 * 256) * 100).toFixed(1), w: pct(x1 - x0 + 1), h: pct(y1 - y0 + 1),
+  };
+}
+
+function chip(text, ok) {
+  const cls = ok === undefined ? "" : ok ? " ok" : " no";
+  return `<span class="chip${cls}">${text}</span>`;
+}
+
+function testsHtml(c) {
+  return `
+  <div class="tests">
+    <div class="test"><div class="area">${svg(c, 64)}${svg(c, 32)}${svg(c, 16)}</div><div class="cap">64 / 32 / 16px, שחור</div></div>
+    <div class="test dark"><div class="area">${svg(c, 64)}${svg(c, 32)}${svg(c, 16)}</div><div class="cap">הפוך: לבן על נייבי</div></div>
+    <div class="test"><div class="area"><canvas class="px" data-px="${c.id}" data-fg="#000" data-bg="#fff"></canvas></div><div class="cap">16px בפיקסלים אמיתיים</div></div>
+    <div class="test dark"><div class="area"><canvas class="px" data-px="${c.id}" data-fg="#fff" data-bg="#101622"></canvas></div><div class="cap">favicon 16px על נייבי</div></div>
+    <div class="test blur"><div class="area">${svg(c, 72)}</div><div class="cap">טשטוש (מבחן הצללית)</div></div>
+    <div class="test mirror"><div class="area">${svg(c, 72)}</div><div class="cap">מראה</div></div>
+    <div class="test rot"><div class="area">${svg(c, 72)}</div><div class="cap">סיבוב 180°</div></div>
+  </div>`;
+}
+
+function auditHtml(c) {
+  return `<div class="audit" data-audit-full="${c.id}">${chip("auditing…")}</div>`;
+}
+
+// Letter-substitution lockup: the mark stands in for the X of the word, sized to cap height.
+function subWord(c) {
+  return `<span class="word">${svg(c, "0.94em", 'class="subx"')}SHEVA</span>`;
+}
+
+function cardA(c, letter) {
+  const lockup = c.sub
+    ? `<div class="tile lockup">${subWord(c)}</div>`
+    : `<div class="tile lockup">${svg(c, 96)}<span class="word">XSHEVA</span></div>`;
+  const nav = c.sub
+    ? `<span class="mark-word">${subWord(c)}</span>`
+    : `<span class="mark">${svg(c, 24)}</span><span class="word">XSHEVA</span>`;
+  const copy = c.variant
+    ? `<p><strong>הרעיון:</strong> ${c.idea}</p><p class="risk"><strong>סיכון:</strong> ${c.risk}</p>`
+    : `<p><strong>הרעיון:</strong> ${c.idea}</p>
+       <p><strong>למה זה מתאים:</strong></p>
+       <ul>${c.why.map(w => `<li>${w}</li>`).join("")}</ul>
+       <p class="risk"><strong>סיכון:</strong> ${c.risk}</p>`;
+  return `
+  <article class="card${c.rec ? " rec" : ""}${c.variant ? " variant" : ""}">
+    <div class="card-head">
+      <h3>${letter}: ${c.name}</h3><span class="badge">${c.type}</span>${c.rec ? '<span class="badge rec">מומלץ</span>' : ""}
+    </div>
+    <div class="row">
+      <div class="tile hero">${svg(c, 170)}</div>
+      ${lockup}
+      <div class="navbar">${nav}<span class="nav"><span>Services</span><span>Method</span><span>Clients</span></span></div>
+    </div>
+    ${testsHtml(c)}
+    ${auditHtml(c)}
+    <div class="copy">${copy}</div>
+  </article>`;
+}
+
+function cardB(c, letter) {
+  return `
+  <article class="card">
+    <div class="card-head"><h3>${letter}: ${c.name}</h3><span class="badge">${c.type}</span></div>
+    <div class="tile hero">${svg(c, 160)}</div>
+    ${testsHtml(c).replace('class="tests"', 'class="tests" style="grid-template-columns:repeat(2,1fr)"')}
+    ${auditHtml(c)}
+    <div class="copy">
+      <p><strong>הרעיון:</strong> ${c.idea}</p>
+      <p class="risk"><strong>סיכון:</strong> ${c.risk}</p>
+    </div>
+  </article>`;
+}
+
+function render() {
+  const all = DATA.concepts.filter(c => c.track === "A");
+  const a = all.filter(c => !c.variant);
+  const b = DATA.concepts.filter(c => c.track === "B");
+  let n = 0;
+  document.getElementById("cards-a").innerHTML = all.map(c => cardA(c, c.variant ? "A" + n + "b" : "A" + (++n))).join("");
+  document.getElementById("cards-b").innerHTML = b.map((c, i) => cardB(c, "B" + (i + 1))).join("");
+
+  const cl = Object.fromEntries(DATA.cliches.map(c => [c.id, c]));
+  const shelfOrder = [cl.sparkle, a[0], cl.nodes, a[1], cl.hexagon, a[2], cl.arrow];
+  document.getElementById("shelf").innerHTML = shelfOrder.map(c => {
+    const ours = c.track === "A";
+    const label = ours ? "A" + (a.indexOf(c) + 1) : c.id;
+    return `<figure class="${ours ? "ours" : ""}">${svg(c, 32)}<figcaption>${label}</figcaption></figure>`;
+  }).join("");
+
+  document.querySelectorAll('[data-slot="svg"]').forEach(el => {
+    el.innerHTML = svg(byId[el.dataset.id], +el.dataset.size);
+  });
+}
+
+async function runChecks() {
+  for (const cv of document.querySelectorAll("canvas[data-px]")) {
+    try { await drawPixelTest(byId[cv.dataset.px], cv, cv.dataset.fg, cv.dataset.bg); }
+    catch (e) { cv.replaceWith(Object.assign(document.createElement("span"), { textContent: "unverified: " + e.message })); }
+  }
+  for (const c of DATA.concepts) {
+    let r;
+    try { r = await audit(c); } catch (e) { r = { error: e.message }; }
+    window.__audit = window.__audit || {};
+    window.__audit[c.id] = r;
+    const short = document.querySelector(`[data-audit="${c.id}"]`);
+    if (short) short.textContent = r.error ? "unverified" : `Δy ${r.dy}%`;
+    const full = document.querySelector(`[data-audit-full="${c.id}"]`);
+    if (!full) continue;
+    if (r.error) { full.innerHTML = chip("audit unverified: " + r.error, false); continue; }
+    const centred = Math.abs(r.dx) <= 1.5 && Math.abs(r.dy) <= 1.5;
+    const empty = (100 - r.ink).toFixed(1);
+    const minOk = c.min16 >= MIN_PX;
+    full.innerHTML = [
+      chip(`centre Δx ${r.dx}% Δy ${r.dy}%`, centred),
+      chip(`footprint ${r.w}×${r.h}%`),
+      chip(`empty ${empty}% (lg ≥40%)`, empty >= 40),
+      chip(`thinnest @16px ${c.min16}px${c.min16_note ? " · " + c.min16_note : ""} (ld ≥${MIN_PX})`, minOk),
+    ].join("");
+  }
+  document.body.dataset.checks = "done";
+}
+
+document.querySelectorAll(".toggle button").forEach(btn => btn.addEventListener("click", () => {
+  document.body.classList.toggle("color", btn.dataset.mode === "color");
+  document.querySelectorAll(".toggle button").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+}));
+
+render();
+runChecks();
+</script>
+</body>
+</html>
